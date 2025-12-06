@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context and provider/Context';
 import UseAuth from '../../../Hooks/UseAuth';
 
 const Navbar = () => {
-    const {user} =UseAuth()
+    const {user,logOut} =UseAuth()
     return (
      <div className="navbar bg-base-100 shadow-sm">
   <div className="navbar-start">
@@ -26,7 +26,7 @@ const Navbar = () => {
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">daisyUI</a>
+    <a className="btn btn-ghost text-xl">Digital Life Lessons</a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">

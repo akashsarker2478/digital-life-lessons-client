@@ -1,6 +1,22 @@
 import React from 'react';
+import UseAuth from '../../Hooks/UseAuth';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
+    const {googleSignIn} = UseAuth()
+      const navigate = useNavigate();
+   const handleLogin = e=>{
+    e.preventDefault()
+     googleSignIn()
+    .then(res=>{
+        console.log(res.user)
+        alert('google sign in successful')
+        navigate('/')
+    })
+    .catch(err=>{
+        console.log(err.massage)
+    })
+   }
     return (
        <div className="hero bg-base-200 min-h-screen">
   <div className="hero-content flex-col lg:flex-row-reverse">
@@ -9,7 +25,8 @@ const Login = () => {
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
-        <fieldset className="fieldset">
+       <form onSubmit={handleLogin}>
+         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input type="email" className="input" placeholder="Email" />
           <label className="label">Password</label>
@@ -23,6 +40,7 @@ const Login = () => {
   Login with Google
 </button>
         </fieldset>
+       </form>
       </div>
     </div>
   </div>
