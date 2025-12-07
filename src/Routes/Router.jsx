@@ -3,6 +3,7 @@ import HomeLayouts from "../Layouts/Home Layout/HomeLayouts";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login page/Login";
 
+
 export const router = createBrowserRouter([
     {
     path: "/",
@@ -17,5 +18,6 @@ export const router = createBrowserRouter([
         element:<Login></Login>
        }
     ]
-    }
+    },
+   
 ])
