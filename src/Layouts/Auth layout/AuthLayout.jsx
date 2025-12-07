@@ -2,17 +2,17 @@ import React from 'react';
 import Navbar from '../../Pages/Shared/Navbar/Navbar';
 import { Outlet } from 'react-router';
 
-const HomeLayouts = () => {
+const AuthLayout = () => {
     return (
         <div className='max-w-11/12 mx-auto'>
-            <header>
+            <div>
                 <Navbar></Navbar>
-            </header>
-            <main>
+            </div>
+            <div>
                 <Outlet></Outlet>
-            </main>
+            </div>
         </div>
     );
 };
 
-export default HomeLayouts;
+export default AuthLayout;
