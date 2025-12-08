@@ -1,18 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../Hooks/UseAuth';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import SocialLogin from '../Social login/SocialLogin';
 
 const Login = () => {
-  const {loginUser,googleSignIn} = UseAuth()
+  const {loginUser} = UseAuth()
    const {register,handleSubmit,formState:{errors}} = useForm()
-
+  const navigate = useNavigate()
    const handleLogin = (data)=>{
     console.log(data)
     loginUser(data.email,data.password)
     .then(res=>{
       console.log(res.user)
+      alert('login successful')
+      navigate('/')
     })
     .then(err=>{
       console.log(err.user)
@@ -21,7 +23,7 @@ const Login = () => {
    }
    
   return (
-     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl ">
       <div className="card-body">
         <form onSubmit={handleSubmit(handleLogin)}>
           <fieldset className="fieldset">

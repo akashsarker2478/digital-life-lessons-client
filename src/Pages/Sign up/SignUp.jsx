@@ -2,28 +2,60 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../Hooks/UseAuth';
 import SocialLogin from '../Social login/SocialLogin';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 const SignUp = () => {
-    const {createUser} = UseAuth()
+    const {createUser,updateUser} = UseAuth()
     const {register,handleSubmit,formState:{errors}} = useForm()
+    const navigate = useNavigate()
+  const handleRegister = (data) => {
+  const profileImg = data.photo[0];
 
-    const handleRegister = (data) =>{
-        console.log('after register',data)
-        createUser(data.email,data.password)
-        .then(res=>{
-            console.log(res.user)
-            alert('register success!')
-        })
-        .catch(err=>{
-            console.log(err.massage)
-        })
-    }
+  createUser(data.email, data.password)
+    .then(res => {
+      const formData = new FormData();
+      formData.append('image', profileImg);
+
+      const img_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
+
+      return axios.post(img_API_URL, formData);
+    })
+    .then(res => {
+      const userProfile = {
+        displayName: data.name,
+        photoURL: res.data.data.url
+      };
+
+      return updateUser(userProfile);
+    })
+    .then(() => {
+      alert('Register success!');
+      navigate('/');
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+};
+
     return (
         <div>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body"></div>
            <form onSubmit={handleSubmit(handleRegister)}>
             <fieldset className="fieldset">
+                {/* name  */}
+          <label className="label">Name</label>
+          <input type="text" {...register('name',{ required: true })}
+           className="input" placeholder="name" />
+           {errors.name?.type === 'required' && <p className='text-red-400'>Name is Required</p>}
+           {/* photo field */}
+          <label className="label">Photo</label>
+
+          <input type="file" {...register('photo',{ required: true })}
+           className="file-input" placeholder="your photo" />
+
+           {errors.photo?.type === 'required' && <p className='text-red-400'>photo is Required</p>}
                 {/* email  */}
           <label className="label">Email</label>
           <input type="email" {...register('email',{ required: true })}
