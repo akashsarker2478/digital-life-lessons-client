@@ -195,7 +195,7 @@ const Navbar = () => {
 
                     <li>
                       <Link
-                        to="/dashboard"
+                        to="/user-dashboard"
                         className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group"
                       >
                         <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
@@ -215,7 +215,7 @@ const Navbar = () => {
                           </svg>
                         </div>
                         <div>
-                          <Link to={'/user-dashboard'}><span className="font-medium">Dashboard</span></Link>
+                          <span className="font-medium">Dashboard</span>
                           <span className="text-xs text-gray-500 block">
                             View your progress
                           </span>

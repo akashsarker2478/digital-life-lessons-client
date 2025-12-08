@@ -16,7 +16,6 @@ const SocialLogin = () => {
 
   return (
     <div className="text-center">
-        <p className="my-2 font-bold">Or</p>
       {/* Google */}
       <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5]">
         <svg
