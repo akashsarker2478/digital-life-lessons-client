@@ -10,9 +10,9 @@ const Navbar = () => {
     
     const navLinks = [
         { path: "/", label: "Home" },
-        { path: "/add-lesson", label: "Add Lesson", icon: <FaPlus className="text-xs" /> },
-        { path: "/lessons", label: "Public Lessons", icon: <FaBookOpen className="text-xs" /> },
-        { path: "/pricing", label: "Pricing", icon: <FaDollarSign className="text-xs" /> }
+        { path: "/add-lesson", label: "Add Lesson", icon: <FaPlus className="text-sm" /> },
+        { path: "/lessons", label: "Public Lessons", icon: <FaBookOpen className="text-sm" /> },
+        { path: "/pricing", label: "Pricing", icon: <FaDollarSign className="text-sm" /> }
     ];
 
     const handleLogOut = () => {
@@ -33,7 +33,6 @@ const Navbar = () => {
             if (result.isConfirmed) {
                 logOut()
                     .then(() => {
-                        // Success Alert
                         Swal.fire({
                             title: 'Logged Out!',
                             text: 'You have been successfully logged out.',
@@ -42,18 +41,11 @@ const Navbar = () => {
                             confirmButtonText: 'OK',
                             timer: 2000,
                             timerProgressBar: true,
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
                         }).then(() => {
                             navigate('/login');
                         });
                     })
                     .catch(err => {
-                        // Error Alert
                         Swal.fire({
                             title: 'Error!',
                             text: err.message || 'Failed to logout. Please try again.',
@@ -66,34 +58,15 @@ const Navbar = () => {
         });
     };
 
-    const handleLoginPrompt = () => {
-        Swal.fire({
-            title: 'Welcome Back!',
-            text: 'Please login to access all features',
-            icon: 'info',
-            confirmButtonText: 'Go to Login',
-            confirmButtonColor: '#3b82f6',
-            showCancelButton: true,
-            cancelButtonText: 'Maybe Later',
-            background: '#f8fafc',
-            color: '#1e293b',
-            iconColor: '#3b82f6'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                navigate('/login');
-            }
-        });
-    };
-
     return (
-        <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+        <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                     
                     {/* Left Side - Logo */}
-                    <div className="flex items-center">
-                        <div className="lg:hidden mr-2">
-                            <label htmlFor="my-drawer" className="btn btn-ghost btn-circle">
+                    <div className="flex items-center gap-4">
+                        <div className="lg:hidden">
+                            <label htmlFor="my-drawer" className="btn btn-ghost btn-circle text-gray-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
@@ -108,16 +81,18 @@ const Navbar = () => {
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 font-medium"
+                                className="flex items-center gap-2 px-4 py-2.5 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 font-medium group"
                             >
-                                {link.icon}
+                                <span className="text-blue-500 group-hover:scale-110 transition-transform">
+                                    {link.icon}
+                                </span>
                                 <span>{link.label}</span>
                             </Link>
                         ))}
                     </div>
 
                     {/* Right Side - User/Auth */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                         {user ? (
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={0} className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition-colors">
@@ -125,9 +100,11 @@ const Navbar = () => {
                                         <span className="text-sm font-semibold text-gray-800">
                                             {user.displayName || user.email?.split('@')[0]}
                                         </span>
-                                        <span className="text-xs text-gray-500">Premium User</span>
+                                        <span className="text-xs text-gray-500">
+                                            {user.email}
+                                        </span>
                                     </div>
-                                    <div className="avatar">
+                                    <div className="relative">
                                         <div className="w-10 h-10 rounded-full border-2 border-blue-100 overflow-hidden">
                                             {user.photoURL ? (
                                                 <img 
@@ -138,20 +115,22 @@ const Navbar = () => {
                                                 />
                                             ) : (
                                                 <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                                                    <span className="text-white font-semibold">
+                                                    <span className="text-white font-semibold text-lg">
                                                         {user.displayName?.charAt(0) || user.email?.charAt(0).toUpperCase()}
                                                     </span>
                                                 </div>
                                             )}
                                         </div>
+                                        {/* Online Status Dot */}
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                                     </div>
                                 </div>
                                 
-                                <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] mt-2 w-56 p-2 shadow-lg border border-gray-100">
-                                    <li className="p-3 border-b border-gray-100">
+                                <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] mt-3 w-64 p-2 shadow-xl border border-gray-200">
+                                    <li className="p-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50 rounded-t-lg">
                                         <div className="flex items-center gap-3">
-                                            <div className="avatar">
-                                                <div className="w-12 h-12 rounded-full overflow-hidden">
+                                            <div className="relative">
+                                                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-100">
                                                     {user.photoURL ? (
                                                         <img 
                                                             src={user.photoURL} 
@@ -161,12 +140,13 @@ const Navbar = () => {
                                                         />
                                                     ) : (
                                                         <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                                                            <span className="text-white text-lg font-semibold">
+                                                            <span className="text-white font-semibold text-xl">
                                                                 {user.displayName?.charAt(0) || user.email?.charAt(0).toUpperCase()}
                                                             </span>
                                                         </div>
                                                     )}
                                                 </div>
+                                                <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-gray-800">{user.displayName || "User"}</p>
@@ -176,27 +156,54 @@ const Navbar = () => {
                                     </li>
                                     
                                     <li>
-                                        <Link to="/dashboard" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors">
-                                            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <Link to="/dashboard" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group">
+                                            <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                                                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                                 </svg>
                                             </div>
                                             <div>
-                                                <span className="font-medium text-gray-800">Dashboard</span>
+                                                <span className="font-medium">Dashboard</span>
                                                 <span className="text-xs text-gray-500 block">View your progress</span>
                                             </div>
                                         </Link>
                                     </li>
                                     
                                     <li>
-                                        <Link to="/profile" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors">
-                                            <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
-                                                <FaUserCircle className="w-4 h-4 text-purple-600" />
+                                        <Link to="/profile" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group">
+                                            <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                                                <FaUserCircle className="w-5 h-5 text-purple-600" />
                                             </div>
                                             <div>
-                                                <span className="font-medium text-gray-800">Profile Settings</span>
+                                                <span className="font-medium">Profile</span>
                                                 <span className="text-xs text-gray-500 block">Manage your account</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <Link to="/my-lessons" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group">
+                                            <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                                                <FaBookOpen className="w-5 h-5 text-green-600" />
+                                            </div>
+                                            <div>
+                                                <span className="font-medium">My Lessons</span>
+                                                <span className="text-xs text-gray-500 block">Your created content</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <Link to="/settings" className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group">
+                                            <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+                                                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <span className="font-medium">Settings</span>
+                                                <span className="text-xs text-gray-500 block">App preferences</span>
                                             </div>
                                         </Link>
                                     </li>
@@ -206,10 +213,10 @@ const Navbar = () => {
                                     <li>
                                         <button 
                                             onClick={handleLogOut}
-                                            className="flex items-center gap-3 py-3 px-4 hover:bg-red-50 rounded-lg transition-colors text-red-600 w-full"
+                                            className="flex items-center gap-3 py-3 px-4 hover:bg-red-50 rounded-lg transition-colors text-red-600 w-full group"
                                         >
-                                            <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                                                 </svg>
                                             </div>
@@ -219,19 +226,19 @@ const Navbar = () => {
                                 </ul>
                             </div>
                         ) : (
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-3">
                                 <Link 
                                     to="/login" 
-                                    className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium rounded-lg transition-colors"
+                                    className="px-5 py-2.5 text-gray-700 hover:text-blue-600 font-medium rounded-lg transition-colors hover:bg-gray-100"
                                 >
                                     Sign In
                                 </Link>
-                                <button 
-                                    onClick={handleLoginPrompt}
-                                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300"
+                                <Link 
+                                    to="/register"
+                                    className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5"
                                 >
                                     Get Started
-                                </button>
+                                </Link>
                             </div>
                         )}
                     </div>
@@ -239,16 +246,16 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="lg:hidden border-t border-gray-100 bg-white">
+            <div className="lg:hidden border-t border-gray-200 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-around py-2">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                className="flex flex-col items-center gap-1 px-3 py-2 text-gray-600 hover:text-blue-600 rounded-lg transition-colors"
+                                className="flex flex-col items-center gap-1 px-3 py-3 text-gray-600 hover:text-blue-600 rounded-lg transition-colors group"
                             >
-                                <div className="text-lg">
+                                <div className="text-xl text-blue-500 group-hover:scale-110 transition-transform">
                                     {link.icon}
                                 </div>
                                 <span className="text-xs font-medium">{link.label}</span>
