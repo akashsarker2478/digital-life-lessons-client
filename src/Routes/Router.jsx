@@ -4,6 +4,8 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login page/Login";
 import SignUp from "../Pages/Sign up/SignUp";
 import AuthLayout from "../Layouts/Auth layout/AuthLayout";
+import DashboardLayout from "../Layouts/Dashbord Layout/DashboardLayout";
+import UserDashboard from "../Pages/Dashbord/User/UserDashboard";
 
 
 export const router = createBrowserRouter([
@@ -29,6 +31,16 @@ export const router = createBrowserRouter([
         path:'/signUp',
         element:<SignUp></SignUp>
        }
+        ]
+    },
+    {
+        path:'/',
+        element:<DashboardLayout></DashboardLayout>,
+        children:[
+           {
+             path:'/user-dashboard',
+            element:<UserDashboard></UserDashboard>
+           }
         ]
     }
    

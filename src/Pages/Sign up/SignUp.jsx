@@ -4,6 +4,7 @@ import UseAuth from '../../Hooks/UseAuth';
 import SocialLogin from '../Social login/SocialLogin';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import img from '../../assets/register img.jpg'
 
 const SignUp = () => {
     const {createUser,updateUser} = UseAuth()
