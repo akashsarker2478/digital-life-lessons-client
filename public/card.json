@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Overcoming Fear of Failure",
+    "description": "Failure is a natural part of life, and learning how to embrace it helps us grow. In this lesson, I share personal experiences of facing fear and taking risks despite uncertainty. Understanding that mistakes are stepping stones, learners are encouraged to pursue goals with courage and resilience, turning setbacks into valuable lessons.",
+    "category": "Personal Growth",
+    "tone": "Motivational",
+    "image": "https://i.ibb.co.com/N67Kbdsp/img-1.jpg",
+    "privacy": "Public",
+    "accessLevel": "Free"
+  },
+  {
+    "title": "Learning from Career Mistakes",
+    "description": "Everyone makes career-related mistakes, but reflecting on them can bring insight and improvement. In this lesson, I explain how early missteps shaped my professional journey, emphasizing adaptability, persistence, and learning new skills. Students are encouraged to view errors as opportunities to grow, improve decision-making, and refine their career path.",
+    "category": "Career",
+    "tone": "Realization",
+    "image": "https://i.ibb.co.com/XxsZ8sQR/img-2.jpg",
+    "privacy": "Public",
+    "accessLevel": "Free"
+  },
+  {
+    "title": "Building Strong Relationships",
+    "description": "Healthy relationships require communication, trust, and empathy. In this lesson, I share insights about nurturing friendships and partnerships, resolving conflicts, and setting boundaries. Learners are encouraged to develop emotional intelligence and interpersonal skills that foster lasting connections, both personally and professionally.",
+    "category": "Relationships",
+    "tone": "Gratitude",
+    "image": "https://i.ibb.co.com/B2DQ6pBt/img-3.jpg",
+    "privacy": "Private",
+    "accessLevel": "Premium"
+  },
+  {
+    "title": "Developing a Growth Mindset",
+    "description": "A growth mindset helps individuals embrace challenges and learn from feedback. In this lesson, I explain techniques for cultivating curiosity, resilience, and lifelong learning habits. Students are guided to shift perspective from fixed limitations to opportunities for self-improvement, unlocking personal and professional potential.",
+    "category": "Mindset",
+    "tone": "Motivational",
+    "image": "https://i.ibb.co.com/xKWmw75p/img-4.jpg",
+    "privacy": "Public",
+    "accessLevel": "Free"
+  },
+  {
+    "title": "Lessons from Past Mistakes",
+    "description": "Mistakes provide invaluable lessons if we take time to reflect. This lesson explores personal experiences where errors became turning points for growth. Learners will discover how to analyze outcomes, avoid repeating the same errors, and use past experiences to make wiser decisions moving forward.",
+    "category": "Mistakes Learned",
+    "tone": "Realization",
+    "image": "https://i.ibb.co.com/F4sLX027/img-5.jpg",
+    "privacy": "Private",
+    "accessLevel": "Premium"
+  },
+  {
+    "title": "Gratitude Practices for Happiness",
+    "description": "Expressing gratitude enhances mental well-being and builds positive habits. In this lesson, I share techniques for daily gratitude practices, including journaling, mindfulness, and reflection. Learners will understand how focusing on appreciation improves mood, strengthens relationships, and promotes a balanced, joyful life.",
+    "category": "Personal Growth",
+    "tone": "Gratitude",
+    "image": "https://i.ibb.co.com/1J2X83Gr/img-6.jpg",
+    "privacy": "Public",
+    "accessLevel": "Free"
+  }
+]
