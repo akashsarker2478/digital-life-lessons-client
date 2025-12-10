@@ -10,15 +10,17 @@ import {
   FaPlus,
 } from "react-icons/fa";
 import { Link } from "react-router";
+import UseAuth from "../../../Hooks/UseAuth";
 
 const UserDashboard = () => {
+  const {user} = UseAuth()
   return (
     <div>
       {/* Welcome Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Welcome back, John! 👋
-        </h2>
+       <h2 className="text-3xl md:text-4xl font-bold mb-4">
+    Welcome back, <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-x">{user?.displayName}</span>! 👋
+</h2>
         <p className="text-gray-600">
           Here's what's happening with your learning journey today.
         </p>

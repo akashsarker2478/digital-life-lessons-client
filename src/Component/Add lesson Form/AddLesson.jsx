@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AddLesson = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -8,9 +9,10 @@ const AddLesson = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
+  const axiosSecure = useAxiosSecure()
   const isPremiumUser = false;
 
   const onSubmit = async (data) => {
@@ -54,15 +56,19 @@ const AddLesson = () => {
         privacy,
         accessLevel,
         image: imageUrl,
-        createdAt: new Date(),
+        
       };
 
       console.log("📌 FINAL LESSON DATA:", lessonData);
 
       // Send to your backend
-      // await axios.post("/api/add-lesson", lessonData);
+      axiosSecure.post('/lessons',data)
+      .then(res=>{
+        console.log(res.data)
+        alert("Lesson created successfully!");
+      })
 
-      alert("Lesson created successfully!");
+      
 
     } catch (error) {
       console.error(error);
@@ -73,6 +79,7 @@ const AddLesson = () => {
   };
 
   return (
+    
     <div className="max-w-xl mx-auto bg-white p-6 shadow-md rounded-xl mt-6">
       <h2 className="text-2xl font-bold mb-4">Create New Life Lesson</h2>
 
