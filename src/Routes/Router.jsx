@@ -12,6 +12,10 @@ import Loading from "../Pages/Shared/Loading/Loading";
 import MyLessons from "../Pages/Dashbord/My lessons/MyLessons";
 import MyFavorites from "../Pages/Dashbord/My Favourite/MyFavorites";
 import Profile from "../Pages/Dashbord/User Profile/Profile";
+import Pricing from "../Pages/Dashbord/Payment/Pricing";
+import PaymentSuccess from "../Pages/Dashbord/Payment/PaymentSuccess";
+import PaymentCancelled from "../Pages/Dashbord/Payment/PaymentCancelled";
+
 
 
 export const router = createBrowserRouter([
@@ -46,6 +50,7 @@ export const router = createBrowserRouter([
         element:<PrivateRoute>
             <DashboardLayout></DashboardLayout>
         </PrivateRoute>,
+        hydrateFallbackElement:<Loading></Loading>,
         children:[
             {
                 path:'user-dashboard',
@@ -66,6 +71,18 @@ export const router = createBrowserRouter([
            {
             path:'profile',
             element:<Profile></Profile>
+           },
+           {
+            path:'pricing',
+            element:<Pricing></Pricing>
+           },
+           {
+            path:'payment-success',
+            element:<PaymentSuccess></PaymentSuccess>
+           },
+           {
+            path:'payment-cancelled',
+            element:<PaymentCancelled></PaymentCancelled>
            }
          
         ]

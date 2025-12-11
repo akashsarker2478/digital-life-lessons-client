@@ -9,6 +9,7 @@ const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPremium, setIsPremium] = useState(false);
 
   //google sign in 
    const googleSignIn = ()=>{

@@ -19,7 +19,7 @@ const Navbar = () => {
   const navLinks = [
     { path: "/", label: "Home" },
     {
-      path: "add-lessons",
+      path: "/dashboard/add-lessons",
       label: "Add Lesson",
       icon: <FaPlus className="text-sm" />,
     },
@@ -29,7 +29,7 @@ const Navbar = () => {
       icon: <FaBookOpen className="text-sm" />,
     },
     {
-      path: "/pricing",
+      path: "/dashboard/pricing",
       label: "Pricing",
       icon: <FaDollarSign className="text-sm" />,
     },
@@ -330,7 +330,7 @@ const Navbar = () => {
                     Sign In
                   </Link>
                   <Link
-                    to="/register"
+                    to="/signup"
                     className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5"
                   >
                     Get Started
@@ -436,7 +436,7 @@ const Navbar = () => {
                 <>
                   <li>
                     <Link
-                      to="/dashboard"
+                      to="/dashboard/user-dashboard"
                       onClick={toggleMobileMenu}
                       className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                     >

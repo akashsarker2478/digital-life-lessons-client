@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import UseAuth from "../../Hooks/UseAuth";
 
 const AddLesson = () => {
+  const {user} = UseAuth()
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -56,13 +58,15 @@ const AddLesson = () => {
         privacy,
         accessLevel,
         image: imageUrl,
+        createdBy: user?.email,
+        createdAt: new Date(),
         
       };
 
       console.log("📌 FINAL LESSON DATA:", lessonData);
 
       // Send to your backend
-      axiosSecure.post('/lessons',data)
+      axiosSecure.post('/lessons',lessonData)
       .then(res=>{
         console.log(res.data)
         alert("Lesson created successfully!");
