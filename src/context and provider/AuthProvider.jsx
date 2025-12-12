@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './Context';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../Firebase/firebase.config';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
+import axios from 'axios';
+
 
 
 const googleProvider = new GoogleAuthProvider()
@@ -10,6 +13,7 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isPremium, setIsPremium] = useState(false);
+  const axiosSecure = useAxiosSecure()
 
   //google sign in 
    const googleSignIn = ()=>{
@@ -35,15 +39,48 @@ const AuthProvider = ({children}) => {
       
   }
 
-   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+// useEffect(() => 
+//   { const unsubscribe = onAuthStateChanged(auth,
+//      (currentUser) => { 
+//       setUser(currentUser);
+//        setLoading(false); }); 
+//        return () =>
+//          { unsubscribe();
+
+//         };
+//        }, []);
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+
+    if (currentUser) {
+      const email = currentUser.email;
+
+      axiosSecure.get(`/users/status/${email}`)
+        .then(res => {
+          setIsPremium(res.data.isPremium);
+          
+          currentUser.dbId = res.data.dbId;
+        })
+        .catch(error => {
+          console.error("Error syncing user status from DB:", error);
+          setIsPremium(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
+    } else {
+      setIsPremium(false);
       setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    }
+  });
+
+  return () => unsubscribe();
+}, [axiosSecure]);
+
+
     const authInfo = {
         user,
         setUser,
@@ -53,6 +90,7 @@ const AuthProvider = ({children}) => {
         createUser,
         loginUser,
         updateUser,
+        isPremium,
 
     }
     return (

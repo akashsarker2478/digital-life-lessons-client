@@ -15,9 +15,11 @@ import SocialLogin from "../Social login/SocialLogin";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import registerImg from "../../assets/register img.jpg";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const SignUp = () => {
   const { createUser, updateUser } = UseAuth();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -33,7 +35,7 @@ const SignUp = () => {
     const profileImg = data.photo[0];
 
     createUser(data.email, data.password)
-      .then((res) => {
+      .then(() => {
         if (!profileImg) {
           return Promise.resolve({ data: { data: { url: null } } });
         }
@@ -54,6 +56,15 @@ const SignUp = () => {
 
         return updateUser(userProfile);
       })
+      .then(()=>{
+            const userInfo = {
+          name: data.name,
+          email: data.email,
+          role: 'user',
+        };
+        return axiosSecure.post('/users', userInfo); 
+        })
+      
       .then(() => {
         Swal.fire({
           title: "Success!",
