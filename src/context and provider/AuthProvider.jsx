@@ -3,7 +3,7 @@ import { AuthContext } from './Context';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../Firebase/firebase.config';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
-import axios from 'axios';
+
 
 
 
@@ -39,16 +39,7 @@ const AuthProvider = ({children}) => {
       
   }
 
-// useEffect(() => 
-//   { const unsubscribe = onAuthStateChanged(auth,
-//      (currentUser) => { 
-//       setUser(currentUser);
-//        setLoading(false); }); 
-//        return () =>
-//          { unsubscribe();
 
-//         };
-//        }, []);
 
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

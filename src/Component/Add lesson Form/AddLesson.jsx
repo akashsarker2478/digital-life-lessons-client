@@ -5,7 +5,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import UseAuth from "../../Hooks/UseAuth";
 
 const AddLesson = () => {
-  const {user} = UseAuth()
+  const {user,isPremium} = UseAuth()
   const [isLoading, setIsLoading] = useState(false);
 
   const {

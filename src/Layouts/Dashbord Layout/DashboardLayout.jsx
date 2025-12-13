@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 import Navbar from "../../Pages/Shared/Navbar/Navbar";
 import Footer from "../../Component/Footer/Footer";
 import { Link, Outlet, NavLink } from "react-router";
@@ -10,12 +11,15 @@ import {
   FaUserCircle,
   FaHome,
   FaSignOutAlt,
+  FaCrown,
 } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
 import Logo from "../../Pages/Shared/Logo/Logo";
+import { useNavigate } from "react-router";
 
 const DashboardLayout = () => {
-  const { user, logOut } = UseAuth();
+  const { user, logOut, isPremium } = UseAuth();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Dashboard Home", path: "user-dashboard", icon: FaChartBar },
@@ -32,46 +36,53 @@ const DashboardLayout = () => {
         : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-sm"
     }`;
 
- const handleLogout = () => {
-  Swal.fire({
-    title: 'Logout?',
-    text: 'Do you want to logout from your account?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Logout',
-    cancelButtonText: 'Cancel',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      logOut()
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Logged out successfully!',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            background: '#10b981',
-            color: '#ffffff'
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out from your account!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      background: "#ffffff",
+      color: "#333",
+      backdrop: "rgba(0,0,0,0.4)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire({
+              title: 'Logged Out!',
+              text: 'You have been successfully logged out.',
+              icon: 'success',
+              confirmButtonColor: '#10b981',
+              confirmButtonText: 'OK',
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              navigate("/login");
+            });
+          })
+          .catch((error) => {
+            console.error('Logout error:', error);
+            Swal.fire({
+              title: 'Error!',
+              text: error.message || 'Failed to logout. Please try again.',
+              icon: 'error',
+              confirmButtonColor: '#ef4444',
+              confirmButtonText: 'Try Again',
+            });
           });
-        })
-        .catch((error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Logout failed!',
-            text: 'Please try again.',
-            confirmButtonText: 'OK'
-          });
-        });
-    }
-  });
-};
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      
+      <Navbar />
 
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -102,21 +113,6 @@ const DashboardLayout = () => {
                 Dashboard
               </div>
             </div>
-            <div className="navbar-end">
-              <div className="avatar">
-                <div className="w-8 h-8 rounded-full ring-2 ring-blue-500 ring-offset-2">
-                  <img
-                    src={
-                      user?.photoURL ||
-                      `https://ui-avatars.com/api/?name=${
-                        user?.displayName || "User"
-                      }&background=random`
-                    }
-                    alt={user?.displayName || "User"}
-                  />
-                </div>
-              </div>
-            </div>
           </nav>
 
           {/* Main Content */}
@@ -136,28 +132,17 @@ const DashboardLayout = () => {
 
           <div className="flex min-h-full flex-col items-start bg-gradient-to-b from-white via-white to-blue-50/50 w-72 p-5 shadow-xl border-r border-gray-200/50">
             
-            {/* Brand Logo - User Profile Badge সহ */}
-            <div className="flex items-center justify-between w-full mb-8">
-             <Logo></Logo>
-            
-              <NavLink to="profile" className="group">
-                <div className="relative">
-                  <div className="w-10 h-10 rounded-full ring-2 ring-blue-400 group-hover:ring-blue-500 transition-all">
-                    <img
-                      src={
-                        user?.photoURL ||
-                        `https://ui-avatars.com/api/?name=${
-                          user?.displayName || "User"
-                        }&background=gradient&color=fff`
-                      }
-                      alt={user?.displayName || "User"}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white"></div>
+            {/* Simple Premium Indicator - Only if user is Premium */}
+            {isPremium && (
+              <div className="w-full mb-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                <div className="flex items-center gap-2">
+                  <FaCrown className="w-4 h-4 text-yellow-600" />
+                  <span className="text-sm font-semibold text-yellow-700">
+                    Premium Member
+                  </span>
                 </div>
-              </NavLink>
-            </div>
+              </div>
+            )}
 
             {/* Navigation Menu */}
             <ul className="menu w-full grow space-y-2 px-2">
@@ -172,6 +157,19 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
               ))}
+
+              {/* Upgrade to Premium Link (Only for non-premium users) */}
+              {!isPremium && (
+                <li className="mt-4">
+                  <Link
+                    to="/dashboard/pricing"
+                    className="flex items-center gap-3 p-3 w-full rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600 transition-all shadow-sm hover:shadow"
+                  >
+                    <FaCrown className="w-4 h-4" />
+                    <span className="font-medium">Upgrade to Premium</span>
+                  </Link>
+                </li>
+              )}
 
               <div className="divider my-6 text-gray-400 text-xs">GENERAL</div>
 
@@ -205,7 +203,7 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };

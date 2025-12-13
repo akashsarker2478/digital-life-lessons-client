@@ -10,13 +10,15 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import UseAuth from "../../../Hooks/UseAuth";
 import Logo from "../Logo/Logo";
+import premiumIcon from '../../../assets/premium icon.png';
 
 const Navbar = () => {
-  const { user, logOut } = UseAuth();
+  const { user, logOut, isPremium } = UseAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navLinks = [
+  // Base navigation links
+  const baseNavLinks = [
     { path: "/", label: "Home" },
     {
       path: "/dashboard/add-lessons",
@@ -28,12 +30,17 @@ const Navbar = () => {
       label: "Public Lessons",
       icon: <FaBookOpen className="text-sm" />,
     },
-    {
+  ];
+
+  // Add Pricing link only if user is not premium or not logged in
+  const navLinks = [...baseNavLinks];
+  if (!user || !isPremium) {
+    navLinks.push({
       path: "/dashboard/pricing",
       label: "Pricing",
       icon: <FaDollarSign className="text-sm" />,
-    },
-  ];
+    });
+  }
 
   const handleLogOut = () => {
     Swal.fire({
@@ -135,7 +142,9 @@ const Navbar = () => {
                         {user.email}
                       </span>
                     </div>
-                    <div className="relative">
+                    
+                    {/* User Avatar with Premium Badge */}
+                    <div className="relative group">
                       <div className="w-10 h-10 rounded-full border-2 border-blue-100 overflow-hidden">
                         {user.photoURL ? (
                           <img
@@ -153,8 +162,28 @@ const Navbar = () => {
                           </div>
                         )}
                       </div>
+                      
+                      {/* Premium Badge (Only Icon) */}
+                      {isPremium && (
+                        <>
+                          {/* Badge on Avatar */}
+                          <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                            <img 
+                              src={premiumIcon} 
+                              alt="Premium" 
+                              className="w-3.5 h-3.5"
+                            />
+                          </div>
+                          
+                          {/* Tooltip on Hover */}
+                          <div className="absolute -top-10 right-0 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            Premium Member
+                          </div>
+                        </>
+                      )}
+                      
                       {/* Online Status Dot */}
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                      <div className={`absolute bottom-0 right-0 w-3 h-3 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
                     </div>
                   </div>
 
@@ -182,12 +211,40 @@ const Navbar = () => {
                               </div>
                             )}
                           </div>
-                          <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                          
+                          {/* Premium Badge in dropdown */}
+                          {isPremium && (
+                            <div className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                              <img 
+                                src={premiumIcon} 
+                                alt="Premium" 
+                                className="w-4 h-4"
+                              />
+                            </div>
+                          )}
+                          
+                          <div className={`absolute bottom-0 right-0 w-4 h-4 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-800">
-                            {user.displayName || "User"}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-semibold text-gray-800">
+                              {user.displayName || "User"}
+                            </p>
+                            {isPremium && (
+                              <div className="relative group">
+                                <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                                  <img 
+                                    src={premiumIcon} 
+                                    alt="Premium" 
+                                    className="w-3 h-3"
+                                  />
+                                </div>
+                                <div className="absolute left-full ml-2 -top-1 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                  Premium Member
+                                </div>
+                              </div>
+                            )}
+                          </div>
                           <p className="text-sm text-gray-500">{user.email}</p>
                         </div>
                       </div>
@@ -329,12 +386,15 @@ const Navbar = () => {
                   >
                     Sign In
                   </Link>
-                  <Link
-                    to="/signup"
-                    className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5"
-                  >
-                    Get Started
-                  </Link>
+                  {/* Show Get Started button only if user is not premium */}
+                  {!isPremium && (
+                    <Link
+                      to="/dashboard/pricing"
+                      className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5"
+                    >
+                      Get Started
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
@@ -403,12 +463,26 @@ const Navbar = () => {
                       </div>
                     )}
                   </div>
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                  
+                  {/* Premium Badge in mobile */}
+                  {isPremium && (
+                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                      <img 
+                        src={premiumIcon} 
+                        alt="Premium" 
+                        className="w-3.5 h-3.5"
+                      />
+                    </div>
+                  )}
+                  
+                  <div className={`absolute bottom-0 right-0 w-3 h-3 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">
-                    {user.displayName || "User"}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-gray-800">
+                      {user.displayName || "User"}
+                    </p>
+                  </div>
                   <p className="text-sm text-gray-500 truncate">{user.email}</p>
                 </div>
               </div>
@@ -501,13 +575,17 @@ const Navbar = () => {
                     >
                       Sign In
                     </Link>
-                    <Link
-                      to="/register"
-                      onClick={toggleMobileMenu}
-                      className="block w-full px-4 py-3 text-center bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium shadow-sm hover:shadow transition-all"
-                    >
-                      Get Started
-                    </Link>
+                    
+                    {/* Show Get Started button only if user is not premium */}
+                    {!isPremium && (
+                      <Link
+                        to="/dashboard/pricing"
+                        onClick={toggleMobileMenu}
+                        className="block w-full px-4 py-3 text-center bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium shadow-sm hover:shadow transition-all"
+                      >
+                        Get Started
+                      </Link>
+                    )}
                   </div>
                 </div>
               )}
