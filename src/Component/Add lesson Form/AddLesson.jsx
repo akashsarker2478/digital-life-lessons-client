@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router";
 import UseAuth from "../../Hooks/UseAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCloudUploadAlt, FaLock, FaGlobe } from "react-icons/fa";
 
 const AddLesson = () => {
   const { user, isPremium } = UseAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const lessonId = searchParams.get("id");
+  const isEdit = !!lessonId;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -14,242 +20,180 @@ const AddLesson = () => {
   const [tone, setTone] = useState("");
   const [privacy, setPrivacy] = useState("public");
   const [accessLevel, setAccessLevel] = useState("free");
+
   const [imageFile, setImageFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [existingImage, setExistingImage] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreviewImage(reader.result);
-      reader.readAsDataURL(file);
+  useEffect(() => {
+    if (isEdit) {
+      axiosSecure.get(`/lessons/${lessonId}`).then(res => {
+        const l = res.data;
+        setTitle(l.title);
+        setDescription(l.description);
+        setCategory(l.category);
+        setTone(l.tone);
+        setPrivacy(l.privacy);
+        setAccessLevel(l.accessLevel);
+        setExistingImage(l.image);
+        setPreviewImage(l.image);
+      });
     }
+  }, [lessonId, isEdit, axiosSecure]);
+
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setPreviewImage(reader.result);
+    reader.readAsDataURL(file);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-
-    // Premium check
-    if (accessLevel === "premium" && !isPremium) {
-      Swal.fire({
-        icon: "warning",
-        title: "Premium Required!",
-        text: "Upgrade to Premium to create premium lessons.",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }
-
     setIsLoading(true);
 
-    let imageUrl = null;
+    let imageUrl = existingImage;
 
     if (imageFile) {
       const formData = new FormData();
       formData.append("image", imageFile);
-
-      const img_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
-
-      try {
-        const imgResponse = await fetch(img_API_URL, {
-          method: "POST",
-          body: formData
-        });
-        const imgData = await imgResponse.json();
-        imageUrl = imgData.data.url;
-      } catch (err) {
-        console.error("Image upload failed:", err);
-        Swal.fire({
-          icon: "error",
-          title: "Image Upload Failed",
-          text: "Please try again",
-          confirmButtonColor: "#ef4444",
-        });
-        setIsLoading(false);
-        return;
-      }
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
+        { method: "POST", body: formData }
+      );
+      const data = await res.json();
+      imageUrl = data.data.url;
     }
 
-    const lessonData = {
+    const payload = {
       title,
       description,
       category,
       tone,
       privacy,
       accessLevel,
-      image: imageUrl,
-      createdBy: user?.email,
-      createdByUid: user?.uid,
-      createdByName: user?.displayName || user?.email?.split("@")[0],
-      createdAt: new Date(),
-      views: 0,
-      likes: 0,
-      isFeatured: false,
-      status: "published"
+      image: imageUrl
     };
 
-    try {
-      const result = await axiosSecure.post("/lessons", lessonData);
-      console.log("Lesson created:", result.data);
-
-      Swal.fire({
-        icon: "success",
-        title: "Lesson Created!",
-        text: "Your lesson has been successfully added.",
-        confirmButtonColor: "#10b981",
+    if (isEdit) {
+      await axiosSecure.patch(`/lessons/${lessonId}`, payload);
+      Swal.fire("Updated", "Lesson updated successfully", "success");
+    } else {
+      await axiosSecure.post("/lessons", {
+        ...payload,
+        createdBy: user.email,
+        createdByUid: user.uid,
+        createdByName: user.displayName,
+        createdAt: new Date(),
+        views: 0,
+        likes: [],
+        status: "published"
       });
-
-      // Reset form
-      setTitle("");
-      setDescription("");
-      setCategory("");
-      setTone("");
-      setPrivacy("public");
-      setAccessLevel("free");
-      setImageFile(null);
-      setPreviewImage(null);
-
-    } catch (err) {
-      console.error("Error creating lesson:", err);
-      Swal.fire({
-        icon: "error",
-        title: "Failed to create lesson",
-        text: "Please try again.",
-        confirmButtonColor: "#ef4444",
-      });
-    } finally {
-      setIsLoading(false);
+      Swal.fire("Published", "Lesson created successfully", "success");
     }
+
+    navigate("/dashboard/my-lessons");
+    setIsLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
-      <div className="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">Create New Lesson</h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-3xl bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl p-10">
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-gray-800">
+            {isEdit ? "Edit Your Lesson" : "Create a New Life Lesson"}
+          </h1>
+          <p className="text-gray-500 mt-2">
+            Share your experience and inspire others
+          </p>
+        </div>
 
+        <form onSubmit={handleSubmit} className="space-y-7">
+
+          {/* Title */}
           <div>
-            <label className="block text-gray-700 font-semibold mb-1">Lesson Title *</label>
-            <input 
-              type="text" 
-              value={title} 
-              onChange={(e) => setTitle(e.target.value)} 
-              required 
-              className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none"
+            <label className="font-semibold text-gray-700">Lesson Title</label>
+            <input
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
+              placeholder="e.g. Overcoming Fear"
+              className="mt-2 w-full rounded-xl border p-4 focus:ring-2 focus:ring-indigo-400 outline-none"
             />
           </div>
 
+          {/* Description */}
           <div>
-            <label className="block text-gray-700 font-semibold mb-1">Full Description *</label>
-            <textarea 
-              value={description} 
-              onChange={(e) => setDescription(e.target.value)} 
-              required 
-              className="border p-3 rounded-lg w-full h-32 focus:ring-2 focus:ring-blue-500 outline-none"
+            <label className="font-semibold text-gray-700">Full Story</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              required
+              placeholder="Write your life lesson..."
+              className="mt-2 w-full rounded-xl border p-4 h-36 focus:ring-2 focus:ring-indigo-400 outline-none"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 font-semibold mb-1">Category *</label>
-              <select 
-                value={category} 
-                onChange={(e) => setCategory(e.target.value)} 
-                required 
-                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none"
-              >
-                <option value="">Select category</option>
-                <option value="personal-growth">Personal Growth</option>
-                <option value="career">Career & Professional</option>
-                <option value="relationships">Relationships</option>
-                <option value="mindset">Mindset</option>
-                <option value="mistakes-learned">Mistakes Learned</option>
-                <option value="health">Health & Wellness</option>
-                <option value="finance">Finance</option>
-                <option value="spirituality">Spirituality</option>
-              </select>
-            </div>
+          {/* Selects */}
+          <div className="grid md:grid-cols-2 gap-5">
+            <select value={category} onChange={e => setCategory(e.target.value)} required className="rounded-xl border p-4">
+              <option value="">Category</option>
+              <option value="personal-growth">Personal Growth</option>
+              <option value="career">Career</option>
+              <option value="relationships">Relationships</option>
+              <option value="mindset">Mindset</option>
+            </select>
 
-            <div>
-              <label className="block text-gray-700 font-semibold mb-1">Emotional Tone *</label>
-              <select 
-                value={tone} 
-                onChange={(e) => setTone(e.target.value)} 
-                required 
-                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none"
-              >
-                <option value="">Select tone</option>
-                <option value="motivational">Motivational</option>
-                <option value="sad">Sad / Emotional</option>
-                <option value="realization">Realization</option>
-                <option value="gratitude">Gratitude</option>
-              </select>
+            <select value={tone} onChange={e => setTone(e.target.value)} required className="rounded-xl border p-4">
+              <option value="">Emotional Tone</option>
+              <option value="motivational">Motivational</option>
+              <option value="sad">Sad</option>
+              <option value="realization">Realization</option>
+              <option value="gratitude">Gratitude</option>
+            </select>
+          </div>
+
+          {/* Image Upload */}
+          <div>
+            <label className="font-semibold text-gray-700">Cover Image</label>
+            <div className="mt-3 border-2 border-dashed rounded-2xl p-6 text-center relative hover:border-indigo-400 transition">
+              <input type="file" accept="image/*" onChange={handleImageChange}
+                className="absolute inset-0 opacity-0 cursor-pointer" />
+
+              {previewImage ? (
+                <img src={previewImage} className="mx-auto w-40 h-40 rounded-xl object-cover shadow-lg" />
+              ) : (
+                <div className="text-gray-400 flex flex-col items-center">
+                  <FaCloudUploadAlt className="text-5xl mb-2" />
+                  <p>Click to upload image</p>
+                </div>
+              )}
             </div>
           </div>
 
-         <div>
-  <label className="block text-gray-700 font-semibold mb-2">Image (Optional)</label>
-  
-  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-blue-400 transition-colors relative cursor-pointer">
-    <input 
-      type="file" 
-      accept="image/*" 
-      onChange={handleImageChange} 
-      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-    />
-    
-    {previewImage ? (
-      <div className="flex flex-col items-center gap-2">
-        <img 
-          src={previewImage} 
-          alt="Preview" 
-          className="w-32 h-32 object-cover rounded-lg shadow-md" 
-        />
-        <button 
-          type="button" 
-          onClick={() => { setImageFile(null); setPreviewImage(null); }}
-          className="text-red-600 hover:text-red-700 text-sm flex items-center gap-1"
-        >
-          Remove Image
-        </button>
-      </div>
-    ) : (
-      <div className="flex flex-col items-center gap-2 text-gray-500">
-        <FaCloudUploadAlt className="w-12 h-12 mx-auto text-gray-400" />
-        <p className="text-sm">Click or drag to upload an image</p>
-        <p className="text-xs text-gray-400">PNG, JPG, GIF up to 5MB</p>
-      </div>
-    )}
-  </div>
-</div>
-
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 font-semibold mb-1">Privacy *</label>
-              <select 
-                value={privacy} 
-                onChange={(e) => setPrivacy(e.target.value)} 
-                required 
-                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none"
-              >
+          {/* Privacy */}
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="flex items-center gap-3 border rounded-xl p-4">
+              <FaGlobe />
+              <select value={privacy} onChange={e => setPrivacy(e.target.value)} className="w-full outline-none">
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </select>
             </div>
 
-            <div>
-              <label className="block text-gray-700 font-semibold mb-1">Access Level *</label>
-              <select 
-                value={accessLevel} 
-                onChange={(e) => setAccessLevel(e.target.value)} 
-                disabled={!isPremium} 
-                title={!isPremium ? "Upgrade to Premium to create paid lessons" : ""}
-                required
-                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none bg-white disabled:bg-gray-100 disabled:text-gray-500"
+            <div className="flex items-center gap-3 border rounded-xl p-4">
+              <FaLock />
+              <select
+                value={accessLevel}
+                onChange={e => setAccessLevel(e.target.value)}
+                disabled={!isPremium}
+                className="w-full outline-none disabled:text-gray-400"
               >
                 <option value="free">Free</option>
                 <option value="premium">Premium</option>
@@ -257,16 +201,12 @@ const AddLesson = () => {
             </div>
           </div>
 
-          <button 
-            type="submit"
+          {/* Submit */}
+          <button
             disabled={isLoading}
-            className={`w-full py-3 mt-4 rounded-lg text-white font-semibold flex items-center justify-center gap-2 ${
-              isLoading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
-            }`}
+            className="w-full py-4 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-[1.02] transition-transform shadow-lg"
           >
-            {isLoading ? "Creating..." : <><FaCloudUploadAlt /> Publish Lesson</>}
+            {isLoading ? "Saving..." : isEdit ? "Update Lesson" : "Publish Lesson"}
           </button>
 
         </form>

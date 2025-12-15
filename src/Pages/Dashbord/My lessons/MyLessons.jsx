@@ -3,9 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import UseAuth from "../../../Hooks/UseAuth";
 import Loading from "../../Shared/Loading/Loading";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const MyLessons = () => {
   const { user } = UseAuth();
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -16,78 +20,134 @@ const MyLessons = () => {
     queryKey: ["myLessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons/?email=${user.email}`);
+      const res = await axiosSecure.get("/lessons/my");
       return res.data;
     },
   });
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this lesson?")) {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This lesson will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it",
+    });
+
+    if (result.isConfirmed) {
       try {
         await axiosSecure.delete(`/lessons/${id}`);
-        alert("Lesson deleted successfully");
+        Swal.fire("Deleted!", "Your lesson has been deleted.", "success");
         refetch();
       } catch (error) {
-        console.error(error);
-        alert("Failed to delete lesson");
+        Swal.fire("Error", "Failed to delete lesson", "error");
       }
     }
   };
 
-  if (isLoading) return <Loading></Loading>;
+  if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">My Lessons</h2>
+    <div className="max-w-7xl mx-auto p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <h2 className="text-3xl font-extrabold text-gray-800">My Lessons</h2>
+        <p className="text-gray-500 mt-1">
+          Manage, update and track your life lessons
+        </p>
+      </div>
 
       {lessons.length === 0 ? (
-        <p className="text-gray-500">You have not created any lessons yet.</p>
+        <div className="text-center py-16 bg-white rounded-2xl shadow">
+          <p className="text-gray-500 text-lg">
+            You haven’t created any lessons yet 🌱
+          </p>
+        </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded-lg">
+        <div className="overflow-x-auto bg-white rounded-2xl shadow-xl border">
+          <table className="min-w-full">
             <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-3 border">Title</th>
-                <th className="p-3 border">Visibility</th>
-                <th className="p-3 border">Access Level</th>
-                <th className="p-3 border">Created Date</th>
-                <th className="p-3 border">Actions</th>
+              <tr className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-left">
+                <th className="p-4">Title</th>
+                <th className="p-4">Visibility</th>
+                <th className="p-4">Access</th>
+                <th className="p-4">Created</th>
+                <th className="p-4 text-center">Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {lessons.map((lesson) => (
-                <tr key={lesson._id} className="hover:bg-gray-50">
-                  <td className="p-3 border">{lesson.title}</td>
-                  <td className="p-3 border">{lesson.privacy}</td>
-                  <td className="p-3 border">{lesson.accessLevel}</td>
-                  <td className="p-3 border">
+                <tr
+                  key={lesson._id}
+                  className="border-b hover:bg-gray-50 transition"
+                >
+                  <td className="p-4 font-semibold text-gray-800">
+                    {lesson.title}
+                  </td>
+
+                  <td className="p-4 capitalize">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        lesson.privacy === "public"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      {lesson.privacy}
+                    </span>
+                  </td>
+
+                  <td className="p-4 capitalize">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        lesson.accessLevel === "premium"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
+                    >
+                      {lesson.accessLevel}
+                    </span>
+                  </td>
+
+                  <td className="p-4 text-gray-600">
                     {new Date(
                       lesson.createdAt || Date.now()
                     ).toLocaleDateString()}
                   </td>
-                  <td className="p-3 border space-x-2">
-                    <button
-                      onClick={() =>
-                        (window.location.href = `/dashboard/my-lessons/${lesson._id}`)
-                      }
-                      className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() =>
-                        (window.location.href = `/dashboard/add-lessons?id=${lesson._id}`)
-                      }
-                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => handleDelete(lesson._id)}
-                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                    >
-                      Delete
-                    </button>
+
+                  <td className="p-4">
+                    <div className="flex justify-center gap-2">
+                      {/* View */}
+                      <button
+                        onClick={() => navigate(`/lesson/${lesson._id}`)}
+                        className="flex items-center gap-1 px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition"
+                      >
+                        <FaEye /> View
+                      </button>
+
+                      {/* Update */}
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/add-lessons?id=${lesson._id}`
+                          )
+                        }
+                        className="flex items-center gap-1 px-3 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition"
+                      >
+                        <FaEdit /> Edit
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={() => handleDelete(lesson._id)}
+                        className="flex items-center gap-1 px-3 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                      >
+                        <FaTrashAlt /> Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
