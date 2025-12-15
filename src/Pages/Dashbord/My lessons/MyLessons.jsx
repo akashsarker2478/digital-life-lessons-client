@@ -16,7 +16,7 @@ const MyLessons = () => {
     queryKey: ["myLessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons?email=${user.email}`);
+      const res = await axiosSecure.get(`/lessons/?email=${user.email}`);
       return res.data;
     },
   });

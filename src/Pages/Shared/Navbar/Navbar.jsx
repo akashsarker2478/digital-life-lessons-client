@@ -26,7 +26,7 @@ const Navbar = () => {
       icon: <FaPlus className="text-sm" />,
     },
     {
-      path: "/lessons",
+      path: "/public-lesson",
       label: "Public Lessons",
       icon: <FaBookOpen className="text-sm" />,
     },

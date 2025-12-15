@@ -15,6 +15,9 @@ import Profile from "../Pages/Dashbord/User Profile/Profile";
 import Pricing from "../Pages/Dashbord/Payment/Pricing";
 import PaymentSuccess from "../Pages/Dashbord/Payment/PaymentSuccess";
 import PaymentCancelled from "../Pages/Dashbord/Payment/PaymentCancelled";
+import PublicLessons from "../Pages/Public Lesson/PublicLessons";
+import LessonDetails from "../Pages/Lessons Details/LessonDetails";
+import AuthorProfile from "../Pages/Author Profile/AuthorProfile";
 
 
 
@@ -28,6 +31,20 @@ export const router = createBrowserRouter([
             index:true,
             element:<Home></Home>   
        },
+       {
+        path:'/public-lesson',
+        element:<PublicLessons></PublicLessons>
+       },
+       {
+        path:'/lesson/:id',
+        element:<PrivateRoute>
+            <LessonDetails></LessonDetails>
+        </PrivateRoute>
+       },
+       {
+        path: "/author/:email",
+        element:<AuthorProfile></AuthorProfile>
+       }
     ]
     },
     {

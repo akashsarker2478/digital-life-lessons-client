@@ -39,8 +39,8 @@ const Footer = () => {
                         <div className="grid grid-cols-2 gap-2">
                             <Link to="/" className="text-gray-400 hover:text-white text-sm transition-colors">Home</Link>
                             <Link to="/lessons" className="text-gray-400 hover:text-white text-sm transition-colors">Lessons</Link>
-                            <Link to="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">Pricing</Link>
-                            <Link to="/dashboard" className="text-gray-400 hover:text-white text-sm transition-colors">Dashboard</Link>
+                            <Link to="/dashboard/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">Pricing</Link>
+                            <Link to="/dashboard/user-dashboard" className="text-gray-400 hover:text-white text-sm transition-colors">Dashboard</Link>
                             <Link to="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</Link>
                             <Link to="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">Terms</Link>
                         </div>
