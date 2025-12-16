@@ -6,17 +6,25 @@ import {
   FaDollarSign,
   FaBars,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UseAuth from "../../../Hooks/UseAuth";
 import Logo from "../Logo/Logo";
-import premiumIcon from '../../../assets/premium icon.png';
+import premiumIcon from "../../../assets/premium icon.png";
+import Loading from "../Loading/Loading";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Navbar = () => {
-  const { user, logOut, isPremium } = UseAuth();
+  const { user, logOut, isPremium, loading ,isAdmin} = UseAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+ 
 
+  console.log("Logged-in user:", user);
+  if (loading) {
+    return <Loading></Loading>;
+  }
   // Base navigation links
   const baseNavLinks = [
     { path: "/", label: "Home" },
@@ -142,7 +150,7 @@ const Navbar = () => {
                         {user.email}
                       </span>
                     </div>
-                    
+
                     {/* User Avatar with Premium Badge */}
                     <div className="relative group">
                       <div className="w-10 h-10 rounded-full border-2 border-blue-100 overflow-hidden">
@@ -162,28 +170,38 @@ const Navbar = () => {
                           </div>
                         )}
                       </div>
-                      
+                      {/* Admin Badge on Avatar */}
+{isAdmin && (
+  <div className="absolute top-0 left-0 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center shadow-md border-2 border-white text-white text-xs font-bold">
+    A
+  </div>
+)}
+
                       {/* Premium Badge (Only Icon) */}
                       {isPremium && (
                         <>
                           {/* Badge on Avatar */}
                           <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
-                            <img 
-                              src={premiumIcon} 
-                              alt="Premium" 
+                            <img
+                              src={premiumIcon}
+                              alt="Premium"
                               className="w-3.5 h-3.5"
                             />
                           </div>
-                          
+
                           {/* Tooltip on Hover */}
                           <div className="absolute -top-10 right-0 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                             Premium Member
                           </div>
                         </>
                       )}
-                      
+
                       {/* Online Status Dot */}
-                      <div className={`absolute bottom-0 right-0 w-3 h-3 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
+                      <div
+                        className={`absolute bottom-0 right-0 w-3 h-3 ${
+                          isPremium ? "bg-green-500" : "bg-gray-400"
+                        } rounded-full border-2 border-white`}
+                      ></div>
                     </div>
                   </div>
 
@@ -211,19 +229,23 @@ const Navbar = () => {
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Premium Badge in dropdown */}
                           {isPremium && (
                             <div className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
-                              <img 
-                                src={premiumIcon} 
-                                alt="Premium" 
+                              <img
+                                src={premiumIcon}
+                                alt="Premium"
                                 className="w-4 h-4"
                               />
                             </div>
                           )}
-                          
-                          <div className={`absolute bottom-0 right-0 w-4 h-4 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
+
+                          <div
+                            className={`absolute bottom-0 right-0 w-4 h-4 ${
+                              isPremium ? "bg-green-500" : "bg-gray-400"
+                            } rounded-full border-2 border-white`}
+                          ></div>
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
@@ -233,9 +255,9 @@ const Navbar = () => {
                             {isPremium && (
                               <div className="relative group">
                                 <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                                  <img 
-                                    src={premiumIcon} 
-                                    alt="Premium" 
+                                  <img
+                                    src={premiumIcon}
+                                    alt="Premium"
                                     className="w-3 h-3"
                                   />
                                 </div>
@@ -252,7 +274,7 @@ const Navbar = () => {
 
                     <li>
                       <Link
-                        to="/dashboard/user-dashboard"
+                        to={isAdmin ? "/dashboard/admin/admin-dashboard" : "/dashboard/user-dashboard"}
                         className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group"
                       >
                         <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
@@ -282,7 +304,7 @@ const Navbar = () => {
 
                     <li>
                       <Link
-                        to="/profile"
+                        to="/dashboard/profile"
                         className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group"
                       >
                         <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
@@ -309,42 +331,6 @@ const Navbar = () => {
                           <span className="font-medium">My Lessons</span>
                           <span className="text-xs text-gray-500 block">
                             Your created content
-                          </span>
-                        </div>
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link
-                        to="/settings"
-                        className="flex items-center gap-3 py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 group"
-                      >
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center group-hover:bg-gray-200 transition-colors">
-                          <svg
-                            className="w-5 h-5 text-gray-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                            ></path>
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                            ></path>
-                          </svg>
-                        </div>
-                        <div>
-                          <span className="font-medium">Settings</span>
-                          <span className="text-xs text-gray-500 block">
-                            App preferences
                           </span>
                         </div>
                       </Link>
@@ -463,19 +449,23 @@ const Navbar = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Premium Badge in mobile */}
                   {isPremium && (
                     <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
-                      <img 
-                        src={premiumIcon} 
-                        alt="Premium" 
+                      <img
+                        src={premiumIcon}
+                        alt="Premium"
                         className="w-3.5 h-3.5"
                       />
                     </div>
                   )}
-                  
-                  <div className={`absolute bottom-0 right-0 w-3 h-3 ${isPremium ? 'bg-green-500' : 'bg-gray-400'} rounded-full border-2 border-white`}></div>
+
+                  <div
+                    className={`absolute bottom-0 right-0 w-3 h-3 ${
+                      isPremium ? "bg-green-500" : "bg-gray-400"
+                    } rounded-full border-2 border-white`}
+                  ></div>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -508,31 +498,24 @@ const Navbar = () => {
               {/* User Menu Links for Mobile */}
               {user ? (
                 <>
+            <li>
+  <Link
+    to={isAdmin ? "/dashboard/admin" : "/dashboard/user-dashboard"}
+    onClick={toggleMobileMenu}
+    className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+  >
+    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+      ></path>
+    </svg>
+    <span className="font-medium">Dashboard</span>
+  </Link>
+</li>
+
                   <li>
                     <Link
-                      to="/dashboard/user-dashboard"
-                      onClick={toggleMobileMenu}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                    >
-                      <svg
-                        className="w-5 h-5 text-blue-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                        ></path>
-                      </svg>
-                      <span className="font-medium">Dashboard</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/profile"
+                      to="/dashboard/profile"
                       onClick={toggleMobileMenu}
                       className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                     >
@@ -575,7 +558,7 @@ const Navbar = () => {
                     >
                       Sign In
                     </Link>
-                    
+
                     {/* Show Get Started button only if user is not premium */}
                     {!isPremium && (
                       <Link

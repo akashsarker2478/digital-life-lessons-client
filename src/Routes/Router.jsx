@@ -18,6 +18,10 @@ import PaymentCancelled from "../Pages/Dashbord/Payment/PaymentCancelled";
 import PublicLessons from "../Pages/Public Lesson/PublicLessons";
 import LessonDetails from "../Pages/Lessons Details/LessonDetails";
 import AuthorProfile from "../Pages/Author Profile/AuthorProfile";
+import NotFound from "../Component/Error Page/NotFound";
+import AdminRoute from "../ADMIN/Admin Route/AdminRoute";
+import AdminDashboard from "../ADMIN/Admin Dasahboard/AdminDashboard";
+import AdminDashboardLayout from "../ADMIN/Dashbord Layout/AdminDashbordLayout";
 
 
 
@@ -100,9 +104,26 @@ export const router = createBrowserRouter([
            {
             path:'payment-cancelled',
             element:<PaymentCancelled></PaymentCancelled>
-           }
+           },
+         
          
         ]
-    }
-   
+    },
+     {
+            path:'/dashboard/admin',
+            element:<AdminRoute>
+                <AdminDashboardLayout></AdminDashboardLayout>
+            </AdminRoute>,
+            children:[
+               {
+                 path:'admin-dashboard',
+                 element:<AdminDashboard></AdminDashboard>
+               }
+
+            ]
+           },
+   {
+    path:'*',
+    element:<NotFound></NotFound>
+   }
 ])

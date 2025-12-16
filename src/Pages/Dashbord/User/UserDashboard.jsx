@@ -6,6 +6,7 @@ import {
 } from "react-icons/fa";
 import UseAuth from "../../../Hooks/UseAuth"; 
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Chart from "../../../Component/Analytical Chart/Chart";
 
 const UserDashboard = () => {
     const { user } = UseAuth(); 
@@ -86,11 +87,9 @@ const UserDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 bg-gray-50 rounded-xl p-6 border border-gray-200 shadow-inner">
                     <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2 mb-4">
-                        <FaChartBar className="text-blue-500" /> Weekly Analytics
+                        <FaChartBar className="text-blue-500" /> Weekly or Monthly Analytics
                     </h3>
-                    <div className="h-64 flex items-center justify-center border-dashed border-2 border-gray-300 rounded-lg">
-                        <p className="text-gray-500 text-center">Analytics chart placeholder</p>
-                    </div>
+                    <Chart lessons={lessons}></Chart>
                 </div>
 
                 <div className="lg:col-span-1 space-y-4">

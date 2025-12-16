@@ -12,6 +12,7 @@ const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
   const axiosSecure = useAxiosSecure()
 
@@ -41,36 +42,75 @@ const AuthProvider = ({children}) => {
 
 
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
+// useEffect(() => {
+//   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+//     setUser(currentUser);
 
-    if (currentUser) {
-      const email = currentUser.email;
+//     if (currentUser) {
+//       const email = currentUser.email;
 
-      axiosSecure.get(`/users/status/${email}`)
-        .then(res => {
-          setIsPremium(res.data.isPremium);
+//       axiosSecure.get(`/users/status/${email}`)
+//         .then(res => {
+//           setIsPremium(res.data.isPremium);
           
-          currentUser.dbId = res.data.dbId;
-        })
-        .catch(error => {
-          console.error("Error syncing user status from DB:", error);
-          setIsPremium(false);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+//           currentUser.dbId = res.data.dbId;
+//         })
+//         .catch(error => {
+//           console.error("Error syncing user status from DB:", error);
+//           setIsPremium(false);
+//         })
+//         .finally(() => {
+//           setLoading(false);
+//         });
 
-    } else {
-      setIsPremium(false);
-      setLoading(false);
-    }
-  });
+//     } else {
+//       setIsPremium(false);
+//       setLoading(false);
+//     }
+//   });
 
-  return () => unsubscribe();
-}, [axiosSecure]);
+//   return () => unsubscribe();
+// }, [axiosSecure]);
+useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
 
+      if (currentUser?.email) {
+        const email = currentUser.email;
+
+        // Promise.all দিয়ে দুটো API কল একসাথে করছি
+        Promise.all([
+          axiosSecure.get(`/users/status/${email}`),
+          axiosSecure.get(`/users/admin/${email}`)
+        ])
+          .then(([statusRes, adminRes]) => {
+            setIsPremium(statusRes.data.isPremium || false);
+            setIsAdmin(adminRes.data.admin || false); // admin চেক
+
+            // dbId যদি দরকার হয়
+            if (statusRes.data.dbId) {
+              currentUser.dbId = statusRes.data.dbId;
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching user data:", error);
+            setIsPremium(false);
+            setIsAdmin(false);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+
+      } else {
+        // লগআউট অবস্থায়
+        setIsPremium(false);
+        setIsAdmin(false);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [axiosSecure]);
 
     const authInfo = {
         user,
@@ -82,6 +122,7 @@ useEffect(() => {
         loginUser,
         updateUser,
         isPremium,
+        isAdmin
 
     }
     return (
