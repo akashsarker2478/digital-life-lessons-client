@@ -1,10 +1,10 @@
+// Component/why learning/WhyLearningMatters.jsx
 import React from "react";
 import { 
   FaBrain, 
   FaUsers, 
   FaBook, 
   FaChartLine,
-  FaArrowDown,
   FaLightbulb 
 } from "react-icons/fa";
 
@@ -20,95 +20,95 @@ const WhyLearningMatters = () => {
       title: "Reflect on Life Experiences",
       desc: "Pause and analyze your journey. Every experience holds a lesson that shapes your wisdom and future decisions.",
       img: reflectImg,
-      color: "border-t-yellow-400",
-      bgColor: "bg-yellow-50",
-      iconColor: "text-yellow-500",
-      icon: <FaBrain className="text-xl" />,
-      iconBg: "bg-yellow-100"
+      icon: <FaBrain className="text-3xl" />,
+      gradient: "from-yellow-400 to-amber-500",
+      lightBg: "from-yellow-50 to-amber-50",
+      accent: "bg-yellow-400"
     },
     {
       id: 2,
       title: "Learn from Collective Wisdom",
       desc: "Access real stories from diverse lives. Grow faster by learning from others' successes and challenges.",
       img: learnImg,
-      color: "border-t-blue-400",
-      bgColor: "bg-blue-50",
-      iconColor: "text-blue-500",
-      icon: <FaUsers className="text-xl" />,
-      iconBg: "bg-blue-100"
+      icon: <FaUsers className="text-3xl" />,
+      gradient: "from-blue-400 to-indigo-500",
+      lightBg: "from-blue-50 to-indigo-50",
+      accent: "bg-blue-400"
     },
     {
       id: 3,
       title: "Preserve Your Digital Legacy",
       desc: "Document your insights for future reference. Create a personal library of wisdom that guides you and inspires others.",
       img: preserveImg,
-      color: "border-t-purple-400",
-      bgColor: "bg-purple-50",
-      iconColor: "text-purple-500",
-      icon: <FaBook className="text-xl" />,
-      iconBg: "bg-purple-100"
+      icon: <FaBook className="text-3xl" />,
+      gradient: "from-purple-400 to-pink-500",
+      lightBg: "from-purple-50 to-pink-50",
+      accent: "bg-purple-400"
     },
     {
       id: 4,
       title: "Grow with Purposeful Intent",
       desc: "Transform lessons into actionable growth. Track your progress and evolve intentionally with each life chapter.",
       img: growImg,
-      color: "border-t-green-400",
-      bgColor: "bg-green-50",
-      iconColor: "text-green-500",
-      icon: <FaChartLine className="text-xl" />,
-      iconBg: "bg-green-100"
+      icon: <FaChartLine className="text-3xl" />,
+      gradient: "from-green-400 to-emerald-500",
+      lightBg: "from-green-50 to-emerald-50",
+      accent: "bg-green-400"
     },
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 mb-6">
-            <FaLightbulb className="text-2xl text-blue-600" />
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 mb-8 shadow-lg animate-pulse">
+            <FaLightbulb className="text-4xl text-blue-600" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
             Why Learning From Life Matters
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            In our digital age, every experience becomes a lesson worth remembering and sharing.
+          <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            In our digital age, every experience becomes a lesson worth remembering, reflecting on, and sharing with the world.
           </p>
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {benefits.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:-translate-y-3"
             >
-              {/* Image Section */}
-              <div className="relative h-56 overflow-hidden">
+              {/* Image with Overlay */}
+              <div className="relative h-64 overflow-hidden">
                 <img
                   src={item.img}
                   alt={item.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                {/* Icon Overlay */}
-                <div className={`absolute -bottom-6 right-6 w-14 h-14 ${item.iconBg} rounded-full flex items-center justify-center shadow-lg border-4 border-white`}>
-                  <div className={item.iconColor}>
+                {/* Gradient Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent`} />
+                
+                {/* Icon in Bottom Right */}
+                <div className={`absolute bottom-4 right-4 w-16 h-16 rounded-2xl bg-white shadow-2xl flex items-center justify-center border-4 border-white`}>
+                  <div className={`text-white drop-shadow-lg bg-gradient-to-r ${item.gradient} p-3 rounded-xl`}>
                     {item.icon}
                   </div>
                 </div>
               </div>
 
-              {/* Content Section */}
-              <div className="pt-8 pb-6 px-6">
-                {/* Border Top Accent */}
-                <div className={`h-1 w-20 ${item.color} rounded-full mb-4`}></div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+              {/* Content */}
+              <div className={`p-8 bg-gradient-to-b ${item.lightBg}`}>
+                {/* Accent Bar */}
+                <div className={`h-1.5 w-24 ${item.accent} rounded-full mb-5 shadow-md`} />
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-gray-900 group-hover:to-gray-700 transition-all duration-300">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                
+                <p className="text-gray-700 leading-relaxed text-base">
                   {item.desc}
                 </p>
               </div>

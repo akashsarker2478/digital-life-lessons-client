@@ -6,7 +6,7 @@ import {
   FaDollarSign,
   FaBars,
 } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import Swal from "sweetalert2";
 import UseAuth from "../../../Hooks/UseAuth";
 import Logo from "../Logo/Logo";
@@ -26,29 +26,34 @@ const Navbar = () => {
     return <Loading></Loading>;
   }
   // Base navigation links
-  const baseNavLinks = [
-    { path: "/", label: "Home" },
-    {
-      path: "/dashboard/add-lessons",
-      label: "Add Lesson",
-      icon: <FaPlus className="text-sm" />,
-    },
-    {
-      path: "/public-lesson",
-      label: "Public Lessons",
-      icon: <FaBookOpen className="text-sm" />,
-    },
-  ];
+// Base navigation links
+const baseNavLinks = [
+  { path: "/", label: "Home" },
+  {
+    path: "/public-lesson",
+    label: "Public Lessons",
+    icon: <FaBookOpen className="text-sm" />,
+  },
+];
 
-  // Add Pricing link only if user is not premium or not logged in
-  const navLinks = [...baseNavLinks];
-  if (!user || !isPremium) {
-    navLinks.push({
-      path: "/dashboard/pricing",
-      label: "Pricing",
-      icon: <FaDollarSign className="text-sm" />,
-    });
-  }
+// Add Lesson শুধু normal user (non-admin) দেখবে
+if (user && !isAdmin) {
+  baseNavLinks.push({
+    path: "/dashboard/add-lessons",
+    label: "Add Lesson",
+    icon: <FaPlus className="text-sm" />,
+  });
+}
+
+// Pricing লিঙ্ক শুধু normal user (non-admin) এবং যারা premium নয় (free user) দেখবে
+if (user && !isAdmin && !isPremium) {
+  baseNavLinks.push({
+    path: "/dashboard/pricing",
+    label: "Pricing",
+    icon: <FaDollarSign className="text-sm" />,
+  });
+}
+const navLinks = baseNavLinks;
 
   const handleLogOut = () => {
     Swal.fire({

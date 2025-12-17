@@ -1,49 +1,130 @@
-// AdminDashboard.jsx (or AdminHome.jsx)
-import React from "react";
+// AdminDashboard.jsx
+import React, { useEffect, useState } from "react";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { FaUsers, FaBookOpen, FaFlag, FaCalendarDay, FaTrophy } from "react-icons/fa";
+import { FaUsers, FaBookOpen, FaFlag, FaCalendarDay, FaTrophy, FaSpinner } from "react-icons/fa";
+import useAxiosSecure from "../../Hooks/useAxiosSecure"; 
+import UseAuth from "../../Hooks/UseAuth";
 
 const AdminDashboard = () => {
-  // Mock Data (backend থেকে fetch করার জন্য placeholder)
-  const totalUsers = 1248;
-  const totalLessons = 342;
-  const totalReported = 18;
-  const todayNewLessons = 12;
+  const { user } = UseAuth();
+  const axiosSecure = useAxiosSecure();
 
-  // User Growth Data (Last 7 days)
-  const userGrowthData = [
-    { day: "Mon", users: 1100 },
-    { day: "Tue", users: 1150 },
-    { day: "Wed", users: 1180 },
-    { day: "Thu", users: 1200 },
-    { day: "Fri", users: 1215 },
-    { day: "Sat", users: 1230 },
-    { day: "Sun", users: 1248 },
-  ];
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalLessons: 0,
+    totalReported: 0,
+    todayNewLessons: 0,
+  });
+  const [userGrowth, setUserGrowth] = useState([]);
+  const [lessonCategories, setLessonCategories] = useState([]);
+  const [visibilityData, setVisibilityData] = useState([]);
+  const [topContributors, setTopContributors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Lesson Growth by Category (Mock)
-  const lessonCategoryData = [
-    { category: "Technology", lessons: 120 },
-    { category: "Health", lessons: 85 },
-    { category: "Finance", lessons: 60 },
-    { category: "Lifestyle", lessons: 45 },
-    { category: "Education", lessons: 32 },
-  ];
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        setLoading(true);
 
-  // Pie Chart for Lesson Distribution
-  const pieData = [
-    { name: "Public", value: 300, color: "#3b82f6" },
-    { name: "Private", value: 42, color: "#ef4444" },
-  ];
+        // Parallel API calls
+        const [usersRes, lessonsRes, reportsRes] = await Promise.all([
+          axiosSecure.get("/users"), 
+          axiosSecure.get("/lessons/public"), 
+          axiosSecure.get("/reports"), 
+        ]);
 
-  // Top Contributors (Most active)
-  const topContributors = [
-    { rank: 1, name: "Rahim Khan", lessons: 45, email: "rahim@example.com" },
-    { rank: 2, name: "Ayesha Siddika", lessons: 38, email: "ayesha@example.com" },
-    { rank: 3, name: "Karim Ahmed", lessons: 32, email: "karim@example.com" },
-    { rank: 4, name: "Fatima Begum", lessons: 28, email: "fatima@example.com" },
-    { rank: 5, name: "Omar Faruk", lessons: 25, email: "omar@example.com" },
-  ];
+        const users = usersRes.data;
+        const lessons = lessonsRes.data;
+        const reports = reportsRes.data;
+
+        // Total counts
+        const totalUsers = users.length;
+        const totalLessons = lessons.length;
+        const uniqueReportedLessons = [...new Set(reports.map(r => r.lessonId.toString()))].length;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayNewLessons = lessons.filter(l => new Date(l.createdAt) >= today).length;
+
+        setStats({
+          totalUsers,
+          totalLessons,
+          totalReported: uniqueReportedLessons,
+          todayNewLessons,
+        });
+
+        // User Growth (Last 7 days) 
+        const last7Days = [];
+        for (let i = 6; i >= 0; i--) {
+          const date = new Date();
+          date.setDate(date.getDate() - i);
+          date.setHours(0, 0, 0, 0);
+          const count = users.filter(u => new Date(u.joinDate) <= date).length;
+          last7Days.push({
+            day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+            users: count,
+          });
+        }
+        setUserGrowth(last7Days);
+
+        // Lesson Categories
+        const categoryMap = {};
+        lessons.forEach(l => {
+          const cat = l.category || "Others";
+          categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+        });
+        const categoryData = Object.entries(categoryMap).map(([category, lessons]) => ({
+          category,
+          lessons,
+        }));
+        setLessonCategories(categoryData);
+
+        // Visibility Pie
+        const publicCount = lessons.filter(l => l.visibility !== "private").length; // default public
+const privateCount = totalLessons - publicCount;
+
+setVisibilityData([
+  { name: "Public", value: publicCount, color: "#3b82f6" },
+  { name: "Private", value: privateCount, color: "#ef4444" },
+]);
+
+        // Top Contributors
+        const contributorMap = {};
+        lessons.forEach(l => {
+          const email = l.createdBy;
+          contributorMap[email] = (contributorMap[email] || 0) + 1;
+        });
+        const contributors = users
+          .map(u => ({
+            name: u.name || u.email.split("@")[0],
+            email: u.email,
+            lessons: contributorMap[u.email] || 0,
+          }))
+          .filter(c => c.lessons > 0)
+          .sort((a, b) => b.lessons - a.lessons)
+          .slice(0, 5)
+          .map((c, i) => ({ ...c, rank: i + 1 }));
+
+        setTopContributors(contributors);
+
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+        Swal.fire("Error!", "Failed to load dashboard data", "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdminData();
+  }, [axiosSecure]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <FaSpinner className="animate-spin text-6xl text-red-600" />
+        <span className="ml-4 text-2xl text-gray-600">Loading Dashboard...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -53,7 +134,7 @@ const AdminDashboard = () => {
           Admin Dashboard Overview
         </h1>
         <p className="text-gray-600 mt-3 text-lg">
-          Monitor platform activity at a glance
+          Welcome back, <span className="font-semibold">{user?.displayName || "Admin"}</span>! Monitor platform activity.
         </p>
       </div>
 
@@ -63,7 +144,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100">Total Users</p>
-              <h2 className="text-3xl font-bold mt-2">{totalUsers}</h2>
+              <h2 className="text-3xl font-bold mt-2">{stats.totalUsers}</h2>
             </div>
             <FaUsers className="w-12 h-12 text-blue-200" />
           </div>
@@ -73,7 +154,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100">Total Lessons</p>
-              <h2 className="text-3xl font-bold mt-2">{totalLessons}</h2>
+              <h2 className="text-3xl font-bold mt-2">{stats.totalLessons}</h2>
             </div>
             <FaBookOpen className="w-12 h-12 text-green-200" />
           </div>
@@ -83,7 +164,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-red-100">Reported Lessons</p>
-              <h2 className="text-3xl font-bold mt-2">{totalReported}</h2>
+              <h2 className="text-3xl font-bold mt-2">{stats.totalReported}</h2>
             </div>
             <FaFlag className="w-12 h-12 text-red-200" />
           </div>
@@ -93,20 +174,19 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100">Today's New Lessons</p>
-              <h2 className="text-3xl font-bold mt-2">{todayNewLessons}</h2>
+              <h2 className="text-3xl font-bold mt-2">{stats.todayNewLessons}</h2>
             </div>
             <FaCalendarDay className="w-12 h-12 text-purple-200" />
           </div>
         </div>
       </div>
 
-      {/* Graphs Section */}
+      {/* Graphs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* User Growth Line Chart */}
         <div className="bg-white p-6 rounded-2xl shadow-lg">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">User Growth (Last 7 Days)</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={userGrowthData}>
+            <LineChart data={userGrowth}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="day" />
               <YAxis />
@@ -117,40 +197,36 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Lesson Categories Bar Chart */}
         <div className="bg-white p-6 rounded-2xl shadow-lg">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Lessons by Category</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={lessonCategoryData}>
+            <BarChart data={lessonCategories}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="category" />
               <YAxis />
               <Tooltip />
-              <Legend />
               <Bar dataKey="lessons" fill="#10b981" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Bottom Row: Pie Chart + Top Contributors */}
+      {/* Pie + Table */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Pie Chart */}
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">Lesson Visibility Distribution</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">Lesson Visibility</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={pieData}
+                data={visibilityData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
                 label={({ name, value }) => `${name}: ${value}`}
                 outerRadius={100}
-                fill="#8884d8"
                 dataKey="value"
               >
-                {pieData.map((entry, index) => (
+                {visibilityData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -160,10 +236,9 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Top Contributors Table */}
         <div className="bg-white p-6 rounded-2xl shadow-lg">
           <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-3">
-            <FaTrophy className="text-yellow-500" /> Most Active Contributors
+            <FaTrophy className="text-yellow-500" /> Top Contributors
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
@@ -172,18 +247,26 @@ const AdminDashboard = () => {
                   <th className="p-3">Rank</th>
                   <th className="p-3">Name</th>
                   <th className="p-3">Email</th>
-                  <th className="p-3">Lessons Created</th>
+                  <th className="p-3">Lessons</th>
                 </tr>
               </thead>
               <tbody>
-                {topContributors.map((contributor) => (
-                  <tr key={contributor.rank} className="border-b hover:bg-gray-50">
-                    <td className="p-3 font-bold text-lg">#{contributor.rank}</td>
-                    <td className="p-3">{contributor.name}</td>
-                    <td className="p-3 text-gray-600">{contributor.email}</td>
-                    <td className="p-3 font-semibold text-blue-600">{contributor.lessons}</td>
+                {topContributors.length > 0 ? (
+                  topContributors.map((c) => (
+                    <tr key={c.email} className="border-b hover:bg-gray-50">
+                      <td className="p-3 font-bold text-lg">#{c.rank}</td>
+                      <td className="p-3">{c.name}</td>
+                      <td className="p-3 text-gray-600">{c.email}</td>
+                      <td className="p-3 font-semibold text-green-600">{c.lessons}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="p-6 text-center text-gray-500">
+                      No lessons created yet
+                    </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -12,22 +12,23 @@ import {
   FaHome,
   FaSignOutAlt,
   FaCrown,
+  FaPlus, 
 } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
-import Logo from "../../Pages/Shared/Logo/Logo";
 import { useNavigate } from "react-router";
 
 const AdminDashboardLayout = () => {
   const { user, logOut, isPremium } = UseAuth();
   const navigate = useNavigate();
 
-  
+ 
   const adminLinks = [
-    { name: "Dashboard Home", path: "admin", icon: FaChartBar },
-    { name: "Manage Users", path: "admin/manage-users", icon: FaUsers },
-    { name: "Manage Lessons", path: "admin/manage-lessons", icon: FaBookOpen },
-    { name: "Reported Lessons", path: "admin/reported-lessons", icon: FaFlag },
-    { name: "Admin Profile", path: "admin/profile", icon: FaUserShield },
+    { name: "Dashboard Home", path: "admin-dashboard", icon: FaChartBar },
+    { name: "Add Lesson", path: "add-lesson", icon: FaPlus }, 
+    { name: "Manage Users", path: "manage-users", icon: FaUsers },
+    { name: "Manage Lessons", path: "manage-lessons", icon: FaBookOpen },
+    { name: "Reported Lessons", path: "reported-lessons", icon: FaFlag },
+    { name: "Admin Profile", path: "admin-profile", icon: FaUserShield },
   ];
 
   const getLinkClass = ({ isActive }) =>
@@ -114,7 +115,7 @@ const AdminDashboardLayout = () => {
               </div>
             </div>
 
-            {/* Premium Badge (if applicable) */}
+            {/* Premium Badge */}
             {isPremium && (
               <div className="mx-8 mt-6 p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl border border-yellow-300 shadow-md text-center">
                 <div className="flex items-center justify-center gap-3">
@@ -131,7 +132,9 @@ const AdminDashboardLayout = () => {
                   <NavLink to={link.path} className={getLinkClass}>
                     <link.icon className="w-6 h-6" />
                     <span>{link.name}</span>
-                    <div className="ml-auto w-3 h-3 rounded-full bg-white opacity-0 group-[.active]:opacity-100 transition-opacity" />
+                    {link.path === "admin-dashboard" && (
+                      <div className="ml-auto w-3 h-3 rounded-full bg-white opacity-0 group-[.active]:opacity-100 transition-opacity" />
+                    )}
                   </NavLink>
                 </li>
               ))}

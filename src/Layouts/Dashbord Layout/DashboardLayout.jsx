@@ -2,7 +2,7 @@ import React from "react";
 import Swal from "sweetalert2";
 import Navbar from "../../Pages/Shared/Navbar/Navbar";
 import Footer from "../../Component/Footer/Footer";
-import { Link, Outlet, NavLink } from "react-router"; // react-router-dom থেকে ইম্পোর্ট করো
+import { Link, Outlet, NavLink } from "react-router";
 import {
   FaChartBar,
   FaBookOpen,
@@ -12,17 +12,16 @@ import {
   FaHome,
   FaSignOutAlt,
   FaCrown,
-  FaShieldAlt, // অ্যাডমিন আইকন (অপশনাল)
 } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
 import Logo from "../../Pages/Shared/Logo/Logo";
 import { useNavigate } from "react-router";
 
 const DashboardLayout = () => {
-  const { user, logOut, isPremium, isAdmin } = UseAuth(); // isAdmin যোগ করা হয়েছে
+  const { user, logOut, isPremium } = UseAuth(); 
   const navigate = useNavigate();
 
-  // নরমাল ইউজারের লিঙ্ক
+ 
   const userLinks = [
     { name: "Dashboard Home", path: "user-dashboard", icon: FaChartBar },
     { name: "Add Lesson", path: "add-lessons", icon: FaPlus },
@@ -30,17 +29,6 @@ const DashboardLayout = () => {
     { name: "My Favorites", path: "my-favorites", icon: FaHeart },
     { name: "Profile", path: "profile", icon: FaUserCircle },
   ];
-
-  // অ্যাডমিনের লিঙ্ক (পরে আরও যোগ করতে পারো)
-  const adminLinks = [
-    { name: "Admin Dashboard", path: "admin", icon: FaShieldAlt },
-    // পরে যোগ করতে পারো:
-    // { name: "Manage Users", path: "manage-users", icon: FaUsers },
-    // { name: "Reports", path: "reports", icon: FaFlag },
-  ];
-
-  // কে লগইন করেছে তার উপর ভিত্তি করে লিঙ্ক দেখাও
-  const navLinks = isAdmin ? adminLinks : userLinks;
 
   const getLinkClass = ({ isActive }) =>
     `flex items-center gap-3 p-3 w-full rounded-lg transition-all duration-200 ${
@@ -60,9 +48,6 @@ const DashboardLayout = () => {
       confirmButtonText: "Yes, logout!",
       cancelButtonText: "Cancel",
       reverseButtons: true,
-      background: "#ffffff",
-      color: "#333",
-      backdrop: "rgba(0,0,0,0.4)",
     }).then((result) => {
       if (result.isConfirmed) {
         logOut()
@@ -83,10 +68,8 @@ const DashboardLayout = () => {
             console.error("Logout error:", error);
             Swal.fire({
               title: "Error!",
-              text: error.message || "Failed to logout. Please try again.",
+              text: error.message || "Failed to logout.",
               icon: "error",
-              confirmButtonColor: "#ef4444",
-              confirmButtonText: "Try Again",
             });
           });
       }
@@ -123,7 +106,7 @@ const DashboardLayout = () => {
             </div>
             <div className="navbar-center">
               <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {isAdmin ? "Admin Panel" : "Dashboard"}
+                My Dashboard
               </div>
             </div>
           </nav>
@@ -148,19 +131,9 @@ const DashboardLayout = () => {
             <div className="w-full mb-6 text-center">
               
               <h2 className="mt-4 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {isAdmin ? "Admin Panel" : "My Dashboard"}
+                My Dashboard
               </h2>
             </div>
-
-            {/* Admin Badge */}
-            {isAdmin && (
-              <div className="w-full mb-6 p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border border-red-200 text-center shadow-sm">
-                <div className="flex items-center justify-center gap-2">
-                  <FaShieldAlt className="w-6 h-6 text-red-600" />
-                  <span className="text-lg font-bold text-red-700">Administrator</span>
-                </div>
-              </div>
-            )}
 
             {/* Premium Indicator */}
             {isPremium && (
@@ -174,7 +147,7 @@ const DashboardLayout = () => {
 
             {/* Navigation Menu */}
             <ul className="menu w-full grow space-y-2 px-2">
-              {navLinks.map((link) => (
+              {userLinks.map((link) => (
                 <li key={link.path} className="group">
                   <NavLink to={link.path} className={getLinkClass}>
                     <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 group-hover:from-blue-200 group-hover:to-purple-200 transition-all">
@@ -187,7 +160,7 @@ const DashboardLayout = () => {
               ))}
 
               {/* Upgrade to Premium (Non-premium users only) */}
-              {!isPremium && !isAdmin && (
+              {!isPremium && (
                 <li className="mt-6">
                   <Link
                     to="/dashboard/pricing"

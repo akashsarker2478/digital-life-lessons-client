@@ -734,7 +734,7 @@ const LessonDetails = () => {
                           <div className="flex items-center justify-between">
                             <div>
                               <h4 className="font-bold text-gray-900">
-                                {comment.userName || comment.userId}
+                                {comment.userName || comment.userId?.split("@")[0]}
                               </h4>
                               {comment.userId && (
                                 <p className="text-xs text-gray-500">{comment.userId}</p>
@@ -776,22 +776,28 @@ const LessonDetails = () => {
               {similarLessons.map((similarLesson) => (
                 <div 
                   key={similarLesson._id}
-                  onClick={() => navigate(`/lessons/${similarLesson._id}`)}
+                  onClick={() => {
+                    if (similarLesson.isPremium && !isPremiumUser) {
+        navigate("/dashboard/pricing");
+      } else {
+        navigate(`/lesson/${similarLesson._id}`);
+      }
+                  }}
                   className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                 >
-                  {similarLesson.featuredImage ? (
-                    <div className="h-48 overflow-hidden">
-                      <img 
-                        src={similarLesson.featuredImage} 
-                        alt={similarLesson.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  ) : (
-                    <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
-                      <FaImage className="text-white text-4xl opacity-70" />
-                    </div>
-                  )}
+                  {similarLesson.image ? (
+  <div className="h-48 overflow-hidden">
+    <img 
+      src={similarLesson.image} 
+      alt={similarLesson.title}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  </div>
+) : (
+  <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+    <FaImage className="text-white text-4xl opacity-70" />
+  </div>
+)}
                   <div className="p-6">
                     <div className="flex flex-wrap gap-2 mb-3">
                       <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">

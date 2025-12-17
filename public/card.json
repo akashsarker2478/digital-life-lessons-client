@@ -1,56 +1,152 @@
-// [
-//   {
-//     "title": "Overcoming Fear of Failure",
-//     "description": "Failure is a natural part of life, and learning how to embrace it helps us grow. In this lesson, I share personal experiences of facing fear and taking risks despite uncertainty. Understanding that mistakes are stepping stones, learners are encouraged to pursue goals with courage and resilience, turning setbacks into valuable lessons.",
-//     "category": "Personal Growth",
-//     "tone": "Motivational",
-//     "image": "https://i.ibb.co.com/N67Kbdsp/img-1.jpg",
-//     "privacy": "Public",
-//     "accessLevel": "Free"
-//   },
-//   {
-//     "title": "Learning from Career Mistakes",
-//     "description": "Everyone makes career-related mistakes, but reflecting on them can bring insight and improvement. In this lesson, I explain how early missteps shaped my professional journey, emphasizing adaptability, persistence, and learning new skills. Students are encouraged to view errors as opportunities to grow, improve decision-making, and refine their career path.",
-//     "category": "Career",
-//     "tone": "Realization",
-//     "image": "https://i.ibb.co.com/XxsZ8sQR/img-2.jpg",
-//     "privacy": "Public",
-//     "accessLevel": "Free"
-//   },
-//   {
-//     "title": "Building Strong Relationships",
-//     "description": "Healthy relationships require communication, trust, and empathy. In this lesson, I share insights about nurturing friendships and partnerships, resolving conflicts, and setting boundaries. Learners are encouraged to develop emotional intelligence and interpersonal skills that foster lasting connections, both personally and professionally.",
-//     "category": "Relationships",
-//     "tone": "Gratitude",
-//     "image": "https://i.ibb.co.com/B2DQ6pBt/img-3.jpg",
-//     "privacy": "Private",
-//     "accessLevel": "Premium"
-//   },
-//   {
-//     "title": "Developing a Growth Mindset",
-//     "description": "A growth mindset helps individuals embrace challenges and learn from feedback. In this lesson, I explain techniques for cultivating curiosity, resilience, and lifelong learning habits. Students are guided to shift perspective from fixed limitations to opportunities for self-improvement, unlocking personal and professional potential.",
-//     "category": "Mindset",
-//     "tone": "Motivational",
-//     "image": "https://i.ibb.co.com/xKWmw75p/img-4.jpg",
-//     "privacy": "Public",
-//     "accessLevel": "Free"
-//   },
-//   {
-//     "title": "Lessons from Past Mistakes",
-//     "description": "Mistakes provide invaluable lessons if we take time to reflect. This lesson explores personal experiences where errors became turning points for growth. Learners will discover how to analyze outcomes, avoid repeating the same errors, and use past experiences to make wiser decisions moving forward.",
-//     "category": "Mistakes Learned",
-//     "tone": "Realization",
-//     "image": "https://i.ibb.co.com/F4sLX027/img-5.jpg",
-//     "privacy": "Private",
-//     "accessLevel": "Premium"
-//   },
-//   {
-//     "title": "Gratitude Practices for Happiness",
-//     "description": "Expressing gratitude enhances mental well-being and builds positive habits. In this lesson, I share techniques for daily gratitude practices, including journaling, mindfulness, and reflection. Learners will understand how focusing on appreciation improves mood, strengthens relationships, and promotes a balanced, joyful life.",
-//     "category": "Personal Growth",
-//     "tone": "Gratitude",
-//     "image": "https://i.ibb.co.com/1J2X83Gr/img-6.jpg",
-//     "privacy": "Public",
-//     "accessLevel": "Free"
-//   }
-// ]
+[
+  {
+    "title": "Building Strong Relationships",
+    "description": "Healthy relationships require open communication, mutual trust, and genuine empathy. In this lesson, I share my personal journey of nurturing friendships and romantic partnerships over the years. I discuss how to resolve conflicts constructively without damaging bonds, the importance of setting healthy boundaries, and cultivating emotional intelligence. I also explore how active listening and vulnerability can deepen connections. Learners are encouraged to reflect on their own relationships and develop interpersonal skills that foster lasting, meaningful connections both personally and professionally. These principles have transformed my life and helped me build a supportive network that continues to grow.",
+    "category": "Relationships",
+    "tone": "Gratitude",
+    "image": "https://i.ibb.co.com/B2DQ6pBt/img-3.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": true
+  },
+  {
+    "title": "Overcoming Failure and Bouncing Back",
+    "description": "Failure is not the end—it's a powerful teacher. In this lesson, I recount several major setbacks in my career and personal life, including a failed business venture that nearly broke me financially and emotionally. I share the mindset shifts that helped me view failure as feedback rather than defeat. You'll learn practical strategies like reframing negative experiences, practicing self-compassion, building resilience through small wins, and maintaining perspective during tough times. I also discuss how seeking mentorship and surrounding yourself with supportive people accelerates recovery. This lesson is for anyone who's faced rejection or loss—it's proof that resilience is a skill you can develop.",
+    "category": "Personal Growth",
+    "tone": "Resilient",
+    "image": "https://i.ibb.co.com/0jQZQZJ/img-1.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": true
+  },
+  {
+    "title": "The Power of Daily Habits",
+    "description": "Small daily actions compound into massive results over time. In this lesson, I break down how I've built a productive morning routine, consistent exercise habit, and reading practice that transformed my energy, focus, and knowledge. I explain the science of habit formation—cue, craving, response, reward—and share practical tools like habit stacking, environment design, and tracking progress. You'll learn how to start tiny, stay consistent even when motivation fades, and replace bad habits with better ones. Whether you want better health, productivity, or peace of mind, this lesson provides a clear roadmap to lasting change through the magic of consistency.",
+    "category": "Productivity",
+    "tone": "Motivational",
+    "image": "https://i.ibb.co.com/3yK9nYk/img-2.jpg",
+    "privacy": "public",
+    "accessLevel": "premium",
+    "isFeatured": true
+  },
+  {
+    "title": "Finding Purpose in Everyday Life",
+    "description": "Many people struggle with feeling lost or unfulfilled despite achieving success. In this deeply personal lesson, I share my journey from chasing external validation to discovering inner purpose through self-reflection, volunteering, and aligning my work with my values. I explore questions like 'What makes you come alive?' and 'How can you serve others?' I discuss practical exercises such as journaling prompts, values clarification, and experimenting with different activities to uncover your unique calling. This lesson is for anyone feeling stuck or searching for deeper meaning—purpose isn't found, it's cultivated through intentional living and small daily choices.",
+    "category": "Self-Discovery",
+    "tone": "Reflective",
+    "image": "https://i.ibb.co.com/8XqZf6P/img-4.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": false
+  },
+  {
+    "title": "Mastering Work-Life Balance",
+    "description": "Burnout taught me the hard way that success means nothing without well-being. In this lesson, I share how I went from working 80-hour weeks to creating sustainable boundaries while maintaining career growth. You'll learn techniques like time-blocking, saying no without guilt, prioritizing energy over time, and creating rituals to transition between work and personal life. I also discuss the importance of hobbies, relationships, and self-care as non-negotiable investments. This lesson includes real examples of how implementing these changes improved my health, relationships, and paradoxically, my professional performance. Balance isn't about doing less—it's about doing what matters most.",
+    "category": "Career",
+    "tone": "Balanced",
+    "image": "https://i.ibb.co.com/4pQJ7nL/img-5.jpg",
+    "privacy": "private",
+    "accessLevel": "premium",
+    "isFeatured": true
+  },
+  {
+    "title": "The Art of Mindful Living",
+    "description": "In our fast-paced world, mindfulness has been my anchor for peace and clarity. This lesson details how I incorporated meditation, breathwork, and present-moment awareness into my daily routine after experiencing chronic stress and anxiety. I explain simple practices anyone can start with—5-minute breathing exercises, mindful eating, walking meditation—and how they rewire your brain for better focus, emotional regulation, and joy in ordinary moments. I share scientific benefits and personal stories of how mindfulness helped me navigate difficult emotions and make better decisions. This isn't about perfection—it's about progress and compassion toward yourself.",
+    "category": "Mental Health",
+    "tone": "Calm",
+    "image": "https://i.ibb.co.com/7jXjZfK/img-6.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": false
+  },
+  {
+    "title": "Financial Freedom Through Smart Choices",
+    "description": "Money stress used to control my life until I learned financial literacy the hard way. In this lesson, I share my journey from living paycheck to paycheck to building wealth through budgeting, investing, and mindful spending. I break down complex concepts into simple steps: tracking expenses, emergency funds, debt repayment strategies, and beginning investing even with small amounts. I emphasize that financial freedom isn't about earning more—it's about intentional choices and understanding compound interest. This lesson includes practical tools and mindset shifts that helped me achieve peace of mind around money, regardless of income level.",
+    "category": "Finance",
+    "tone": "Empowered",
+    "image": "https://i.ibb.co.com/3vYkZfP/img-7.jpg",
+    "privacy": "public",
+    "accessLevel": "premium",
+    "isFeatured": true
+  },
+  {
+    "title": "Embracing Change and Uncertainty",
+    "description": "Life's only constant is change, yet we resist it fiercely. This lesson comes from multiple major life transitions—career shifts, relocation, loss—that forced me to develop adaptability. I share frameworks for navigating uncertainty: accepting impermanence, focusing on what you can control, viewing change as opportunity rather than threat, and building emotional resilience. You'll learn practical tools like scenario planning, gratitude during transitions, and reframing fear as excitement. These experiences taught me that growth happens outside comfort zones, and embracing change leads to unexpected blessings and personal evolution.",
+    "category": "Personal Growth",
+    "tone": "Hopeful",
+    "image": "https://i.ibb.co.com/5YkZfQ/img-8.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": false
+  },
+  {
+    "title": "The Joy of Lifelong Learning",
+    "description": "Curiosity has been my greatest teacher throughout life. In this lesson, I share how maintaining a beginner's mind—even in my 40s—has kept me energized and relevant. I discuss strategies for continuous learning: reading widely, taking courses, seeking mentors, teaching others, and embracing failure as feedback. I share stories of learning new skills later in life and how it opened unexpected doors. You'll learn how to overcome 'I'm too old' thinking, make learning enjoyable rather than obligatory, and use knowledge to create opportunities. Lifelong learning isn't just about information—it's about staying alive, adaptable, and passionate.",
+    "category": "Education",
+    "tone": "Curious",
+    "image": "https://i.ibb.co.com/8rZfQ9/img-9.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": true
+  },
+  {
+    "title": "Cultivating Self-Confidence",
+    "description": "Confidence isn't something you're born with—it's built through action and self-belief. This lesson comes from years of struggling with imposter syndrome and self-doubt despite external success. I share evidence-based techniques: celebrating small wins, positive self-talk, body language changes, preparation as foundation, and surrounding yourself with supportive people. I discuss how confidence compounds over time and opens doors you never imagined. You'll learn to distinguish healthy confidence from arrogance, handle criticism constructively, and take risks that align with your values. True confidence comes from knowing your worth independent of outcomes.",
+    "category": "Self-Confidence",
+    "tone": "Encouraging",
+    "image": "https://i.ibb.co.com/6tZfQ0/img-10.jpg",
+    "privacy": "private",
+    "accessLevel": "premium",
+    "isFeatured": false
+  },
+  {
+    "title": "The Importance of Rest and Recovery",
+    "description": "In hustle culture, rest feels like failure—but it's essential for peak performance. This lesson shares how pushing through burnout led to diminished returns until I learned to prioritize recovery. I discuss the science of rest: how sleep, downtime, and play enhance creativity, decision-making, and emotional regulation. Practical strategies include setting boundaries, scheduling unstructured time, practicing digital detox, and listening to your body's signals. I share how embracing rest paradoxically increased my productivity and joy. This lesson challenges the 'grind' mentality and proves that sustainable success requires rhythm between effort and recovery.",
+    "category": "Wellness",
+    "tone": "Compassionate",
+    "image": "https://i.ibb.co.com/4pZfQ1/img-11.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": true
+  },
+  {
+    "title": "Building a Supportive Network",
+    "description": "Your network shapes your net worth—and your happiness. This lesson explores how I intentionally built a circle of mentors, peers, and friends who uplift and challenge me. I share strategies for meaningful networking: giving before asking, being genuinely interested in others, maintaining relationships over time, and diversifying your circle. I discuss the difference between transactional and transformational relationships and how vulnerability creates deeper bonds. You'll learn how to identify energy-drainers versus energizers and cultivate connections that support your growth. Strong networks provide opportunities, advice, and emotional support during life's ups and downs.",
+    "category": "Networking",
+    "tone": "Connective",
+    "image": "https://i.ibb.co.com/7kZfQ2/img-12.jpg",
+    "privacy": "public",
+    "accessLevel": "premium",
+    "isFeatured": false
+  },
+  {
+    "title": "Practicing Gratitude Daily",
+    "description": "Gratitude transformed my perspective from scarcity to abundance. This lesson details my journey from focusing on what was missing to appreciating what I have. I share research-backed practices: gratitude journaling, expressing thanks directly, savoring positive moments, and reframing challenges as opportunities. I discuss how gratitude improves mental health, relationships, and even physical well-being. You'll learn simple daily rituals that take minutes but create profound shifts in happiness and resilience. This practice helped me through difficult times by focusing on blessings rather than burdens—it's a superpower available to everyone.",
+    "category": "Mindfulness",
+    "tone": "Grateful",
+    "image": "https://i.ibb.co.com/9tZfQ3/img-13.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": true
+  },
+  {
+    "title": "Effective Communication Skills",
+    "description": "Most conflicts stem from poor communication, not incompatible values. This lesson shares hard-learned principles from years of misunderstandings in personal and professional relationships. I cover active listening, using 'I' statements, reading nonverbal cues, asking clarifying questions, and expressing needs clearly without blame. I share real examples of how improving communication resolved long-standing issues and strengthened bonds. You'll learn frameworks for difficult conversations, giving/receiving feedback, and adapting communication style to different personalities. Clear communication builds trust, prevents resentment, and creates deeper understanding in all relationships.",
+    "category": "Communication",
+    "tone": "Empathetic",
+    "image": "https://i.ibb.co.com/5rZfQ4/img-14.jpg",
+    "privacy": "public",
+    "accessLevel": "public",
+    "isFeatured": false
+  },
+  {
+    "title": "Finding Joy in Simple Things",
+    "description": "Happiness isn't found in grand achievements but in everyday moments. This lesson reflects on how chasing big goals left me feeling empty until I learned to appreciate simple pleasures—morning coffee, nature walks, meaningful conversations, laughter with loved ones. I share practices for cultivating joy: mindfulness of senses, savoring experiences, creating rituals around ordinary activities, and shifting focus from lack to abundance. Research shows these small moments contribute more to long-term well-being than major events. This perspective shift helped me find contentment regardless of external circumstances—true joy comes from within.",
+    "category": "Happiness",
+    "tone": "Joyful",
+    "image": "https://i.ibb.co.com/2kZfQ5/img-15.jpg",
+    "privacy": "public",
+    "accessLevel": "premium",
+    "isFeatured": true
+  }
+]

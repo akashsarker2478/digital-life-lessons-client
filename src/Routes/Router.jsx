@@ -22,6 +22,10 @@ import NotFound from "../Component/Error Page/NotFound";
 import AdminRoute from "../ADMIN/Admin Route/AdminRoute";
 import AdminDashboard from "../ADMIN/Admin Dasahboard/AdminDashboard";
 import AdminDashboardLayout from "../ADMIN/Dashbord Layout/AdminDashbordLayout";
+import ManageUsers from "../ADMIN/Manage users/ManageUsers";
+import ManageLessons from "../ADMIN/Manage Lessons/ManageLessons";
+import ReportedLessons from "../ADMIN/ReportedLessons/ReportedLessons";
+import AdminProfile from "../ADMIN/Admin Dasahboard/AdminProfile";
 
 
 
@@ -114,16 +118,37 @@ export const router = createBrowserRouter([
             element:<AdminRoute>
                 <AdminDashboardLayout></AdminDashboardLayout>
             </AdminRoute>,
+            hydrateFallbackElement:<Loading></Loading>,
             children:[
                {
                  path:'admin-dashboard',
                  element:<AdminDashboard></AdminDashboard>
-               }
+               },
+               {
+                path:'manage-users',
+                element:<ManageUsers></ManageUsers>
+               },
+               {
+                path:'manage-lessons',
+                element:<ManageLessons></ManageLessons>
+               },
+               {
+                path:'reported-lessons',
+                element:<ReportedLessons></ReportedLessons>
+               },
+               {
+                path:'admin-profile',
+                element:<AdminProfile></AdminProfile>
+               },
+              {
+                 path: "add-lesson", 
+                 element: <AddLesson /> ,
+              }
 
             ]
            },
-   {
-    path:'*',
-    element:<NotFound></NotFound>
-   }
+           {
+                 path:'*',
+               element:<NotFound></NotFound>
+           }
 ])

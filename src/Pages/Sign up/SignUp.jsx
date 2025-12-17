@@ -30,73 +30,66 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const password = watch("password", "");
 
-  const handleRegister = (data) => {
-    setIsLoading(true);
-    const profileImg = data.photo[0];
+ const handleRegister = (data) => {
+  setIsLoading(true);
+  const profileImg = data.photo[0];
 
-    createUser(data.email, data.password)
-      .then(() => {
-        if (!profileImg) {
-          return Promise.resolve({ data: { data: { url: null } } });
-        }
+  createUser(data.email, data.password)
+    .then(() => {
+      if (!profileImg) {
+        return { data: { data: { url: null } } }; 
+      }
 
-        const formData = new FormData();
-        formData.append("image", profileImg);
-        const img_API_URL = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_image_host_key
-        }`;
+      const formData = new FormData();
+      formData.append("image", profileImg);
+      const img_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
 
-        return axios.post(img_API_URL, formData);
-      })
-      .then((res) => {
-        const userProfile = {
-          displayName: data.name,
-          photoURL: res.data?.data?.url || null,
-        };
+      return axios.post(img_API_URL, formData);
+    })
+    .then((imgResponse) => {
+      const imageUrl = imgResponse?.data?.data?.url || null;
 
-        return updateUser(userProfile);
-      })
-      .then(()=>{
-            const userInfo = {
-          name: data.name,
-          email: data.email,
-          role: 'user',
-        };
-        return axiosSecure.post('/users', userInfo); 
-        })
-      
-      .then(() => {
-        Swal.fire({
-          title: "Success!",
-          text: "Account created successfully!",
-          icon: "success",
-          confirmButtonColor: "#10b981",
-          confirmButtonText: "Continue Learning",
-          timer: 3000,
-          timerProgressBar: true,
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        }).then(() => {
-          navigate("/");
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Error!",
-          text: err.message || "Registration failed. Please try again.",
-          icon: "error",
-          confirmButtonColor: "#ef4444",
-          confirmButtonText: "Try Again",
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+      // Firebase profile update
+      return updateUser({
+        displayName: data.name,
+        photoURL: imageUrl,
+      }).then(() => imageUrl); 
+    })
+    .then((imageUrl) => { 
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+        role: 'user',
+        photoURL: imageUrl, 
+      };
+
+      return axiosSecure.post('/users', userInfo);
+    })
+    .then(() => {
+      Swal.fire({
+        title: "Success!",
+        text: "Account created successfully!",
+        icon: "success",
+        confirmButtonColor: "#10b981",
+        timer: 3000,
+        timerProgressBar: true,
+      }).then(() => {
+        navigate("/");
       });
-  };
+    })
+    .catch((err) => {
+      console.error(err);
+      Swal.fire({
+        title: "Error!",
+        text: err.message || "Registration failed.",
+        icon: "error",
+        confirmButtonColor: "#ef4444",
+      });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">

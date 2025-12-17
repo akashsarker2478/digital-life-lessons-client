@@ -144,18 +144,24 @@ const AddLesson = () => {
           <div className="grid md:grid-cols-2 gap-5">
             <select value={category} onChange={e => setCategory(e.target.value)} required className="rounded-xl border p-4">
               <option value="">Category</option>
-              <option value="personal-growth">Personal Growth</option>
-              <option value="career">Career</option>
-              <option value="relationships">Relationships</option>
-              <option value="mindset">Mindset</option>
+              <option value="Personal-growth">Personal Growth</option>
+              <option value="Career">Career</option>
+              <option value="Finance">Finance</option>
+              <option value="Productivity">Productivity</option>
+              <option value="Self-Discovery">Self-Discovery</option>
+              <option value="Relationships">Relationships</option>
+              <option value="Mindset">Mindset</option>
             </select>
 
             <select value={tone} onChange={e => setTone(e.target.value)} required className="rounded-xl border p-4">
               <option value="">Emotional Tone</option>
-              <option value="motivational">Motivational</option>
-              <option value="sad">Sad</option>
-              <option value="realization">Realization</option>
-              <option value="gratitude">Gratitude</option>
+              <option value="Motivational">Motivational</option>
+              <option value="Balanced">Balanced</option>
+              <option value="Sad">Sad</option>
+              <option value="Empowered">Empowered</option>
+              <option value="Reflective">Reflective</option>
+              <option value="Realization">Realization</option>
+              <option value="Gratitude">Gratitude</option>
             </select>
           </div>
 
