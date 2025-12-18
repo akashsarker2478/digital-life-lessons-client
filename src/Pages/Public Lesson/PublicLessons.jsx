@@ -151,7 +151,7 @@ const PublicLessons = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {lessons.map((lesson) => {
-              const isLocked = lesson.isPremium && !isPremium;
+              const isLocked = lesson.accessLevel === "premium" && !isPremium;
 
               return (
                 <div

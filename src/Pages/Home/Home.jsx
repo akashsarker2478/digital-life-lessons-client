@@ -1,4 +1,4 @@
-// Pages/Home/Home.jsx
+
 import React, { useEffect, useState } from "react";
 import Banner from '../Banner/Banner';
 import WhyLearningMatters from '../../Component/why learning/WhyLearningMatters';
@@ -81,7 +81,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Banner */}
-      <section className="my-8">
+      <section className="my-2">
         <Banner />
       </section>
 

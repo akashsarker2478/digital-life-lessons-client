@@ -112,7 +112,7 @@ const Banner = () => {
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
                       <button
-                        onClick={() => navigate("/public-lessons")}
+                        onClick={() => navigate("/public-lesson")}
                         className={`${slide.buttonColor} text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 group`}
                       >
                         <FaBookOpen className="text-xl" />
@@ -121,7 +121,7 @@ const Banner = () => {
                       </button>
 
                       <button
-                        onClick={() => navigate("/dashboard/add-lesson")}
+                        onClick={() => navigate("/dashboard/add-lessons")}
                         className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-3 hover:bg-white/20 hover:border-white/50 transform hover:-translate-y-1 transition-all duration-300 group"
                       >
                         <FaPlus className="text-xl" />

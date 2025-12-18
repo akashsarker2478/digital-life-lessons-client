@@ -1,21 +1,21 @@
 import React from 'react';
 import Navbar from '../../Pages/Shared/Navbar/Navbar';
 import { Outlet } from 'react-router';
-import WhyLearningMatters from '../../Component/why learning/WhyLearningMatters';
 import Footer from '../../Component/Footer/Footer';
 
 const HomeLayouts = () => {
     return (
-        <div className='max-w-11/12 mx-auto'>
-            <header>
-                <Navbar></Navbar>
-               
+        <div className="min-h-screen flex flex-col">
+            <header className="sticky top-0 z-50">
+                <Navbar />
             </header>
-            <main>
-                <Outlet></Outlet>
+            
+            <main className="flex-1">
+                <Outlet />
             </main>
+
             <footer>
-                <Footer></Footer>
+                <Footer />
             </footer>
         </div>
     );
