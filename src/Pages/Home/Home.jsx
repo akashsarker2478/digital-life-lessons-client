@@ -23,11 +23,11 @@ const Home = () => {
         setLoading(true);
 
         const [lessonsRes, usersRes] = await Promise.all([
-          axiosPublic.get("/lessons/public"),
+          axiosPublic.get("/lessons/public?limit=100"),
           axiosPublic.get("/users/public")
         ]);
 
-        const lessons = lessonsRes.data;
+        const lessons = lessonsRes.data.lessons || [];
         const users = usersRes.data || [];
 
         // Featured Lessons
