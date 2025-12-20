@@ -16,14 +16,14 @@ import {
   FaSpinner,
   FaStar
 } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6"; // X logo
+import { FaXTwitter } from "react-icons/fa6";
 import { MdReport, MdVisibility } from "react-icons/md";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import UseAuth from "../../Hooks/UseAuth";
 import Swal from "sweetalert2";
 import Loading from "../Shared/Loading/Loading";
 
-// react-share imports (শুধু Facebook + LinkedIn)
+// react-share imports 
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -90,7 +90,8 @@ const LessonDetails = () => {
               setAuthor(authorRes.data);
             } catch (authorError) {
               setAuthor({
-                name: lessonData.createdBy?.split('@')[0] || "Unknown Author",
+                name: lessonData.creatorName || lessonData.createdBy?.split('@')[0] || "Unknown Author", // fallback from lesson data
+                photoURL: lessonData.creatorPhoto || null,
                 email: lessonData.createdBy,
                 totalLessons: 0
               });
@@ -222,7 +223,7 @@ const LessonDetails = () => {
 
   if (!lesson) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
+      <div data-aos="fade-up" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="text-center p-12 bg-white rounded-3xl shadow-2xl max-w-lg">
           <FaExclamationTriangle className="text-6xl text-red-500 mx-auto mb-6" />
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Lesson Not Found</h2>
@@ -246,7 +247,7 @@ const LessonDetails = () => {
 
         {/* Premium Banner */}
         {shouldBlurContent && (
-          <div className="mb-10 bg-gradient-to-r from-amber-500 to-pink-600 rounded-3xl p-8 text-white shadow-2xl text-center">
+          <div data-aos="fade-up" data-aos-delay="100" className="mb-10 bg-gradient-to-r from-amber-500 to-pink-600 rounded-3xl p-8 text-white shadow-2xl text-center">
             <div className="flex flex-col items-center gap-4">
               <FaLock className="text-5xl" />
               <h2 className="text-3xl font-bold">This is a Premium Lesson</h2>
@@ -262,7 +263,7 @@ const LessonDetails = () => {
         )}
 
         {/* Main Content */}
-        <div className={`bg-white rounded-3xl shadow-2xl overflow-hidden ${shouldBlurContent ? 'opacity-60 pointer-events-none' : ''}`}>
+        <div data-aos="fade-down" data-aos-delay="200" className={`bg-white rounded-3xl shadow-2xl overflow-hidden ${shouldBlurContent ? 'opacity-60 pointer-events-none' : ''}`}>
 
           {/* Featured Image */}
           <div className="relative h-96 overflow-hidden">
@@ -284,7 +285,7 @@ const LessonDetails = () => {
             </div>
           </div>
 
-          <div className="p-8 md:p-12">
+          <div data-aos="fade-up" data-aos-delay="300" className="p-8 md:p-12">
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-10">
               <div className="flex items-center gap-2">
@@ -302,12 +303,12 @@ const LessonDetails = () => {
             </div>
 
             {/* Description */}
-            <div className="prose prose-lg max-w-none mb-12">
+            <div data-aos="fade-up" data-aos-delay="400" className="prose prose-lg max-w-none mb-12">
               <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">{lesson.description}</p>
             </div>
 
             {/* Author Section */}
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-8 mb-12">
+            <div data-aos="fade-left" data-aos-delay="500" className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-8 mb-12">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">About the Creator</h3>
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="relative">
@@ -342,17 +343,17 @@ const LessonDetails = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-gradient-to-br from-red-50 to-pink-50 p-8 rounded-3xl text-center shadow-lg">
+              <div data-aos="fade-up" data-aos-delay="600" className="bg-gradient-to-br from-red-50 to-pink-50 p-8 rounded-3xl text-center shadow-lg">
                 <FaHeart className="text-5xl text-red-500 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900">{lesson.likesCount || 0}</p>
                 <p className="text-gray-600">Likes</p>
               </div>
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-3xl text-center shadow-lg">
+              <div data-aos="fade-up" data-aos-delay="700" className="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-3xl text-center shadow-lg">
                 <FaBookmark className="text-5xl text-yellow-500 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900">{lesson.favoritesCount || 0}</p>
                 <p className="text-gray-600">Saved</p>
               </div>
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl text-center shadow-lg">
+              <div data-aos="fade-up" data-aos-delay="800" className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl text-center shadow-lg">
                 <FaEye className="text-5xl text-blue-500 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900">{viewCount.toLocaleString()}</p>
                 <p className="text-gray-600">Views</p>
@@ -360,7 +361,7 @@ const LessonDetails = () => {
             </div>
 
             {/* Interaction Buttons */}
-            <div className="flex flex-wrap justify-center gap-6 mb-12">
+            <div data-aos="fade-up" data-aos-delay="900" className="flex flex-wrap justify-center gap-6 mb-12">
               <button onClick={handleLike} className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl ${liked ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
                 {liked ? <FaHeart /> : <FaRegHeart />}
                 {liked ? 'Liked' : 'Like'}
@@ -378,7 +379,7 @@ const LessonDetails = () => {
             </div>
 
             {/* Social Share */}
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-10 mb-12 text-center">
+            <div data-aos="zoom-in" data-aos-delay="1000" className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-10 mb-12 text-center">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">Share This Lesson</h3>
               <div className="flex justify-center gap-10">
                 {/* Facebook */}
@@ -413,7 +414,7 @@ const LessonDetails = () => {
             </div>
 
             {/* Comments Section */}
-            <div className="mb-12">
+            <div data-aos="fade-up" data-aos-delay="1100" className="mb-12">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">Comments ({comments.length})</h3>
               {user && (
                 <form onSubmit={handleCommentSubmit} className="bg-gray-50 rounded-3xl p-8 mb-10">
@@ -452,7 +453,7 @@ const LessonDetails = () => {
               {comments.length > 0 ? (
                 <div className="space-y-6">
                   {comments.map((comment, index) => (
-                    <div key={index} className="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-lg transition">
+                    <div key={index} data-aos="fade-up" data-aos-delay={1200 + index * 100} className="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-lg transition">
                       <div className="flex gap-6">
                         {comment.userPhoto ? (
                           <img src={comment.userPhoto} alt={comment.userName} className="w-14 h-14 rounded-full object-cover" />
@@ -485,12 +486,14 @@ const LessonDetails = () => {
 
             {/* Similar Lessons */}
             {similarLessons.length > 0 && (
-              <div>
+              <div data-aos="fade-up" data-aos-delay="1300">
                 <h3 className="text-3xl font-bold text-gray-900 mb-10 text-center">Similar Lessons You Might Like</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {similarLessons.map((similar) => (
+                  {similarLessons.map((similar, index) => (
                     <div
                       key={similar._id}
+                      data-aos="fade-up"
+                      data-aos-delay={1400 + index * 100}
                       onClick={() => navigate(`/lesson/${similar._id}`)}
                       className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer group"
                     >

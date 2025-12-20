@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Banner from '../Banner/Banner';
 import WhyLearningMatters from '../../Component/why learning/WhyLearningMatters';
@@ -7,7 +6,6 @@ import TopContributors from '../../Component/Top Contributors/TopContributors';
 import MostSavedLessons from '../../Component/Most Save Lessons/MostSaveLessons';
 import { FaSpinner } from "react-icons/fa";
 import useAxiosPublic from "../../Hooks/AxiosInstance";
-
 
 const Home = () => {
   const axiosPublic = useAxiosPublic();
@@ -82,14 +80,14 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Banner */}
-      <section className="my-2">
+      <section data-aos="fade-up" data-aos-duration="1000" className="my-2">
         <Banner />
       </section>
 
       {/* Featured Life Lessons */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section data-aos="fade-up" data-aos-delay="200" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div data-aos="fade-down" data-aos-delay="300" className="text-center mb-16">
             <h2 className="text-5xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mb-4">
               ⭐ Featured Life Lessons
             </h2>
@@ -104,8 +102,15 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredLessons.map(lesson => (
-                <FeaturedCard key={lesson._id} lesson={lesson} />
+              {featuredLessons.map((lesson, index) => (
+                <div 
+                  key={lesson._id} 
+                  data-aos="fade-up" 
+                  data-aos-delay={400 + index * 100}
+                  data-aos-duration="800"
+                >
+                  <FeaturedCard lesson={lesson} />
+                </div>
               ))}
             </div>
           )}
@@ -113,14 +118,14 @@ const Home = () => {
       </section>
 
       {/* Why Learning Matters */}
-      <section className="py-20 bg-white">
+      <section data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000" className="py-20 bg-white">
         <WhyLearningMatters />
       </section>
 
       {/* Top Contributors Section */}
-      <section className="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
+      <section data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div data-aos="fade-down" data-aos-delay="500" className="text-center mb-12">
             <h2 className="text-5xl font-bold text-gray-800 mb-4">
               🏆 Top Contributors This Week
             </h2>
@@ -128,14 +133,16 @@ const Home = () => {
               Celebrating the passionate creators who share their wisdom and inspire our community
             </p>
           </div>
-          <TopContributors contributors={topContributors} />
+          <div data-aos="fade-up" data-aos-delay="600">
+            <TopContributors contributors={topContributors} />
+          </div>
         </div>
       </section>
 
       {/* Most Saved Lessons Section */}
-      <section className="py-20 bg-gradient-to-br from-pink-50 to-red-50 my-3">
+      <section data-aos="fade-right" data-aos-delay="500" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-pink-50 to-red-50 my-3">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div data-aos="fade-down" data-aos-delay="600" className="text-center mb-12">
             <h2 className="text-5xl font-bold text-gray-800 mb-4">
               ❤️ Most Saved Lessons
             </h2>
@@ -143,7 +150,9 @@ const Home = () => {
               Lessons that touched hearts and were saved by the most members – true gems of wisdom
             </p>
           </div>
-          <MostSavedLessons lessons={mostSavedLessons} />
+          <div data-aos="fade-up" data-aos-delay="700">
+            <MostSavedLessons lessons={mostSavedLessons} />
+          </div>
         </div>
       </section>
     </div>

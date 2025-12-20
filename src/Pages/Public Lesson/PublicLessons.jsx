@@ -61,7 +61,7 @@ const PublicLessons = () => {
     if (totalPages <= 1) return null;
 
     return (
-      <div className="flex justify-center items-center gap-3 mt-16">
+      <div data-aos="fade-up" data-aos-delay="300" className="flex justify-center items-center gap-3 mt-16">
         <button
           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
@@ -112,7 +112,7 @@ const PublicLessons = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div data-aos="fade-down" data-aos-delay="100" className="text-center mb-12">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Public Life Lessons
           </h1>
@@ -122,7 +122,7 @@ const PublicLessons = () => {
         </div>
 
         {/* Search + Filter + Sort Bar */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-12">
+        <div data-aos="fade-up" data-aos-delay="200" className="bg-white rounded-2xl shadow-lg p-6 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Search */}
             <div className="relative">
@@ -194,7 +194,7 @@ const PublicLessons = () => {
 
         {/* Lessons Grid */}
         {lessons.length === 0 ? (
-          <div className="text-center py-20">
+          <div data-aos="fade-up" className="text-center py-20">
             <FaGlobe className="w-20 h-20 text-gray-300 mx-auto mb-4" />
             <p className="text-2xl text-gray-500">No lessons found</p>
             <p className="text-gray-400 mt-2">Try adjusting your filters or search term</p>
@@ -202,12 +202,15 @@ const PublicLessons = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {lessons.map((lesson) => {
+              {lessons.map((lesson, index) => {
                 const isLocked = lesson.accessLevel === "premium" && !isPremium;
 
                 return (
                   <div
                     key={lesson._id}
+                    data-aos="fade-up"
+                    data-aos-delay={300 + index * 100}
+                    data-aos-duration="800"
                     className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer`}
                     onClick={() => handleCardClick(lesson)}
                   >

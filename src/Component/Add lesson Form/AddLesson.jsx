@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router";
 import UseAuth from "../../Hooks/UseAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -102,10 +102,14 @@ const AddLesson = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-3xl bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl p-10">
+      <div 
+        data-aos="fade-up" 
+        data-aos-duration="1000"
+        className="w-full max-w-3xl bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl p-10"
+      >
 
         {/* Header */}
-        <div className="mb-8 text-center">
+        <div data-aos="fade-down" data-aos-delay="200" className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-gray-800">
             {isEdit ? "Edit Your Lesson" : "Create a New Life Lesson"}
           </h1>
@@ -117,7 +121,7 @@ const AddLesson = () => {
         <form onSubmit={handleSubmit} className="space-y-7">
 
           {/* Title */}
-          <div>
+          <div data-aos="fade-up" data-aos-delay="300">
             <label className="font-semibold text-gray-700">Lesson Title</label>
             <input
               value={title}
@@ -129,7 +133,7 @@ const AddLesson = () => {
           </div>
 
           {/* Description */}
-          <div>
+          <div data-aos="fade-up" data-aos-delay="400">
             <label className="font-semibold text-gray-700">Full Story</label>
             <textarea
               value={description}
@@ -141,32 +145,36 @@ const AddLesson = () => {
           </div>
 
           {/* Selects */}
-          <div className="grid md:grid-cols-2 gap-5">
-            <select value={category} onChange={e => setCategory(e.target.value)} required className="rounded-xl border p-4">
-              <option value="">Category</option>
-              <option value="Personal-growth">Personal Growth</option>
-              <option value="Career">Career</option>
-              <option value="Finance">Finance</option>
-              <option value="Productivity">Productivity</option>
-              <option value="Self-Discovery">Self-Discovery</option>
-              <option value="Relationships">Relationships</option>
-              <option value="Mindset">Mindset</option>
-            </select>
+          <div data-aos="fade-up" data-aos-delay="500" className="grid md:grid-cols-2 gap-5">
+            <div data-aos="fade-left" data-aos-delay="600">
+              <select value={category} onChange={e => setCategory(e.target.value)} required className="rounded-xl border p-4 w-full">
+                <option value="">Category</option>
+                <option value="Personal-growth">Personal Growth</option>
+                <option value="Career">Career</option>
+                <option value="Finance">Finance</option>
+                <option value="Productivity">Productivity</option>
+                <option value="Self-Discovery">Self-Discovery</option>
+                <option value="Relationships">Relationships</option>
+                <option value="Mindset">Mindset</option>
+              </select>
+            </div>
 
-            <select value={tone} onChange={e => setTone(e.target.value)} required className="rounded-xl border p-4">
-              <option value="">Emotional Tone</option>
-              <option value="Motivational">Motivational</option>
-              <option value="Balanced">Balanced</option>
-              <option value="Sad">Sad</option>
-              <option value="Empowered">Empowered</option>
-              <option value="Reflective">Reflective</option>
-              <option value="Realization">Realization</option>
-              <option value="Gratitude">Gratitude</option>
-            </select>
+            <div data-aos="fade-right" data-aos-delay="600">
+              <select value={tone} onChange={e => setTone(e.target.value)} required className="rounded-xl border p-4 w-full">
+                <option value="">Emotional Tone</option>
+                <option value="Motivational">Motivational</option>
+                <option value="Balanced">Balanced</option>
+                <option value="Sad">Sad</option>
+                <option value="Empowered">Empowered</option>
+                <option value="Reflective">Reflective</option>
+                <option value="Realization">Realization</option>
+                <option value="Gratitude">Gratitude</option>
+              </select>
+            </div>
           </div>
 
           {/* Image Upload */}
-          <div>
+          <div data-aos="zoom-in" data-aos-delay="700">
             <label className="font-semibold text-gray-700">Cover Image</label>
             <div className="mt-3 border-2 border-dashed rounded-2xl p-6 text-center relative hover:border-indigo-400 transition">
               <input type="file" accept="image/*" onChange={handleImageChange}
@@ -184,7 +192,7 @@ const AddLesson = () => {
           </div>
 
           {/* Privacy */}
-          <div className="grid md:grid-cols-2 gap-5">
+          <div data-aos="fade-up" data-aos-delay="800" className="grid md:grid-cols-2 gap-5">
             <div className="flex items-center gap-3 border rounded-xl p-4">
               <FaGlobe />
               <select value={privacy} onChange={e => setPrivacy(e.target.value)} className="w-full outline-none">
@@ -208,12 +216,14 @@ const AddLesson = () => {
           </div>
 
           {/* Submit */}
-          <button
-            disabled={isLoading}
-            className="w-full py-4 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-[1.02] transition-transform shadow-lg"
-          >
-            {isLoading ? "Saving..." : isEdit ? "Update Lesson" : "Publish Lesson"}
-          </button>
+          <div data-aos="fade-up" data-aos-delay="900">
+            <button
+              disabled={isLoading}
+              className="w-full py-4 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-[1.02] transition-transform shadow-lg"
+            >
+              {isLoading ? "Saving..." : isEdit ? "Update Lesson" : "Publish Lesson"}
+            </button>
+          </div>
 
         </form>
       </div>

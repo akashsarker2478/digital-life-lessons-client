@@ -22,7 +22,7 @@ const ReportedLessons = () => {
         ]);
 
         const reports = reportsRes.data;
-        const lessons = lessonsRes.data;
+        const lessons = Array.isArray(lessonsRes.data) ? lessonsRes.data : lessonsRes.data.lessons || [];
 
         // Lesson-wise report group 
         const lessonReportMap = {};

@@ -191,7 +191,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <Link to="/login" className="px-6 py-2.5 text-gray-700 font-medium hover:text-blue-600 transition">
+                <Link to="/login" className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition font-medium transition">
                   Sign In
                 </Link>
                 {/* Mobile Get Started hide */}

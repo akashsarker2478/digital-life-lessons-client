@@ -167,7 +167,7 @@ const AdminDashboard = () => {
         </h1>
         <p className="text-gray-600 mt-3 text-lg">
           Welcome back,{" "}
-          <span className="font-semibold">{user?.displayName || "Admin"}</span>!
+          <span className="font-semibold">{user?.displayName || "Admin"}(ADMIN)</span>!
           Monitor platform activity.
         </p>
       </div>

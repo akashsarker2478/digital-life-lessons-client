@@ -5,7 +5,16 @@ import { RouterProvider } from 'react-router'
 import { router } from './Routes/Router.jsx'
 import AuthProvider from './context and provider/AuthProvider.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
+// AOS initialize
+AOS.init({
+  duration: 800,     
+  easing: 'ease-in-out', 
+  once: true,        
+  offset: 100,       
+});
 
 const queryClient = new QueryClient()
 
