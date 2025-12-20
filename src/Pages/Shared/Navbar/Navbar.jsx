@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import UseAuth from "../../../Hooks/UseAuth";
@@ -61,6 +60,9 @@ const Navbar = () => {
   }
 
   const isActive = (path) => location.pathname === path;
+
+  // User status text: Admin → "Admin", Premium → "Premium Member", Free → "Free Member"
+  const userStatusText = isAdmin ? "Admin" : isPremium ? "Premium Member" : "Free Member";
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-md">
@@ -132,7 +134,7 @@ const Navbar = () => {
                       {user.displayName || user.email.split("@")[0]}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {isPremium ? "Premium Member" : "Free Member"}
+                      {userStatusText}
                     </p>
                   </div>
                 </div>
@@ -192,7 +194,8 @@ const Navbar = () => {
                 <Link to="/login" className="px-6 py-2.5 text-gray-700 font-medium hover:text-blue-600 transition">
                   Sign In
                 </Link>
-                <Link to="/signup" className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition">
+                {/* Mobile Get Started hide */}
+                <Link to="/signup" className="hidden sm:block px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition">
                   Get Started
                 </Link>
               </div>

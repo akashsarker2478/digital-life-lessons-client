@@ -26,14 +26,14 @@ const AuthorProfile = () => {
         setLoading(true);
         setError(null);
 
-        console.log("Fetching author for email:", email); 
+        // console.log("Fetching author for email:", email); 
 
         const [authorRes, lessonsRes] = await Promise.all([
           axiosSecure.get(`/authors/${email}`),
           axiosSecure.get(`/lessons/by-author/${email}`).catch(() => ({ data: [] })) 
         ]);
 
-        console.log("Author response:", authorRes.data); 
+        // console.log("Author response:", authorRes.data); 
 
         if (authorRes.data && authorRes.data.email) {
           setAuthor(authorRes.data);

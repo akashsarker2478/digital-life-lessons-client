@@ -59,7 +59,7 @@ const Profile = () => {
         setIsPremium(res.data.isPremium);
     
         if (res.data.dbId) {
-          // UseAuth-এ dbId সেট করতে পারো যদি চাও
+          // UseAuth dbId 
         }
       })
       .catch(err => console.error("Premium status error:", err));

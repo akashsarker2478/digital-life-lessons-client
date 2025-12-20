@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { FaLock, FaUserCircle, FaCalendarAlt, FaGlobe, FaStar, FaBookOpen, FaSearch } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
 import { useNavigate } from "react-router";
+import useAxiosPublic from "../../Hooks/AxiosInstance";
 
 const PublicLessons = () => {
   const { user, isPremium } = UseAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic =useAxiosPublic();
   const navigate = useNavigate();
 
   const [lessons, setLessons] = useState([]);
@@ -31,7 +32,7 @@ const PublicLessons = () => {
         if (selectedTone !== "all") params.append("tone", selectedTone);
         params.append("sort", sortBy);
 
-        const res = await axiosSecure.get(`/lessons/public?${params.toString()}`);
+        const res = await axiosPublic.get(`/lessons/public?${params.toString()}`);
 
         const enrichedLessons = res.data.map(lesson => ({
           ...lesson,
@@ -48,7 +49,7 @@ const PublicLessons = () => {
     };
 
     fetchLessons();
-  }, [searchTerm, selectedCategory, selectedTone, sortBy, axiosSecure]);
+  }, [searchTerm, selectedCategory, selectedTone, sortBy, axiosPublic]);
 
   const handleCardClick = (lesson) => {
     if (lesson.isPremium && !isPremium) {

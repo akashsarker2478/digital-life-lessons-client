@@ -6,10 +6,11 @@ import FeaturedCard from '../../Component/Home card/FeaturedCard';
 import TopContributors from '../../Component/Top Contributors/TopContributors';
 import MostSavedLessons from '../../Component/Most Save Lessons/MostSaveLessons';
 import { FaSpinner } from "react-icons/fa";
-import useAxios from "../../Hooks/AxiosInstance";
+import useAxiosPublic from "../../Hooks/AxiosInstance";
+
 
 const Home = () => {
-  const axiosPublic = useAxios();
+  const axiosPublic = useAxiosPublic();
 
   const [featuredLessons, setFeaturedLessons] = useState([]);
   const [topContributors, setTopContributors] = useState([]);

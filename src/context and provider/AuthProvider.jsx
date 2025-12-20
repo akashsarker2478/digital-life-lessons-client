@@ -41,36 +41,6 @@ const AuthProvider = ({children}) => {
   }
 
 
-
-// useEffect(() => {
-//   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-//     setUser(currentUser);
-
-//     if (currentUser) {
-//       const email = currentUser.email;
-
-//       axiosSecure.get(`/users/status/${email}`)
-//         .then(res => {
-//           setIsPremium(res.data.isPremium);
-          
-//           currentUser.dbId = res.data.dbId;
-//         })
-//         .catch(error => {
-//           console.error("Error syncing user status from DB:", error);
-//           setIsPremium(false);
-//         })
-//         .finally(() => {
-//           setLoading(false);
-//         });
-
-//     } else {
-//       setIsPremium(false);
-//       setLoading(false);
-//     }
-//   });
-
-//   return () => unsubscribe();
-// }, [axiosSecure]);
 useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -78,16 +48,16 @@ useEffect(() => {
       if (currentUser?.email) {
         const email = currentUser.email;
 
-        // Promise.all দিয়ে দুটো API কল একসাথে করছি
+        
         Promise.all([
           axiosSecure.get(`/users/status/${email}`),
           axiosSecure.get(`/users/admin/${email}`)
         ])
           .then(([statusRes, adminRes]) => {
             setIsPremium(statusRes.data.isPremium || false);
-            setIsAdmin(adminRes.data.admin || false); // admin চেক
+            setIsAdmin(adminRes.data.admin || false); 
 
-            // dbId যদি দরকার হয়
+            
             if (statusRes.data.dbId) {
               currentUser.dbId = statusRes.data.dbId;
             }
@@ -102,7 +72,7 @@ useEffect(() => {
           });
 
       } else {
-        // লগআউট অবস্থায়
+        
         setIsPremium(false);
         setIsAdmin(false);
         setLoading(false);
