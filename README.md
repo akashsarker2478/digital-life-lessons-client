@@ -1,16 +1,32 @@
-# React + Vite
+# Digital Life Lessons
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Site:** [https://digital-life-lessons-f43b0.web.app/]
 
-Currently, two official plugins are available:
+Digital Life Lessons is a full-stack web application where users can create, share, and discover meaningful life lessons and personal growth insights. It combines Firebase Authentication with MongoDB backend, Stripe payment for premium features, and a beautiful, responsive UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Key Features
 
-## React Compiler
+- **Authentication**: Secure login/signup with Email/Password and Google Sign-In (Firebase Auth)
+- **Lesson Management**: Create, edit, delete lessons with rich text, images, categories, tones, visibility (Public/Private), and access level (Free/Premium)
+- **Premium System**: One-time Stripe payment for lifetime premium access with exclusive content and features
+- **Public Browsing**: Browse, search, filter, sort, and paginated public lessons with premium lock for non-premium users
+- **Social Interaction**: Like, save to favorites, comment, report inappropriate content, and share lessons on Facebook, X (Twitter), and LinkedIn
+- **Admin Dashboard**: Manage users, lessons, featured content, and reported lessons
+- **Responsive Design**: Fully mobile-friendly with smooth navigation and modern UI
+- **Real-time Features**: Instant updates for likes, favorites, comments without page refresh
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Technology Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React.js, React Router, Tailwind CSS, DaisyUI, SweetAlert2, react-share
+- **Authentication**: Firebase Authentication
+- **Backend**: Node.js, Express.js, MongoDB
+- **Payment**: Stripe Checkout
+- **Deployment**: Firebase Hosting (Frontend), Vercel (Backend)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### GitHub Repository
+
+Client: [https://github.com/akashsarker2478/digital-life-lessons-client.git]  
+Server: [https://github.com/akashsarker2478/digital-life-lesson-server.git]
+---
+
+Made with ❤️ for sharing wisdom and personal growth.
