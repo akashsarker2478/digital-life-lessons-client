@@ -2,17 +2,18 @@
 import React, { useEffect, useState } from "react";
 import { FaLock, FaUserCircle, FaCalendarAlt, FaGlobe, FaStar, FaBookOpen, FaSearch } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
-
-import { useNavigate } from "react-router";
 import useAxiosPublic from "../../Hooks/AxiosInstance";
+import { useNavigate } from "react-router";
 
 const PublicLessons = () => {
   const { user, isPremium } = UseAuth();
-  const axiosPublic =useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Filter & Sort States
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,22 +26,18 @@ const PublicLessons = () => {
       try {
         setLoading(true);
 
-        // Build query params
         const params = new URLSearchParams();
         if (searchTerm) params.append("search", searchTerm.trim());
         if (selectedCategory !== "all") params.append("category", selectedCategory);
         if (selectedTone !== "all") params.append("tone", selectedTone);
-        params.append("sort", sortBy);
+        if (sortBy === "mostSaved") params.append("sort", "mostSaved");
+        params.append("page", currentPage);
+        params.append("limit", 9); 
 
         const res = await axiosPublic.get(`/lessons/public?${params.toString()}`);
 
-        const enrichedLessons = res.data.map(lesson => ({
-          ...lesson,
-          creatorName: lesson.creatorName || lesson.createdBy || "Anonymous",
-          creatorPhoto: lesson.creatorPhoto || null,
-        }));
-
-        setLessons(enrichedLessons);
+        setLessons(res.data.lessons);
+        setTotalPages(res.data.totalPages);
       } catch (err) {
         console.error("Failed to fetch lessons:", err);
       } finally {
@@ -49,7 +46,7 @@ const PublicLessons = () => {
     };
 
     fetchLessons();
-  }, [searchTerm, selectedCategory, selectedTone, sortBy, axiosPublic]);
+  }, [searchTerm, selectedCategory, selectedTone, sortBy, currentPage, axiosPublic]);
 
   const handleCardClick = (lesson) => {
     if (lesson.isPremium && !isPremium) {
@@ -57,6 +54,47 @@ const PublicLessons = () => {
     } else {
       navigate(`/lesson/${lesson._id}`);
     }
+  };
+
+  // Pagination Component
+  const Pagination = () => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="flex justify-center items-center gap-3 mt-16">
+        <button
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition"
+        >
+          Previous
+        </button>
+
+        <div className="flex gap-2">
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`w-12 h-12 rounded-xl font-bold transition-all ${
+                currentPage === i + 1
+                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition"
+        >
+          Next
+        </button>
+      </div>
+    );
   };
 
   if (loading) {
@@ -93,7 +131,10 @@ const PublicLessons = () => {
                 type="text"
                 placeholder="Search by title or keyword..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1); 
+                }}
                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
               />
             </div>
@@ -101,7 +142,10 @@ const PublicLessons = () => {
             {/* Category Filter */}
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="all">All Categories</option>
@@ -117,7 +161,10 @@ const PublicLessons = () => {
             {/* Tone Filter */}
             <select
               value={selectedTone}
-              onChange={(e) => setSelectedTone(e.target.value)}
+              onChange={(e) => {
+                setSelectedTone(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="all">All Tones</option>
@@ -133,7 +180,10 @@ const PublicLessons = () => {
             {/* Sort By */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="newest">Newest First</option>
@@ -150,103 +200,107 @@ const PublicLessons = () => {
             <p className="text-gray-400 mt-2">Try adjusting your filters or search term</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {lessons.map((lesson) => {
-              const isLocked = lesson.accessLevel === "premium" && !isPremium;
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {lessons.map((lesson) => {
+                const isLocked = lesson.accessLevel === "premium" && !isPremium;
 
-              return (
-                <div
-                  key={lesson._id}
-                  className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer`}
-                  onClick={() => handleCardClick(lesson)}
-                >
-                  {/* Image Header */}
-                  <div className="relative h-64 overflow-hidden">
-                    {lesson.image ? (
-                      <img
-                        src={lesson.image}
-                        alt={lesson.title}
-                        className={`w-full h-full object-cover transition-transform duration-700 ${
-                          isLocked ? "blur-md" : "group-hover:scale-110"
-                        }`}
-                      />
-                    ) : (
-                      <div className={`w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center ${isLocked ? "blur-md" : ""}`}>
-                        <FaBookOpen className="w-20 h-20 text-white/80" />
+                return (
+                  <div
+                    key={lesson._id}
+                    className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer`}
+                    onClick={() => handleCardClick(lesson)}
+                  >
+                    
+                    <div className="relative h-64 overflow-hidden">
+                      {lesson.image ? (
+                        <img
+                          src={lesson.image}
+                          alt={lesson.title}
+                          className={`w-full h-full object-cover transition-transform duration-700 ${
+                            isLocked ? "blur-md" : "group-hover:scale-110"
+                          }`}
+                        />
+                      ) : (
+                        <div className={`w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center ${isLocked ? "blur-md" : ""}`}>
+                          <FaBookOpen className="w-20 h-20 text-white/80" />
+                        </div>
+                      )}
+
+                      {isLocked && (
+                        <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-20">
+                          <div className="text-center text-white">
+                            <FaLock className="w-20 h-20 mx-auto mb-4" />
+                            <p className="text-2xl font-bold">Premium Lesson</p>
+                            <p className="text-lg mt-2">Click to Upgrade</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {lesson.isFeatured && !isLocked && (
+                        <div className="absolute top-4 right-4 bg-yellow-400 text-white px-4 py-2 rounded-full shadow-xl flex items-center gap-2 z-10">
+                          <FaStar className="w-5 h-5" />
+                          <span className="font-bold text-sm">Featured</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className={`p-6 ${isLocked ? "opacity-60" : ""}`}>
+                      <h3 className="text-2xl font-bold text-gray-800 mb-3 line-clamp-2">
+                        {lesson.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{lesson.description}</p>
+
+                      <div className="flex flex-wrap gap-3 mb-5">
+                        <span className="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                          {lesson.category || "General"}
+                        </span>
+                        <span className="px-4 py-1.5 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                          {lesson.tone || "Neutral"}
+                        </span>
+                        <span className={`px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 ${
+                          lesson.isPremium ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"
+                        }`}>
+                          {lesson.isPremium ? <FaLock className="w-4 h-4" /> : <FaGlobe className="w-4 h-4" />}
+                          {lesson.isPremium ? "Premium" : "Public"}
+                        </span>
                       </div>
-                    )}
 
-                    {isLocked && (
-                      <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-20">
-                        <div className="text-center text-white">
-                          <FaLock className="w-20 h-20 mx-auto mb-4" />
-                          <p className="text-2xl font-bold">Premium Lesson</p>
-                          <p className="text-lg mt-2">Click to Upgrade</p>
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-white shadow">
+                          {lesson.creatorPhoto ? (
+                            <img src={lesson.creatorPhoto} alt={lesson.creatorName} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                              <FaUserCircle className="w-12 h-12 text-white" />
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-800">{lesson.creatorName}</p>
+                          <p className="text-sm text-gray-500 flex items-center gap-1">
+                            <FaCalendarAlt className="w-4 h-4" />
+                            {new Date(lesson.createdAt).toLocaleDateString()}
+                          </p>
                         </div>
                       </div>
-                    )}
 
-                    {lesson.isFeatured && !isLocked && (
-                      <div className="absolute top-4 right-4 bg-yellow-400 text-white px-4 py-2 rounded-full shadow-xl flex items-center gap-2 z-10">
-                        <FaStar className="w-5 h-5" />
-                        <span className="font-bold text-sm">Featured</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Body */}
-                  <div className={`p-6 ${isLocked ? "opacity-60" : ""}`}>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-3 line-clamp-2">
-                      {lesson.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-3">{lesson.description}</p>
-
-                    <div className="flex flex-wrap gap-3 mb-5">
-                      <span className="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                        {lesson.category || "General"}
-                      </span>
-                      <span className="px-4 py-1.5 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                        {lesson.tone || "Neutral"}
-                      </span>
-                      <span className={`px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 ${
-                        lesson.isPremium ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"
+                      <div className={`w-full py-3.5 rounded-xl font-bold text-lg text-center transition-all duration-300 shadow-md ${
+                        isLocked
+                          ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
+                          : "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                       }`}>
-                        {lesson.isPremium ? <FaLock className="w-4 h-4" /> : <FaGlobe className="w-4 h-4" />}
-                        {lesson.isPremium ? "Premium" : "Public"}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-white shadow">
-                        {lesson.creatorPhoto ? (
-                          <img src={lesson.creatorPhoto} alt={lesson.creatorName} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                            <FaUserCircle className="w-12 h-12 text-white" />
-                          </div>
-                        )}
+                        {isLocked ? "Upgrade to View" : "View Details"}
                       </div>
-                      <div>
-                        <p className="font-bold text-gray-800">{lesson.creatorName}</p>
-                        <p className="text-sm text-gray-500 flex items-center gap-1">
-                          <FaCalendarAlt className="w-4 h-4" />
-                          {new Date(lesson.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className={`w-full py-3.5 rounded-xl font-bold text-lg text-center transition-all duration-300 shadow-md ${
-                      isLocked
-                        ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
-                        : "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                    }`}>
-                      {isLocked ? "Upgrade to View" : "View Details"}
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+
+            {/* Pagination */}
+            <Pagination />
+          </>
         )}
       </div>
     </div>

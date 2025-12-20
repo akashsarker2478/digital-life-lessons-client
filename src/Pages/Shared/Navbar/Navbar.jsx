@@ -61,7 +61,7 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
 
-  // User status text: Admin → "Admin", Premium → "Premium Member", Free → "Free Member"
+  // User status text
   const userStatusText = isAdmin ? "Admin" : isPremium ? "Premium Member" : "Free Member";
 
   return (
