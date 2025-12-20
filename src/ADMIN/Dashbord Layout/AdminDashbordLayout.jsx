@@ -16,9 +16,10 @@ import {
 } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
 import { useNavigate } from "react-router";
+import Loading from "../../Pages/Shared/Loading/Loading";
 
 const AdminDashboardLayout = () => {
-  const { user, logOut, isPremium } = UseAuth();
+  const { user, logOut, isPremium,loading} = UseAuth();
   const navigate = useNavigate();
 
  
@@ -58,6 +59,9 @@ const AdminDashboardLayout = () => {
       }
     });
   };
+  if(loading){
+    return <Loading></Loading>
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-pink-50">

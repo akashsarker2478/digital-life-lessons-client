@@ -16,11 +16,11 @@ const ManageLessons = () => {
         setLoading(true);
         setError(null);
 
-        // সব lessons fetch করো
-        const lessonsRes = await axiosSecure.get("/lessons/public");
+        
+        const lessonsRes = await axiosSecure.get("/lessons/all");
         let allLessons = lessonsRes.data;
 
-        // প্রত্যেক lesson-এর report count যোগ করো
+        //report count
         const reportsRes = await axiosSecure.get("/reports");
         const reports = reportsRes.data;
 
@@ -30,7 +30,7 @@ const ManageLessons = () => {
           reportCountMap[lessonId] = (reportCountMap[lessonId] || 0) + 1;
         });
 
-        // Author name যোগ করার জন্য users fetch (optional কিন্তু সুন্দর লাগবে)
+        // Author name 
         const usersRes = await axiosSecure.get("/users");
         const users = usersRes.data;
         const userMap = {};

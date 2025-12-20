@@ -18,7 +18,7 @@ const ReportedLessons = () => {
         //report and lessons fetch
         const [reportsRes, lessonsRes] = await Promise.all([
           axiosSecure.get("/reports"),
-          axiosSecure.get("/lessons/public"),
+          axiosSecure.get("/lessons/all"),
         ]);
 
         const reports = reportsRes.data;

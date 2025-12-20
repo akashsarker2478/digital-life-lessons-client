@@ -5,12 +5,12 @@ import Swal from "sweetalert2";
 import { FaUserShield, FaCrown, FaEdit, FaCamera } from "react-icons/fa";
 
 const AdminProfile = () => {
-  const { user, updateUser } = UseAuth(); // updateUser = updateProfile from Firebase
+  const { user, updateUser } = UseAuth(); 
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.displayName || "");
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
-  // Mock activity stats (backend থেকে আনতে পারো পরে)
+  
   const lessonsDeleted = 8;
   const lessonsFeatured = 24;
   const totalActions = lessonsDeleted + lessonsFeatured;
@@ -47,8 +47,7 @@ const AdminProfile = () => {
 
     setIsUploadingPhoto(true);
 
-    // Firebase-এ photoURL update (এখানে সিম্পল URL দিয়ে করছি – real app-এ Firebase Storage ব্যবহার করো)
-    // এখানে আমরা URL.createObjectURL দিয়ে preview দেখাচ্ছি (actual update-এর জন্য storage লাগবে)
+    
     const previewUrl = URL.createObjectURL(file);
 
     Swal.fire({
@@ -59,8 +58,7 @@ const AdminProfile = () => {
       confirmButtonText: "Yes, Update",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Real update (Firebase Storage + updateProfile) এখানে যোগ করতে হবে
-        // এখানে mock success
+      
         updateUser({ photoURL: previewUrl })
           .then(() => {
             Swal.fire("Success!", "Profile photo updated!", "success");

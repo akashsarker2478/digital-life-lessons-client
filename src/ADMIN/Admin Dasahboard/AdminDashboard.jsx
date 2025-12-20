@@ -1,8 +1,29 @@
 // AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { FaUsers, FaBookOpen, FaFlag, FaCalendarDay, FaTrophy, FaSpinner } from "react-icons/fa";
-import useAxiosSecure from "../../Hooks/useAxiosSecure"; 
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import {
+  FaUsers,
+  FaBookOpen,
+  FaFlag,
+  FaCalendarDay,
+  FaTrophy,
+  FaSpinner,
+} from "react-icons/fa";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import UseAuth from "../../Hooks/UseAuth";
 
 const AdminDashboard = () => {
@@ -28,9 +49,9 @@ const AdminDashboard = () => {
 
         // Parallel API calls
         const [usersRes, lessonsRes, reportsRes] = await Promise.all([
-          axiosSecure.get("/users"), 
-          axiosSecure.get("/lessons/public"), 
-          axiosSecure.get("/reports"), 
+          axiosSecure.get("/users"),
+          axiosSecure.get("/lessons/all"),
+          axiosSecure.get("/reports"),
         ]);
 
         const users = usersRes.data;
@@ -40,10 +61,14 @@ const AdminDashboard = () => {
         // Total counts
         const totalUsers = users.length;
         const totalLessons = lessons.length;
-        const uniqueReportedLessons = [...new Set(reports.map(r => r.lessonId.toString()))].length;
+        const uniqueReportedLessons = [
+          ...new Set(reports.map((r) => r.lessonId.toString())),
+        ].length;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const todayNewLessons = lessons.filter(l => new Date(l.createdAt) >= today).length;
+        const todayNewLessons = lessons.filter(
+          (l) => new Date(l.createdAt) >= today
+        ).length;
 
         setStats({
           totalUsers,
@@ -52,15 +77,17 @@ const AdminDashboard = () => {
           todayNewLessons,
         });
 
-        // User Growth (Last 7 days) 
+        // User Growth (Last 7 days)
         const last7Days = [];
         for (let i = 6; i >= 0; i--) {
           const date = new Date();
           date.setDate(date.getDate() - i);
           date.setHours(0, 0, 0, 0);
-          const count = users.filter(u => new Date(u.joinDate) <= date).length;
+          const count = users.filter(
+            (u) => new Date(u.joinDate) <= date
+          ).length;
           last7Days.push({
-            day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+            day: date.toLocaleDateString("en-US", { weekday: "short" }),
             users: count,
           });
         }
@@ -68,44 +95,47 @@ const AdminDashboard = () => {
 
         // Lesson Categories
         const categoryMap = {};
-        lessons.forEach(l => {
+        lessons.forEach((l) => {
           const cat = l.category || "Others";
           categoryMap[cat] = (categoryMap[cat] || 0) + 1;
         });
-        const categoryData = Object.entries(categoryMap).map(([category, lessons]) => ({
-          category,
-          lessons,
-        }));
+        const categoryData = Object.entries(categoryMap).map(
+          ([category, lessons]) => ({
+            category,
+            lessons,
+          })
+        );
         setLessonCategories(categoryData);
 
         // Visibility Pie
-        const publicCount = lessons.filter(l => l.visibility !== "private").length; // default public
-const privateCount = totalLessons - publicCount;
+        const publicCount = lessons.filter(
+          (l) => l.visibility !== "private"
+        ).length; // default public
+        const privateCount = totalLessons - publicCount;
 
-setVisibilityData([
-  { name: "Public", value: publicCount, color: "#3b82f6" },
-  { name: "Private", value: privateCount, color: "#ef4444" },
-]);
+        setVisibilityData([
+          { name: "Public", value: publicCount, color: "#3b82f6" },
+          { name: "Private", value: privateCount, color: "#ef4444" },
+        ]);
 
         // Top Contributors
         const contributorMap = {};
-        lessons.forEach(l => {
+        lessons.forEach((l) => {
           const email = l.createdBy;
           contributorMap[email] = (contributorMap[email] || 0) + 1;
         });
         const contributors = users
-          .map(u => ({
+          .map((u) => ({
             name: u.name || u.email.split("@")[0],
             email: u.email,
             lessons: contributorMap[u.email] || 0,
           }))
-          .filter(c => c.lessons > 0)
+          .filter((c) => c.lessons > 0)
           .sort((a, b) => b.lessons - a.lessons)
           .slice(0, 5)
           .map((c, i) => ({ ...c, rank: i + 1 }));
 
         setTopContributors(contributors);
-
       } catch (error) {
         console.error("Error fetching admin data:", error);
         Swal.fire("Error!", "Failed to load dashboard data", "error");
@@ -121,7 +151,9 @@ setVisibilityData([
     return (
       <div className="flex items-center justify-center min-h-screen">
         <FaSpinner className="animate-spin text-6xl text-red-600" />
-        <span className="ml-4 text-2xl text-gray-600">Loading Dashboard...</span>
+        <span className="ml-4 text-2xl text-gray-600">
+          Loading Dashboard...
+        </span>
       </div>
     );
   }
@@ -134,7 +166,9 @@ setVisibilityData([
           Admin Dashboard Overview
         </h1>
         <p className="text-gray-600 mt-3 text-lg">
-          Welcome back, <span className="font-semibold">{user?.displayName || "Admin"}</span>! Monitor platform activity.
+          Welcome back,{" "}
+          <span className="font-semibold">{user?.displayName || "Admin"}</span>!
+          Monitor platform activity.
         </p>
       </div>
 
@@ -174,7 +208,9 @@ setVisibilityData([
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100">Today's New Lessons</p>
-              <h2 className="text-3xl font-bold mt-2">{stats.todayNewLessons}</h2>
+              <h2 className="text-3xl font-bold mt-2">
+                {stats.todayNewLessons}
+              </h2>
             </div>
             <FaCalendarDay className="w-12 h-12 text-purple-200" />
           </div>
@@ -184,7 +220,9 @@ setVisibilityData([
       {/* Graphs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">User Growth (Last 7 Days)</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            User Growth (Last 7 Days)
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={userGrowth}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -192,13 +230,20 @@ setVisibilityData([
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} />
+              <Line
+                type="monotone"
+                dataKey="users"
+                stroke="#3b82f6"
+                strokeWidth={3}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">Lessons by Category</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Lessons by Category
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={lessonCategories}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -214,7 +259,9 @@ setVisibilityData([
       {/* Pie + Table */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">Lesson Visibility</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Lesson Visibility
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -257,7 +304,9 @@ setVisibilityData([
                       <td className="p-3 font-bold text-lg">#{c.rank}</td>
                       <td className="p-3">{c.name}</td>
                       <td className="p-3 text-gray-600">{c.email}</td>
-                      <td className="p-3 font-semibold text-green-600">{c.lessons}</td>
+                      <td className="p-3 font-semibold text-green-600">
+                        {c.lessons}
+                      </td>
                     </tr>
                   ))
                 ) : (
