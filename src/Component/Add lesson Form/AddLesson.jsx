@@ -4,6 +4,8 @@ import UseAuth from "../../Hooks/UseAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaCloudUploadAlt, FaLock, FaGlobe } from "react-icons/fa";
+import Lottie from "lottie-react";
+import successAnimation from '../../assets/Animation/success-confetti.json'
 
 const AddLesson = () => {
   const { user, isPremium } = UseAuth();
@@ -52,54 +54,138 @@ const AddLesson = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setIsLoading(true);
+  // const handleSubmit = async e => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
 
-    let imageUrl = existingImage;
+  //   let imageUrl = existingImage;
 
-    if (imageFile) {
-      const formData = new FormData();
-      formData.append("image", imageFile);
-      const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
-        { method: "POST", body: formData }
-      );
-      const data = await res.json();
-      imageUrl = data.data.url;
-    }
+  //   if (imageFile) {
+  //     const formData = new FormData();
+  //     formData.append("image", imageFile);
+  //     const res = await fetch(
+  //       `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
+  //       { method: "POST", body: formData }
+  //     );
+  //     const data = await res.json();
+  //     imageUrl = data.data.url;
+  //   }
 
-    const payload = {
-      title,
-      description,
-      category,
-      tone,
-      privacy,
-      accessLevel,
-      image: imageUrl
-    };
+  //   const payload = {
+  //     title,
+  //     description,
+  //     category,
+  //     tone,
+  //     privacy,
+  //     accessLevel,
+  //     image: imageUrl
+  //   };
 
-    if (isEdit) {
-      await axiosSecure.patch(`/lessons/${lessonId}`, payload);
-      Swal.fire("Updated", "Lesson updated successfully", "success");
-    } else {
-      await axiosSecure.post("/lessons", {
-        ...payload,
-        createdBy: user.email,
-        createdByUid: user.uid,
-        createdByName: user.displayName,
-        createdAt: new Date(),
-        views: 0,
-        likes: [],
-        status: "published"
-      });
-      Swal.fire("Published", "Lesson created successfully", "success");
-    }
+  //   if (isEdit) {
+  //     await axiosSecure.patch(`/lessons/${lessonId}`, payload);
+  //     Swal.fire("Updated", "Lesson updated successfully", "success");
+  //   } else {
+  //     await axiosSecure.post("/lessons", {
+  //       ...payload,
+  //       createdBy: user.email,
+  //       createdByUid: user.uid,
+  //       createdByName: user.displayName,
+  //       createdAt: new Date(),
+  //       views: 0,
+  //       likes: [],
+  //       status: "published"
+  //     });
+  //     Swal.fire("Published", "Lesson created successfully", "success");
+  //   }
 
-    navigate("/dashboard/my-lessons");
-    setIsLoading(false);
+  //   navigate("/dashboard/my-lessons");
+  //   setIsLoading(false);
+  // };
+const handleSubmit = async e => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  let imageUrl = existingImage;
+
+  if (imageFile) {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
+      { method: "POST", body: formData }
+    );
+    const data = await res.json();
+    imageUrl = data.data.url;
+  }
+
+  const payload = {
+    title,
+    description,
+    category,
+    tone,
+    privacy,
+    accessLevel,
+    image: imageUrl
   };
 
+  if (isEdit) {
+    await axiosSecure.patch(`/lessons/${lessonId}`, payload);
+
+    Swal.fire({
+      title: "Updated Successfully!",
+      html: '<div id="lottie-animation" style="width:300px; height:300px; margin: 0 auto;"></div>',
+      icon: "success",
+      showConfirmButton: false,
+      timer: 3500,
+      didOpen: () => {
+        const container = document.getElementById('lottie-animation');
+        if (container) {
+          Lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: successAnimation
+          });
+        }
+      }
+    });
+  } else {
+    await axiosSecure.post("/lessons", {
+      ...payload,
+      createdBy: user.email,
+      createdByUid: user.uid,
+      createdByName: user.displayName,
+      createdAt: new Date(),
+      views: 0,
+      likes: [],
+      status: "published"
+    });
+
+    Swal.fire({
+      title: "Published Successfully!",
+      html: '<div id="lottie-animation" style="width:300px; height:300px; margin: 0 auto;"></div>',
+      icon: "success",
+      showConfirmButton: false,
+      timer: 3500,
+      didOpen: () => {
+        const container = document.getElementById('lottie-animation');
+        if (container) {
+          Lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: successAnimation
+          });
+        }
+      }
+    });
+  }
+
+  navigate("/dashboard/my-lessons");
+  setIsLoading(false);
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center px-4 py-10">
       <div 

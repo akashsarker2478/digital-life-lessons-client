@@ -1,4 +1,4 @@
-// PublicLessons.jsx
+
 import React, { useEffect, useState } from "react";
 import { FaLock, FaUserCircle, FaCalendarAlt, FaGlobe, FaStar, FaBookOpen, FaSearch } from "react-icons/fa";
 import UseAuth from "../../Hooks/UseAuth";
@@ -49,11 +49,7 @@ const PublicLessons = () => {
   }, [searchTerm, selectedCategory, selectedTone, sortBy, currentPage, axiosPublic]);
 
   const handleCardClick = (lesson) => {
-    if (lesson.isPremium && !isPremium) {
-      navigate("/dashboard/pricing");
-    } else {
-      navigate(`/lesson/${lesson._id}`);
-    }
+    navigate(`/lesson/${lesson._id}`);
   };
 
   // Pagination Component
@@ -211,8 +207,8 @@ const PublicLessons = () => {
                     data-aos="fade-up"
                     data-aos-delay={300 + index * 100}
                     data-aos-duration="800"
-                    className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer`}
-                    onClick={() => handleCardClick(lesson)}
+                    className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group ${!isLocked ? 'cursor-pointer' : ''}`}
+                    onClick={() => !isLocked && handleCardClick(lesson)}
                   >
                     
                     <div className="relative h-64 overflow-hidden">
@@ -230,16 +226,30 @@ const PublicLessons = () => {
                         </div>
                       )}
 
+                      {/* Premium Lock Overlay with Upgrade Button */}
                       {isLocked && (
-                        <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-20">
+                        <div 
+                          className="absolute inset-0 bg-black/70 flex items-center justify-center z-20"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <div className="text-center text-white">
                             <FaLock className="w-20 h-20 mx-auto mb-4" />
                             <p className="text-2xl font-bold">Premium Lesson</p>
-                            <p className="text-lg mt-2">Click to Upgrade</p>
+                            <p className="text-lg mt-2 mb-6">Upgrade to unlock this wisdom</p>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate("/dashboard/pricing");
+                              }}
+                              className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold rounded-xl hover:scale-105 transition shadow-lg"
+                            >
+                              Upgrade Now
+                            </button>
                           </div>
                         </div>
                       )}
 
+                      {/* Featured Badge */}
                       {lesson.isFeatured && !isLocked && (
                         <div className="absolute top-4 right-4 bg-yellow-400 text-white px-4 py-2 rounded-full shadow-xl flex items-center gap-2 z-10">
                           <FaStar className="w-5 h-5" />
@@ -262,10 +272,10 @@ const PublicLessons = () => {
                           {lesson.tone || "Neutral"}
                         </span>
                         <span className={`px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 ${
-                          lesson.isPremium ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"
+                          lesson.accessLevel === "premium" ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"
                         }`}>
-                          {lesson.isPremium ? <FaLock className="w-4 h-4" /> : <FaGlobe className="w-4 h-4" />}
-                          {lesson.isPremium ? "Premium" : "Public"}
+                          {lesson.accessLevel === "premium" ? <FaLock className="w-4 h-4" /> : <FaGlobe className="w-4 h-4" />}
+                          {lesson.accessLevel === "premium" ? "Premium" : "Public"}
                         </span>
                       </div>
 
@@ -288,13 +298,12 @@ const PublicLessons = () => {
                         </div>
                       </div>
 
-                      <div className={`w-full py-3.5 rounded-xl font-bold text-lg text-center transition-all duration-300 shadow-md ${
-                        isLocked
-                          ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
-                          : "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                      }`}>
-                        {isLocked ? "Upgrade to View" : "View Details"}
-                      </div>
+                      
+                      {!isLocked && (
+                        <div className="w-full py-3.5 rounded-xl font-bold text-lg text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white transition-all duration-300 shadow-md">
+                          View Details
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
