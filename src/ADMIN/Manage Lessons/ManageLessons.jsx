@@ -110,6 +110,7 @@ const ManageLessons = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
+        <title>Manage Lessons</title>
         <FaSpinner className="animate-spin text-5xl text-red-600" />
         <span className="ml-4 text-xl text-gray-600">Loading Lessons...</span>
       </div>

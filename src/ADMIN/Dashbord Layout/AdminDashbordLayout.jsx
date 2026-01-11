@@ -65,6 +65,7 @@ const AdminDashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-pink-50">
+      <title>Admin Dashboard</title>
       <Navbar />
 
       <div className="drawer lg:drawer-open">

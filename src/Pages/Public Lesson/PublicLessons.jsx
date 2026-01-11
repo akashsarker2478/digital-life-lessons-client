@@ -58,6 +58,7 @@ const PublicLessons = () => {
 
     return (
       <div data-aos="fade-up" data-aos-delay="300" className="flex justify-center items-center gap-3 mt-16">
+        <title> public lessons</title>
         <button
           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
@@ -98,14 +99,14 @@ const PublicLessons = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-xl text-gray-600">Loading Public Lessons...</p>
+          <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">Loading Public Lessons...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 py-12">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div data-aos="fade-down" data-aos-delay="100" className="text-center mb-12">

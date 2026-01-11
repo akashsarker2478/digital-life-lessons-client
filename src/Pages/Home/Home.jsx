@@ -6,6 +6,7 @@ import TopContributors from '../../Component/Top Contributors/TopContributors';
 import MostSavedLessons from '../../Component/Most Save Lessons/MostSaveLessons';
 import { FaSpinner } from "react-icons/fa";
 import useAxiosPublic from "../../Hooks/AxiosInstance";
+import JoinOurCommunity from "../../Component/Join our community/JoinOurCommunity";
 
 const Home = () => {
   const axiosPublic = useAxiosPublic();
@@ -80,6 +81,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Banner */}
+      <title>Home</title>
       <section data-aos="fade-up" data-aos-duration="1000" className="my-2">
         <Banner />
       </section>
@@ -154,6 +156,9 @@ const Home = () => {
             <MostSavedLessons lessons={mostSavedLessons} />
           </div>
         </div>
+      </section>
+      <section>
+        <JoinOurCommunity></JoinOurCommunity>
       </section>
     </div>
   );

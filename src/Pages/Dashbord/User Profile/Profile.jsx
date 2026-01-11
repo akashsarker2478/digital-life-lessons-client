@@ -169,6 +169,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-4 md:p-6">
+      <title>User Profile</title>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">

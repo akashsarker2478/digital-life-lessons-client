@@ -75,6 +75,7 @@ const AdminProfile = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-10">
+      <title>Admin Profile</title>
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">

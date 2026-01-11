@@ -51,6 +51,7 @@ const MyLessons = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
+      <title>My Lessons</title>
       {/* Header */}
       <div className="mb-6">
         <h2 className="text-3xl font-extrabold text-gray-800">My Lessons</h2>

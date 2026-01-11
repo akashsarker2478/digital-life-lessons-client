@@ -78,8 +78,8 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <title>User Dashboard</title>
       <Navbar />
-
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 

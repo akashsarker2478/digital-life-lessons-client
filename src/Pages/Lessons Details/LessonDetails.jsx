@@ -243,6 +243,7 @@ const LessonDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 py-12 px-4">
+      <title>Lesson Details</title>
       <div className="max-w-5xl mx-auto">
 
         {/* Premium Banner */}

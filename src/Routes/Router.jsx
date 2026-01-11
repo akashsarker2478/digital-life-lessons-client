@@ -26,6 +26,9 @@ import ManageUsers from "../ADMIN/Manage users/ManageUsers";
 import ManageLessons from "../ADMIN/Manage Lessons/ManageLessons";
 import ReportedLessons from "../ADMIN/ReportedLessons/ReportedLessons";
 import AdminProfile from "../ADMIN/Admin Dasahboard/AdminProfile";
+import AboutUs from "../Pages/About Us/AboutUs";
+import ContactUs from "../Pages/Contact Us/ContactUs";
+import PrivacyPolicy from "../Pages/Privacy Policy/PrivacyPolicy";
 
 
 
@@ -48,6 +51,18 @@ export const router = createBrowserRouter([
         element:<PrivateRoute>
             <LessonDetails></LessonDetails>
         </PrivateRoute>
+       },
+       {
+        path:'/about',
+        element:<AboutUs></AboutUs>
+       },
+       {
+        path:'/contact',
+        element:<ContactUs></ContactUs>
+       },
+       {
+        path:'/privacy',
+        element:<PrivacyPolicy></PrivacyPolicy>
        },
        {
         path: "/author/:email",

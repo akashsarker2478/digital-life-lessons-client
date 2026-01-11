@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../../Pages/Shared/Navbar/Navbar';
 import { Outlet } from 'react-router';
 import Footer from '../../Component/Footer/Footer';
+import GoToTop from '../../Component/Go to Top/GoToTop';
 
 const HomeLayouts = () => {
     return (
@@ -13,7 +14,9 @@ const HomeLayouts = () => {
             <main className="flex-1">
                 <Outlet />
             </main>
-
+            <section>
+                <GoToTop></GoToTop>
+            </section>
             <footer>
                 <Footer />
             </footer>
