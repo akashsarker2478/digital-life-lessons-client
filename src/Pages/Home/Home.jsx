@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import useAxiosPublic from "../../Hooks/AxiosInstance";
 import Banner from '../Banner/Banner';
 import WhyLearningMatters from '../../Component/why learning/WhyLearningMatters';
 import FeaturedCard from '../../Component/Home card/FeaturedCard';
 import TopContributors from '../../Component/Top Contributors/TopContributors';
 import MostSavedLessons from '../../Component/Most Save Lessons/MostSaveLessons';
-import { FaSpinner } from "react-icons/fa";
-import useAxiosPublic from "../../Hooks/AxiosInstance";
 import JoinOurCommunity from "../../Component/Join our community/JoinOurCommunity";
 
 const Home = () => {
@@ -71,15 +71,15 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        <FaSpinner className="animate-spin text-6xl text-blue-600" />
-        <p className="ml-6 text-2xl text-gray-600">Loading amazing content for you...</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+        <FaSpinner className="animate-spin text-6xl text-blue-600 dark:text-blue-400" />
+        <p className="ml-6 text-2xl text-gray-600 dark:text-gray-300">Loading amazing content for you...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Banner */}
       <title>Home</title>
       <section data-aos="fade-up" data-aos-duration="1000" className="my-2">
@@ -87,20 +87,20 @@ const Home = () => {
       </section>
 
       {/* Featured Life Lessons */}
-      <section data-aos="fade-up" data-aos-delay="200" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section data-aos="fade-up" data-aos-delay="200" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
         <div className="max-w-7xl mx-auto px-4">
           <div data-aos="fade-down" data-aos-delay="300" className="text-center mb-16">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mb-4">
+            <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
               ⭐ Featured Life Lessons
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Handpicked by our admins – powerful stories and insights that inspire real change
             </p>
           </div>
 
           {featuredLessons.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-2xl text-gray-500">No featured lessons yet. Stay tuned!</p>
+              <p className="text-2xl text-gray-500 dark:text-gray-400">No featured lessons yet. Stay tuned!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -120,18 +120,18 @@ const Home = () => {
       </section>
 
       {/* Why Learning Matters */}
-      <section data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000" className="py-20 bg-white">
+      <section data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000" className="py-20 bg-white dark:bg-gray-900">
         <WhyLearningMatters />
       </section>
 
       {/* Top Contributors Section */}
-      <section data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
+      <section data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto px-4">
           <div data-aos="fade-down" data-aos-delay="500" className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">
-              🏆 Top Contributors This Week
+            <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+               Top Contributors This Week
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Celebrating the passionate creators who share their wisdom and inspire our community
             </p>
           </div>
@@ -142,13 +142,13 @@ const Home = () => {
       </section>
 
       {/* Most Saved Lessons Section */}
-      <section data-aos="fade-right" data-aos-delay="500" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-pink-50 to-red-50 my-3">
+      <section data-aos="fade-right" data-aos-delay="500" data-aos-duration="1000" className="py-20 bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 my-3">
         <div className="max-w-7xl mx-auto px-4">
           <div data-aos="fade-down" data-aos-delay="600" className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">
-              ❤️ Most Saved Lessons
+            <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+               Most Saved Lessons
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Lessons that touched hearts and were saved by the most members – true gems of wisdom
             </p>
           </div>
@@ -157,8 +157,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
       <section>
-        <JoinOurCommunity></JoinOurCommunity>
+        <JoinOurCommunity />
       </section>
     </div>
   );

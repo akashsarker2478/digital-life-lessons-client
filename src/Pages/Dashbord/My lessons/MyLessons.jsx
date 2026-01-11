@@ -54,20 +54,20 @@ const MyLessons = () => {
       <title>My Lessons</title>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-3xl font-extrabold text-gray-800">My Lessons</h2>
-        <p className="text-gray-500 mt-1">
+        <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">My Lessons</h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Manage, update and track your life lessons
         </p>
       </div>
 
       {lessons.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl shadow">
-          <p className="text-gray-500 text-lg">
+        <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl shadow">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
             You haven’t created any lessons yet 🌱
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-2xl shadow-xl border">
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
           <table className="min-w-full">
             <thead>
               <tr className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-left">
@@ -83,9 +83,9 @@ const MyLessons = () => {
               {lessons.map((lesson) => (
                 <tr
                   key={lesson._id}
-                  className="border-b hover:bg-gray-50 transition"
+                  className="border-b hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                 >
-                  <td className="p-4 font-semibold text-gray-800">
+                  <td className="p-4 font-semibold text-gray-800 dark:text-gray-100">
                     {lesson.title}
                   </td>
 
@@ -93,8 +93,8 @@ const MyLessons = () => {
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-medium ${
                         lesson.privacy === "public"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-200 text-gray-700"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                       }`}
                     >
                       {lesson.privacy}
@@ -105,15 +105,15 @@ const MyLessons = () => {
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-medium ${
                         lesson.accessLevel === "premium"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-blue-100 text-blue-700"
+                          ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
+                          : "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
                       }`}
                     >
                       {lesson.accessLevel}
                     </span>
                   </td>
 
-                  <td className="p-4 text-gray-600">
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
                     {new Date(
                       lesson.createdAt || Date.now()
                     ).toLocaleDateString()}

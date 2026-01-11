@@ -49,41 +49,45 @@ const MyFavourites = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">My Favourite Lessons</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">My Favourite Lessons</h2>
 
       {lessons.length === 0 ? (
-        <p className="text-gray-500 text-center text-lg">
+        <p className="text-gray-500 dark:text-gray-400 text-center text-lg">
           No favourite lessons yet <span className="text-red-500">❤️</span>
         </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded-lg">
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <table className="min-w-full">
             <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-3 border">Title</th>
-                <th className="p-3 border">Category</th>
-                <th className="p-3 border">Created Date</th>
-                <th className="p-3 border">Actions</th>
+              <tr className="bg-gray-100 dark:bg-gray-700 text-left text-gray-800 dark:text-gray-200">
+                <th className="p-3 border border-gray-200 dark:border-gray-700">Title</th>
+                <th className="p-3 border border-gray-200 dark:border-gray-700">Category</th>
+                <th className="p-3 border border-gray-200 dark:border-gray-700">Created Date</th>
+                <th className="p-3 border border-gray-200 dark:border-gray-700">Actions</th>
               </tr>
             </thead>
             <tbody>
               {lessons.map((lesson) => (
-                <tr key={lesson._id} className="hover:bg-gray-50">
-                  <td className="p-3 border">{lesson.title}</td>
-                  <td className="p-3 border">{lesson.category}</td>
-                  <td className="p-3 border">
+                <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                  <td className="p-3 border border-gray-200 dark:border-gray-700 font-semibold text-gray-900 dark:text-gray-100">
+                    {lesson.title}
+                  </td>
+                  <td className="p-3 border border-gray-200 dark:border-gray-700">
+                    {lesson.category}
+                  </td>
+                  <td className="p-3 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400">
                     {new Date(lesson.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="p-3 border space-x-2 flex items-center">
+                  <td className="p-3 border border-gray-200 dark:border-gray-700 space-x-2 flex items-center">
                     <button
                       onClick={() => handleView(lesson._id)}
-                      className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                     >
                       View
                     </button>
                     <button
                       onClick={() => handleToggleFavorite(lesson._id)}
-                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 flex items-center gap-1"
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition flex items-center gap-1"
                     >
                       {lesson.favorites?.includes(user.email) ? (
                         <>

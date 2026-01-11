@@ -5,7 +5,7 @@ import { FaUserCircle, FaTrophy, FaCrown } from "react-icons/fa";
 const TopContributors = ({ contributors = [] }) => {
   if (contributors.length === 0) {
     return (
-      <div className="text-center py-12 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-3xl shadow-xl p-8">
+      <div className="text-center py-12 bg-gradient-to-r from-yellow-50 to-orange-50  rounded-3xl shadow-xl p-8">
         <FaTrophy className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
         <p className="text-2xl font-semibold text-gray-600">No contributors yet</p>
         <p className="text-gray-500 mt-2">Be the first to create lessons!</p>

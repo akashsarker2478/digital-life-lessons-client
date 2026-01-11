@@ -223,11 +223,11 @@ const LessonDetails = () => {
 
   if (!lesson) {
     return (
-      <div data-aos="fade-up" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="text-center p-12 bg-white rounded-3xl shadow-2xl max-w-lg">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="text-center p-12 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-lg">
           <FaExclamationTriangle className="text-6xl text-red-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Lesson Not Found</h2>
-          <p className="text-gray-600 mb-8">The lesson you're looking for doesn't exist or has been removed.</p>
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Lesson Not Found</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-8">The lesson you're looking for doesn't exist or has been removed.</p>
           <button onClick={() => navigate('/')} className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition">
             Browse Lessons
           </button>
@@ -242,13 +242,13 @@ const LessonDetails = () => {
   const shareTitle = lesson.title;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950 py-12 px-4">
       <title>Lesson Details</title>
       <div className="max-w-5xl mx-auto">
 
         {/* Premium Banner */}
         {shouldBlurContent && (
-          <div data-aos="fade-up" data-aos-delay="100" className="mb-10 bg-gradient-to-r from-amber-500 to-pink-600 rounded-3xl p-8 text-white shadow-2xl text-center">
+          <div className="mb-10 bg-gradient-to-r from-amber-500 to-pink-600 rounded-3xl p-8 text-white shadow-2xl text-center">
             <div className="flex flex-col items-center gap-4">
               <FaLock className="text-5xl" />
               <h2 className="text-3xl font-bold">This is a Premium Lesson</h2>
@@ -264,7 +264,7 @@ const LessonDetails = () => {
         )}
 
         {/* Main Content */}
-        <div data-aos="fade-down" data-aos-delay="200" className={`bg-white rounded-3xl shadow-2xl overflow-hidden ${shouldBlurContent ? 'opacity-60 pointer-events-none' : ''}`}>
+        <div className={`bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden ${shouldBlurContent ? 'opacity-60 pointer-events-none' : ''}`}>
 
           {/* Featured Image */}
           <div className="relative h-96 overflow-hidden">
@@ -286,9 +286,9 @@ const LessonDetails = () => {
             </div>
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="300" className="p-8 md:p-12">
+          <div className="p-8 md:p-12">
             {/* Metadata */}
-            <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-10">
+            <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-300 mb-10">
               <div className="flex items-center gap-2">
                 <FaCalendarAlt className="text-indigo-500" />
                 <span>{new Date(lesson.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -304,17 +304,17 @@ const LessonDetails = () => {
             </div>
 
             {/* Description */}
-            <div data-aos="fade-up" data-aos-delay="400" className="prose prose-lg max-w-none mb-12">
-              <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">{lesson.description}</p>
+            <div className="prose prose-lg max-w-none mb-12">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg whitespace-pre-line">{lesson.description}</p>
             </div>
 
             {/* Author Section */}
-            <div data-aos="fade-left" data-aos-delay="500" className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-8 mb-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">About the Creator</h3>
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 rounded-3xl p-8 mb-12">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">About the Creator</h3>
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="relative">
                   {author?.photoURL ? (
-                    <img src={author.photoURL} alt={author.name} className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-2xl" />
+                    <img src={author.photoURL} alt={author.name} className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl" />
                   ) : (
                     <div className="w-32 h-32 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
                       <FaUserCircle className="text-white text-6xl" />
@@ -327,9 +327,9 @@ const LessonDetails = () => {
                   )}
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                  <h4 className="text-3xl font-bold text-gray-900 mb-2">{author?.name || "Unknown Author"}</h4>
-                  <p className="text-gray-600 mb-4">{author?.email || lesson.createdBy}</p>
-                  <p className="text-xl text-gray-700 mb-6">
+                  <h4 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{author?.name || "Unknown Author"}</h4>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">{author?.email || lesson.createdBy}</p>
+                  <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
                     <span className="font-bold text-2xl text-indigo-600">{author?.totalLessons || 0}</span> lessons shared with the community
                   </p>
                   <button
@@ -344,50 +344,50 @@ const LessonDetails = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div data-aos="fade-up" data-aos-delay="600" className="bg-gradient-to-br from-red-50 to-pink-50 p-8 rounded-3xl text-center shadow-lg">
+              <div className="bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 p-8 rounded-3xl text-center shadow-lg">
                 <FaHeart className="text-5xl text-red-500 mx-auto mb-4" />
-                <p className="text-4xl font-bold text-gray-900">{lesson.likesCount || 0}</p>
-                <p className="text-gray-600">Likes</p>
+                <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{lesson.likesCount || 0}</p>
+                <p className="text-gray-600 dark:text-gray-300">Likes</p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="700" className="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-3xl text-center shadow-lg">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950 p-8 rounded-3xl text-center shadow-lg">
                 <FaBookmark className="text-5xl text-yellow-500 mx-auto mb-4" />
-                <p className="text-4xl font-bold text-gray-900">{lesson.favoritesCount || 0}</p>
-                <p className="text-gray-600">Saved</p>
+                <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{lesson.favoritesCount || 0}</p>
+                <p className="text-gray-600 dark:text-gray-300">Saved</p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="800" className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl text-center shadow-lg">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 p-8 rounded-3xl text-center shadow-lg">
                 <FaEye className="text-5xl text-blue-500 mx-auto mb-4" />
-                <p className="text-4xl font-bold text-gray-900">{viewCount.toLocaleString()}</p>
-                <p className="text-gray-600">Views</p>
+                <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{viewCount.toLocaleString()}</p>
+                <p className="text-gray-600 dark:text-gray-300">Views</p>
               </div>
             </div>
 
             {/* Interaction Buttons */}
-            <div data-aos="fade-up" data-aos-delay="900" className="flex flex-wrap justify-center gap-6 mb-12">
-              <button onClick={handleLike} className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl ${liked ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
+            <div className="flex flex-wrap justify-center gap-6 mb-12">
+              <button onClick={handleLike} className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl ${liked ? 'bg-red-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}>
                 {liked ? <FaHeart /> : <FaRegHeart />}
                 {liked ? 'Liked' : 'Like'}
               </button>
 
-              <button onClick={handleFavorite} className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl ${favorited ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
+              <button onClick={handleFavorite} className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl ${favorited ? 'bg-yellow-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}>
                 {favorited ? <FaBookmark /> : <FaRegBookmark />}
                 {favorited ? 'Saved' : 'Save'}
               </button>
 
-              <button onClick={handleReport} className="flex items-center gap-3 px-8 py-4 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl">
+              <button onClick={handleReport} className="flex items-center gap-3 px-8 py-4 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-2xl font-bold transition-all shadow-lg hover:shadow-2xl">
                 <FaFlag />
                 Report
               </button>
             </div>
 
             {/* Social Share */}
-            <div data-aos="zoom-in" data-aos-delay="1000" className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-10 mb-12 text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Share This Lesson</h3>
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 rounded-3xl p-10 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8">Share This Lesson</h3>
               <div className="flex justify-center gap-10">
                 {/* Facebook */}
                 <FacebookShareButton url={shareUrl} quote={shareTitle}>
                   <div className="flex flex-col items-center gap-2 hover:scale-110 transition">
                     <FacebookIcon size={60} round />
-                    <span className="text-sm font-medium text-gray-700">Facebook</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Facebook</span>
                   </div>
                 </FacebookShareButton>
 
@@ -401,24 +401,24 @@ const LessonDetails = () => {
                   <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-lg">
                     <FaXTwitter className="text-white text-4xl" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">X</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">X</span>
                 </a>
 
                 {/* LinkedIn */}
                 <LinkedinShareButton url={shareUrl} title={shareTitle} summary={lesson.description}>
                   <div className="flex flex-col items-center gap-2 hover:scale-110 transition">
                     <LinkedinIcon size={60} round />
-                    <span className="text-sm font-medium text-gray-700">LinkedIn</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">LinkedIn</span>
                   </div>
                 </LinkedinShareButton>
               </div>
             </div>
 
             {/* Comments Section */}
-            <div data-aos="fade-up" data-aos-delay="1100" className="mb-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Comments ({comments.length})</h3>
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8">Comments ({comments.length})</h3>
               {user && (
-                <form onSubmit={handleCommentSubmit} className="bg-gray-50 rounded-3xl p-8 mb-10">
+                <form onSubmit={handleCommentSubmit} className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-8 mb-10">
                   <div className="flex gap-6">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt="You" className="w-16 h-16 rounded-full object-cover" />
@@ -432,10 +432,10 @@ const LessonDetails = () => {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Share your thoughts..."
-                        className="w-full p-6 border border-gray-300 rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 resize-none text-lg"
+                        className="w-full p-6 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 resize-none text-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         rows="5"
                         disabled={submittingComment}
-                      />
+                      ></textarea>
                       <div className="mt-4 flex justify-end">
                         <button
                           type="submit"
@@ -454,7 +454,7 @@ const LessonDetails = () => {
               {comments.length > 0 ? (
                 <div className="space-y-6">
                   {comments.map((comment, index) => (
-                    <div key={index} data-aos="fade-up" data-aos-delay={1200 + index * 100} className="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-lg transition">
+                    <div key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 hover:shadow-lg transition">
                       <div className="flex gap-6">
                         {comment.userPhoto ? (
                           <img src={comment.userPhoto} alt={comment.userName} className="w-14 h-14 rounded-full object-cover" />
@@ -465,38 +465,36 @@ const LessonDetails = () => {
                         )}
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-bold text-gray-900">{comment.userName || comment.userId?.split("@")[0]}</h4>
-                            <p className="text-sm text-gray-500">
+                            <h4 className="font-bold text-gray-900 dark:text-gray-100">{comment.userName || comment.userId?.split("@")[0]}</h4>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                               {new Date(comment.createdAt).toLocaleString()}
                             </p>
                           </div>
-                          <p className="text-gray-700 leading-relaxed">{comment.text}</p>
+                          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{comment.text}</p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-16 bg-gray-50 rounded-3xl">
-                  <FaUserCircle className="text-6xl text-gray-300 mx-auto mb-6" />
-                  <p className="text-xl text-gray-500">No comments yet</p>
-                  <p className="text-gray-400 mt-2">Be the first to share your thoughts!</p>
+                <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-3xl">
+                  <FaUserCircle className="text-6xl text-gray-300 dark:text-gray-500 mx-auto mb-6" />
+                  <p className="text-xl text-gray-500 dark:text-gray-400">No comments yet</p>
+                  <p className="text-gray-400 dark:text-gray-500 mt-2">Be the first to share your thoughts!</p>
                 </div>
               )}
             </div>
 
             {/* Similar Lessons */}
             {similarLessons.length > 0 && (
-              <div data-aos="fade-up" data-aos-delay="1300">
-                <h3 className="text-3xl font-bold text-gray-900 mb-10 text-center">Similar Lessons You Might Like</h3>
+              <div>
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-10 text-center">Similar Lessons You Might Like</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {similarLessons.map((similar, index) => (
                     <div
                       key={similar._id}
-                      data-aos="fade-up"
-                      data-aos-delay={1400 + index * 100}
                       onClick={() => navigate(`/lesson/${similar._id}`)}
-                      className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer group"
+                      className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer group"
                     >
                       {similar.image ? (
                         <img src={similar.image} alt={similar.title} className="w-full h-56 object-cover group-hover:scale-105 transition" />
@@ -507,14 +505,14 @@ const LessonDetails = () => {
                       )}
                       <div className="p-6">
                         <div className="flex gap-3 mb-4">
-                          <span className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">{similar.category}</span>
-                          {similar.isPremium && <span className="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">Premium</span>}
+                          <span className="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium">{similar.category}</span>
+                          {similar.isPremium && <span className="px-4 py-2 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300 rounded-full text-sm font-medium">Premium</span>}
                         </div>
-                        <h4 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-indigo-600 transition">
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">
                           {similar.title}
                         </h4>
-                        <p className="text-gray-600 line-clamp-3 mb-4">{similar.description}</p>
-                        <div className="flex items-center justify-between text-sm text-gray-500">
+                        <p className="text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{similar.description}</p>
+                        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                           <span className="flex items-center gap-1"><FaHeart className="text-red-400" /> {similar.likesCount || 0}</span>
                           <span className="flex items-center gap-1"><FaBookmark className="text-yellow-400" /> {similar.favoritesCount || 0}</span>
                         </div>

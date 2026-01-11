@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Navbar from "../../Pages/Shared/Navbar/Navbar";
 import Footer from "../../Component/Footer/Footer";
@@ -21,7 +21,6 @@ const DashboardLayout = () => {
   const { user, logOut, isPremium } = UseAuth(); 
   const navigate = useNavigate();
 
- 
   const userLinks = [
     { name: "Dashboard Home", path: "user-dashboard", icon: FaChartBar },
     { name: "Add Lesson", path: "add-lessons", icon: FaPlus },
@@ -34,7 +33,7 @@ const DashboardLayout = () => {
     `flex items-center gap-3 p-3 w-full rounded-lg transition-all duration-200 ${
       isActive
         ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md transform scale-[1.02]"
-        : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-sm"
+        : "text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950 dark:hover:to-purple-950 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-sm"
     }`;
 
   const handleLogout = () => {
@@ -77,7 +76,7 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
       <title>User Dashboard</title>
       <Navbar />
       <div className="drawer lg:drawer-open">
@@ -85,7 +84,7 @@ const DashboardLayout = () => {
 
         <div className="drawer-content bg-transparent">
           {/* Mobile Navbar */}
-          <nav className="navbar w-full bg-white/90 backdrop-blur-sm shadow-sm lg:hidden sticky top-0 z-10">
+          <nav className="navbar w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-sm lg:hidden sticky top-0 z-10">
             <div className="navbar-start">
               <label htmlFor="my-drawer-4" className="btn btn-ghost btn-circle">
                 <svg
@@ -113,7 +112,7 @@ const DashboardLayout = () => {
 
           {/* Main Content */}
           <main className="p-4 md:p-6 lg:p-8 min-h-[calc(100vh-200px)]">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-4 md:p-6 lg:p-8">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 dark:border-gray-700 p-4 md:p-6 lg:p-8">
               <Outlet />
             </div>
           </main>
@@ -126,10 +125,9 @@ const DashboardLayout = () => {
             className="drawer-overlay"
           ></label>
 
-          <div className="flex min-h-full flex-col items-start bg-gradient-to-b from-white via-white to-blue-50/50 w-72 p-5 shadow-xl border-r border-gray-200/50">
+          <div className="flex min-h-full flex-col items-start bg-gradient-to-b from-white via-white to-blue-50/50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-950 w-72 p-5 shadow-xl border-r border-gray-200/50 dark:border-gray-700">
             {/* Logo & Title */}
             <div className="w-full mb-6 text-center">
-              
               <h2 className="mt-4 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 My Dashboard
               </h2>
@@ -137,10 +135,10 @@ const DashboardLayout = () => {
 
             {/* Premium Indicator */}
             {isPremium && (
-              <div className="w-full mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200 text-center shadow-sm">
+              <div className="w-full mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950 rounded-xl border border-yellow-200 dark:border-yellow-700 text-center shadow-sm">
                 <div className="flex items-center justify-center gap-2">
-                  <FaCrown className="w-6 h-6 text-yellow-600" />
-                  <span className="text-lg font-semibold text-yellow-700">Premium Member</span>
+                  <FaCrown className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                  <span className="text-lg font-semibold text-yellow-700 dark:text-yellow-300">Premium Member</span>
                 </div>
               </div>
             )}
@@ -150,10 +148,10 @@ const DashboardLayout = () => {
               {userLinks.map((link) => (
                 <li key={link.path} className="group">
                   <NavLink to={link.path} className={getLinkClass}>
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 group-hover:from-blue-200 group-hover:to-purple-200 transition-all">
-                      <link.icon className="w-5 h-5 text-blue-600 group-[.active]:text-white" />
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950 dark:to-purple-950 group-hover:from-blue-200 group-hover:to-purple-200 transition-all">
+                      <link.icon className="w-5 h-5 text-blue-600 dark:text-blue-400 group-[.active]:text-white" />
                     </div>
-                    <span className="font-medium">{link.name}</span>
+                    <span className="font-medium text-gray-800 dark:text-gray-100">{link.name}</span>
                     <div className="ml-auto w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
                   </NavLink>
                 </li>
@@ -172,29 +170,29 @@ const DashboardLayout = () => {
                 </li>
               )}
 
-              <div className="divider my-8 text-gray-400 text-sm">GENERAL</div>
+              <div className="divider my-8 text-gray-400 dark:text-gray-500 text-sm">GENERAL</div>
 
               {/* Homepage Link */}
               <li className="group">
                 <Link
                   to="/"
-                  className="flex items-center gap-3 p-3 w-full rounded-lg text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 transition-all"
+                  className="flex items-center gap-3 p-3 w-full rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950 dark:hover:to-purple-950 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
                 >
-                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 group-hover:from-blue-100 group-hover:to-purple-100 transition-all">
-                    <FaHome className="w-5 h-5 text-gray-600 group-hover:text-blue-600" />
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 group-hover:from-blue-100 group-hover:to-purple-100 transition-all">
+                    <FaHome className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                   </div>
                   <span className="font-medium">Homepage</span>
                 </Link>
               </li>
 
               {/* Logout */}
-              <li className="mt-auto pt-6 border-t border-gray-200/50">
+              <li className="mt-auto pt-6 border-t border-gray-200/50 dark:border-gray-700">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 p-4 w-full rounded-xl text-red-600 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 transition-all group"
+                  className="flex items-center gap-3 p-4 w-full rounded-xl text-red-600 dark:text-red-400 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 dark:hover:from-red-950 dark:hover:to-pink-950 transition-all group"
                 >
-                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 group-hover:from-red-100 group-hover:to-pink-100 transition-all">
-                    <FaSignOutAlt className="w-5 h-5 text-gray-600 group-hover:text-red-600" />
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 group-hover:from-red-100 group-hover:to-pink-100 transition-all">
+                    <FaSignOutAlt className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400" />
                   </div>
                   <span className="font-medium">Logout</span>
                 </button>
