@@ -344,12 +344,12 @@ const LessonDetails = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 p-8 rounded-3xl text-center shadow-lg">
+              <div className="bg-gradient-to-br from-red-50 to-pink-50 dark:from-indigo-950 dark:to-purple-950 p-8 rounded-3xl text-center shadow-lg">
                 <FaHeart className="text-5xl text-red-500 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{lesson.likesCount || 0}</p>
                 <p className="text-gray-600 dark:text-gray-300">Likes</p>
               </div>
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950 p-8 rounded-3xl text-center shadow-lg">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-indigo-950 dark:to-purple-950 p-8 rounded-3xl text-center shadow-lg">
                 <FaBookmark className="text-5xl text-yellow-500 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{lesson.favoritesCount || 0}</p>
                 <p className="text-gray-600 dark:text-gray-300">Saved</p>

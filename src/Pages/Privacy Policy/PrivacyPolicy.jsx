@@ -4,6 +4,7 @@ import React from "react";
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 py-16 px-6 lg:px-8">
+      <title>Privacy policy</title>
       <div className="max-w-5xl mx-auto prose prose-lg dark:prose-invert max-w-none">
         <div className="text-center mb-16" data-aos="fade-up">
           <div className="inline-block px-6 py-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-full mb-6">

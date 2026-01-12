@@ -1,4 +1,3 @@
-// AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
 import {
   BarChart,
@@ -149,9 +148,9 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <FaSpinner className="animate-spin text-6xl text-red-600" />
-        <span className="ml-4 text-2xl text-gray-600">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+        <FaSpinner className="animate-spin text-6xl text-red-600 dark:text-red-400" />
+        <span className="ml-4 text-2xl text-gray-600 dark:text-gray-300">
           Loading Dashboard...
         </span>
       </div>
@@ -159,77 +158,81 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
           Admin Dashboard Overview
         </h1>
-        <p className="text-gray-600 mt-3 text-lg">
+        <p className="text-gray-600 dark:text-gray-400 mt-3 text-lg">
           Welcome back,{" "}
-          <span className="font-semibold">{user?.displayName || "Admin"}(ADMIN)</span>!
-          Monitor platform activity.
+          <span className="font-semibold text-gray-900 dark:text-gray-100">
+            {user?.displayName || "Admin"}
+          </span>
+          (ADMIN)! Monitor platform activity.
         </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-800 text-white p-6 rounded-2xl shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100">Total Users</p>
+              <p className="text-blue-100 dark:text-blue-200">Total Users</p>
               <h2 className="text-3xl font-bold mt-2">{stats.totalUsers}</h2>
             </div>
-            <FaUsers className="w-12 h-12 text-blue-200" />
+            <FaUsers className="w-12 h-12 text-blue-200 dark:text-blue-300" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-gradient-to-br from-green-500 to-green-600 dark:from-green-700 dark:to-green-800 text-white p-6 rounded-2xl shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100">Total Lessons</p>
+              <p className="text-green-100 dark:text-green-200">Total Lessons</p>
               <h2 className="text-3xl font-bold mt-2">{stats.totalLessons}</h2>
             </div>
-            <FaBookOpen className="w-12 h-12 text-green-200" />
+            <FaBookOpen className="w-12 h-12 text-green-200 dark:text-green-300" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-red-500 to-red-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-gradient-to-br from-red-500 to-red-600 dark:from-red-700 dark:to-red-800 text-white p-6 rounded-2xl shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-red-100">Reported Lessons</p>
+              <p className="text-red-100 dark:text-red-200">Reported Lessons</p>
               <h2 className="text-3xl font-bold mt-2">{stats.totalReported}</h2>
             </div>
-            <FaFlag className="w-12 h-12 text-red-200" />
+            <FaFlag className="w-12 h-12 text-red-200 dark:text-red-300" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 dark:from-purple-700 dark:to-purple-800 text-white p-6 rounded-2xl shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100">Today's New Lessons</p>
+              <p className="text-purple-100 dark:text-purple-200">Today's New Lessons</p>
               <h2 className="text-3xl font-bold mt-2">
                 {stats.todayNewLessons}
               </h2>
             </div>
-            <FaCalendarDay className="w-12 h-12 text-purple-200" />
+            <FaCalendarDay className="w-12 h-12 text-purple-200 dark:text-purple-300" />
           </div>
         </div>
       </div>
 
       {/* Graphs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             User Growth (Last 7 Days)
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={userGrowth}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="day" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1f2937', border: 'none', color: '#fff' }} 
+              />
+              <Legend wrapperStyle={{ color: '#9ca3af' }} />
               <Line
                 type="monotone"
                 dataKey="users"
@@ -240,16 +243,18 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Lessons by Category
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={lessonCategories}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="category" />
-              <YAxis />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="category" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1f2937', border: 'none', color: '#fff' }} 
+              />
               <Bar dataKey="lessons" fill="#10b981" />
             </BarChart>
           </ResponsiveContainer>
@@ -258,8 +263,8 @@ const AdminDashboard = () => {
 
       {/* Pie + Table */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Lesson Visibility
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -277,19 +282,21 @@ const AdminDashboard = () => {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip />
-              <Legend />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1f2937', border: 'none', color: '#fff' }} 
+              />
+              <Legend wrapperStyle={{ color: '#9ca3af' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-3">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-3">
             <FaTrophy className="text-yellow-500" /> Top Contributors
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-700">
                 <tr>
                   <th className="p-3">Rank</th>
                   <th className="p-3">Name</th>
@@ -300,18 +307,18 @@ const AdminDashboard = () => {
               <tbody>
                 {topContributors.length > 0 ? (
                   topContributors.map((c) => (
-                    <tr key={c.email} className="border-b hover:bg-gray-50">
-                      <td className="p-3 font-bold text-lg">#{c.rank}</td>
-                      <td className="p-3">{c.name}</td>
-                      <td className="p-3 text-gray-600">{c.email}</td>
-                      <td className="p-3 font-semibold text-green-600">
+                    <tr key={c.email} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="p-3 font-bold text-lg text-gray-900 dark:text-gray-100">#{c.rank}</td>
+                      <td className="p-3 text-gray-900 dark:text-gray-100">{c.name}</td>
+                      <td className="p-3 text-gray-600 dark:text-gray-400">{c.email}</td>
+                      <td className="p-3 font-semibold text-green-600 dark:text-green-400">
                         {c.lessons}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="p-6 text-center text-gray-500">
+                    <td colSpan="4" className="p-6 text-center text-gray-500 dark:text-gray-400">
                       No lessons created yet
                     </td>
                   </tr>

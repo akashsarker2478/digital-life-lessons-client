@@ -30,6 +30,7 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-950 dark:via-indigo-950 dark:to-purple-950 py-16 px-6 lg:px-8">
+      <title>Contact us</title>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">

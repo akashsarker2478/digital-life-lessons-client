@@ -1,4 +1,3 @@
-// ManageUsers.jsx
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -18,7 +17,6 @@ const ManageUsers = () => {
         const res = await axiosSecure.get("/users");
         const usersData = res.data;
 
-        
         const usersWithLessons = await Promise.all(
           usersData.map(async (user) => {
             try {
@@ -100,34 +98,34 @@ const ManageUsers = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <FaSpinner className="animate-spin text-5xl text-blue-600" />
-        <span className="ml-4 text-xl text-gray-600">Loading Users...</span>
+      <div className="flex items-center justify-center min-h-[50vh] bg-white dark:bg-gray-900">
+        <FaSpinner className="animate-spin text-5xl text-blue-600 dark:text-blue-400" />
+        <span className="ml-4 text-xl text-gray-600 dark:text-gray-300">Loading Users...</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-20 text-red-600 text-2xl font-semibold">
+      <div className="text-center py-20 text-red-600 dark:text-red-400 text-2xl font-semibold">
         {error}
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 bg-white dark:bg-gray-900">
       <title>Manage-users</title>
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Manage Users
         </h1>
-        <p className="text-gray-600 mt-3 text-lg">
+        <p className="text-gray-600 dark:text-gray-400 mt-3 text-lg">
           View, promote, and manage all registered users
         </p>
       </div>
 
-      <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+      <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
         <table className="w-full text-left">
           <thead className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
             <tr>
@@ -141,21 +139,25 @@ const ManageUsers = () => {
           <tbody>
             {users.length > 0 ? (
               users.map((user) => (
-                <tr key={user._id} className="border-b hover:bg-gray-50">
-                  <td className="p-4 font-medium">{user.name || user.email.split("@")[0]}</td>
-                  <td className="p-4 text-gray-600">{user.email}</td>
+                <tr key={user._id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                  <td className="p-4 font-medium text-gray-900 dark:text-gray-100">
+                    {user.name || user.email.split("@")[0]}
+                  </td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">{user.email}</td>
                   <td className="p-4">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold ${
                         user.role === "admin"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                          : "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
                       }`}
                     >
                       {user.role || "User"}
                     </span>
                   </td>
-                  <td className="p-4 text-center font-bold text-blue-600">{user.totalLessons}</td>
+                  <td className="p-4 text-center font-bold text-blue-600 dark:text-blue-400">
+                    {user.totalLessons}
+                  </td>
                   <td className="p-4 flex gap-3">
                     {user.role !== "admin" && (
                       <button
@@ -176,7 +178,7 @@ const ManageUsers = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="p-6 text-center text-gray-500 text-lg">
+                <td colSpan="5" className="p-6 text-center text-gray-500 dark:text-gray-400 text-lg">
                   No users found
                 </td>
               </tr>

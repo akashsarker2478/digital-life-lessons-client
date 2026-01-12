@@ -6,7 +6,7 @@ import GoToTop from '../../Component/Go to Top/GoToTop';
 
 const HomeLayouts = () => {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950">
             <header className="sticky top-0 z-50">
                 <Navbar />
             </header>

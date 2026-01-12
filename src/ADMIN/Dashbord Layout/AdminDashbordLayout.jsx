@@ -19,10 +19,9 @@ import { useNavigate } from "react-router";
 import Loading from "../../Pages/Shared/Loading/Loading";
 
 const AdminDashboardLayout = () => {
-  const { user, logOut, isPremium,loading} = UseAuth();
+  const { user, logOut, isPremium, loading} = UseAuth();
   const navigate = useNavigate();
 
- 
   const adminLinks = [
     { name: "Dashboard Home", path: "admin-dashboard", icon: FaChartBar },
     { name: "Add Lesson", path: "add-lesson", icon: FaPlus }, 
@@ -36,7 +35,7 @@ const AdminDashboardLayout = () => {
     `flex items-center gap-4 p-4 w-full rounded-xl transition-all duration-300 font-medium ${
       isActive
         ? "bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-lg transform scale-[1.02]"
-        : "text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 hover:shadow-md"
+        : "text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 dark:hover:from-red-950 dark:hover:to-pink-950 hover:text-red-600 dark:hover:text-red-400 hover:shadow-md"
     }`;
 
   const handleLogout = () => {
@@ -59,12 +58,13 @@ const AdminDashboardLayout = () => {
       }
     });
   };
+
   if(loading){
-    return <Loading></Loading>
+    return <Loading />
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-pink-50 dark:from-gray-950 dark:via-red-950 dark:to-pink-950">
       <title>Admin Dashboard</title>
       <Navbar />
 
@@ -73,7 +73,7 @@ const AdminDashboardLayout = () => {
 
         <div className="drawer-content bg-transparent">
           {/* Mobile Top Bar */}
-          <nav className="navbar w-full bg-white/90 backdrop-blur-md shadow-lg lg:hidden sticky top-0 z-10">
+          <nav className="navbar w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg lg:hidden sticky top-0 z-10">
             <div className="navbar-start">
               <label htmlFor="admin-drawer" className="btn btn-ghost btn-circle">
                 <svg
@@ -96,7 +96,7 @@ const AdminDashboardLayout = () => {
 
           {/* Main Content Area */}
           <main className="p-6 lg:p-10">
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/30 p-6 lg:p-10 min-h-[calc(100vh-180px)]">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/30 dark:border-gray-700 p-6 lg:p-10 min-h-[calc(100vh-180px)]">
               <Outlet />
             </div>
           </main>
@@ -106,9 +106,9 @@ const AdminDashboardLayout = () => {
         <div className="drawer-side z-30">
           <label htmlFor="admin-drawer" className="drawer-overlay"></label>
 
-          <div className="flex flex-col min-h-full w-80 bg-gradient-to-b from-white via-red-50 to-pink-50 shadow-2xl border-r border-red-100">
+          <div className="flex flex-col min-h-full w-80 bg-gradient-to-b from-white via-red-50 to-pink-50 dark:from-gray-900 dark:via-red-950 dark:to-pink-950 shadow-2xl border-r border-red-100 dark:border-red-800">
             {/* Header */}
-            <div className="p-8 text-center border-b border-red-100">
+            <div className="p-8 text-center border-b border-red-100 dark:border-red-800">
               <h1 className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
                 Admin Panel
               </h1>
@@ -122,10 +122,10 @@ const AdminDashboardLayout = () => {
 
             {/* Premium Badge */}
             {isPremium && (
-              <div className="mx-8 mt-6 p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl border border-yellow-300 shadow-md text-center">
+              <div className="mx-8 mt-6 p-4 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-950 dark:to-orange-950 rounded-2xl border border-yellow-300 dark:border-yellow-700 shadow-md text-center">
                 <div className="flex items-center justify-center gap-3">
-                  <FaCrown className="w-7 h-7 text-yellow-600" />
-                  <span className="text-lg font-bold text-orange-700">Premium Admin</span>
+                  <FaCrown className="w-7 h-7 text-yellow-600 dark:text-yellow-400" />
+                  <span className="text-lg font-bold text-orange-700 dark:text-orange-300">Premium Admin</span>
                 </div>
               </div>
             )}
@@ -146,11 +146,11 @@ const AdminDashboardLayout = () => {
             </ul>
 
             {/* Bottom Section */}
-            <div className="p-6 border-t border-red-100 space-y-4">
+            <div className="p-6 border-t border-red-100 dark:border-red-800 space-y-4">
               {/* Back to Homepage */}
               <Link
                 to="/"
-                className="flex items-center gap-4 p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 transition-all"
+                className="flex items-center gap-4 p-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950 dark:hover:to-purple-950 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
               >
                 <FaHome className="w-6 h-6" />
                 <span className="font-medium">Back to Homepage</span>
@@ -159,7 +159,7 @@ const AdminDashboardLayout = () => {
               {/* Logout */}
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-4 p-4 w-full rounded-xl text-red-600 hover:bg-gradient-to-r hover:from-red-100 hover:to-pink-100 transition-all font-medium"
+                className="flex items-center gap-4 p-4 w-full rounded-xl text-red-600 dark:text-red-400 hover:bg-gradient-to-r hover:from-red-100 hover:to-pink-100 dark:hover:from-red-950 dark:hover:to-pink-950 transition-all font-medium"
               >
                 <FaSignOutAlt className="w-6 h-6" />
                 <span>Logout</span>

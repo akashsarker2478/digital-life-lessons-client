@@ -5,6 +5,7 @@ import { Link } from "react-router";
 const AboutUs = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 py-16 px-6 lg:px-8">
+      <title>About-us</title>
       <div className="max-w-7xl mx-auto">
         {/* Hero */}
         <div className="text-center mb-20" data-aos="fade-up">
@@ -79,7 +80,7 @@ const AboutUs = () => {
           <p className="text-2xl text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-10">
             Be part of the largest growing community of wisdom seekers and storytellers.
           </p>
-          <Link to={'/login'} className="px-12 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 text-xl">
+          <Link to={'/dashboard/add-lessons'} className="px-12 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 text-xl">
             Start Sharing Your Story Today
           </Link>
         </div>

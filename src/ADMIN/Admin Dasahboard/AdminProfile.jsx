@@ -1,4 +1,3 @@
-// AdminProfile.jsx
 import React, { useState } from "react";
 import UseAuth from "../../Hooks/UseAuth";
 import Swal from "sweetalert2";
@@ -10,7 +9,6 @@ const AdminProfile = () => {
   const [newName, setNewName] = useState(user?.displayName || "");
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
-  
   const lessonsDeleted = 8;
   const lessonsFeatured = 24;
   const totalActions = lessonsDeleted + lessonsFeatured;
@@ -46,8 +44,7 @@ const AdminProfile = () => {
     }
 
     setIsUploadingPhoto(true);
-
-    
+   
     const previewUrl = URL.createObjectURL(file);
 
     Swal.fire({
@@ -74,24 +71,24 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10">
+    <div className="max-w-4xl mx-auto space-y-10 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <title>Admin Profile</title>
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
           Admin Profile
         </h1>
-        <p className="text-gray-600 mt-4 text-lg">
+        <p className="text-gray-600 dark:text-gray-400 mt-4 text-lg">
           Manage your admin account and view activity
         </p>
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-200 dark:border-gray-700">
         <div className="flex flex-col md:flex-row items-center gap-10">
           {/* Photo Section */}
           <div className="relative group">
-            <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white shadow-xl">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white dark:border-gray-700 shadow-xl">
               {user?.photoURL ? (
                 <img
                   src={user.photoURL}
@@ -108,8 +105,8 @@ const AdminProfile = () => {
             </div>
 
             {/* Upload Button */}
-            <label className="absolute bottom-4 right-4 bg-white rounded-full p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all">
-              <FaCamera className="text-2xl text-gray-700" />
+            <label className="absolute bottom-4 right-4 bg-white dark:bg-gray-800 rounded-full p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all">
+              <FaCamera className="text-2xl text-gray-700 dark:text-gray-300" />
               <input
                 type="file"
                 accept="image/*"
@@ -135,12 +132,12 @@ const AdminProfile = () => {
                     type="text"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
-                    className="text-3xl font-bold border-b-2 border-blue-500 focus:outline-none px-2 py-1"
+                    className="text-3xl font-bold border-b-2 border-blue-500 dark:border-blue-400 focus:outline-none px-2 py-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     autoFocus
                   />
                   <button
                     onClick={handleUpdateName}
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                    className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg text-white transition"
                   >
                     Save
                   </button>
@@ -149,19 +146,19 @@ const AdminProfile = () => {
                       setNewName(user?.displayName || "");
                       setIsEditingName(false);
                     }}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                    className="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-lg text-white transition"
                   >
                     Cancel
                   </button>
                 </div>
               ) : (
                 <>
-                  <h2 className="text-4xl font-bold text-gray-800">
+                  <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
                     {user?.displayName || "Admin User"}
                   </h2>
                   <button
                     onClick={() => setIsEditingName(true)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                   >
                     <FaEdit className="text-2xl" />
                   </button>
@@ -169,7 +166,7 @@ const AdminProfile = () => {
               )}
             </div>
 
-            <p className="text-xl text-gray-600 mb-6">{user?.email}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">{user?.email}</p>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-8">
@@ -189,9 +186,7 @@ const AdminProfile = () => {
         </div>
       </div>
 
-
-
-      <div className="text-center text-gray-500 mt-12">
+      <div className="text-center text-gray-500 dark:text-gray-400 mt-12">
         <p>Thank you for keeping the platform safe and high-quality! 👑</p>
       </div>
     </div>
