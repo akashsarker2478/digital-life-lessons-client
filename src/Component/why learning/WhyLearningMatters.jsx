@@ -1,12 +1,5 @@
-// Component/why learning/WhyLearningMatters.jsx
 import React from "react";
-import { 
-  FaBrain, 
-  FaUsers, 
-  FaBook, 
-  FaChartLine,
-  FaLightbulb 
-} from "react-icons/fa";
+import { FaBrain, FaUsers, FaBook, FaChartLine, FaLightbulb } from "react-icons/fa";
 
 import reflectImg from "../../assets/img1.PNG";
 import learnImg from "../../assets/img2.PNG";
@@ -58,18 +51,18 @@ const WhyLearningMatters = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 mb-8 shadow-lg animate-pulse">
-            <FaLightbulb className="text-4xl text-blue-600" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 mb-8 shadow-lg animate-pulse">
+            <FaLightbulb className="text-4xl text-blue-600 dark:text-blue-400" />
           </div>
-          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
+          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 mb-6">
             Why Learning From Life Matters
           </h2>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-200 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
             In our digital age, every experience becomes a lesson worth remembering, reflecting on, and sharing with the world.
           </p>
         </div>
@@ -79,7 +72,7 @@ const WhyLearningMatters = () => {
           {benefits.map((item) => (
             <div
               key={item.id}
-              className="group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:-translate-y-3"
+              className="group relative bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 hover:-translate-y-3"
             >
               {/* Image with Overlay */}
               <div className="relative h-64 overflow-hidden">
@@ -92,7 +85,7 @@ const WhyLearningMatters = () => {
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent`} />
                 
                 {/* Icon in Bottom Right */}
-                <div className={`absolute bottom-4 right-4 w-16 h-16 rounded-2xl bg-white shadow-2xl flex items-center justify-center border-4 border-white`}>
+                <div className={`absolute bottom-4 right-4 w-16 h-16 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl flex items-center justify-center border-4 border-white dark:border-gray-700`}>
                   <div className={`text-white drop-shadow-lg bg-gradient-to-r ${item.gradient} p-3 rounded-xl`}>
                     {item.icon}
                   </div>
@@ -100,15 +93,15 @@ const WhyLearningMatters = () => {
               </div>
 
               {/* Content */}
-              <div className={`p-8 bg-gradient-to-b ${item.lightBg}`}>
+              <div className={`p-8 bg-gradient-to-b ${item.lightBg} dark:from-gray-800 dark:to-gray-900`}>
                 {/* Accent Bar */}
                 <div className={`h-1.5 w-24 ${item.accent} rounded-full mb-5 shadow-md`} />
 
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-gray-900 group-hover:to-gray-700 transition-all duration-300">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-gray-900 group-hover:to-gray-700 dark:group-hover:from-gray-100 dark:group-hover:to-gray-300 transition-all duration-300">
                   {item.title}
                 </h3>
                 
-                <p className="text-gray-700 leading-relaxed text-base">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base">
                   {item.desc}
                 </p>
               </div>
